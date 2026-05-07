@@ -1,0 +1,267 @@
+import React, { useMemo, useRef, useState, useEffect } from "react";
+import { Bot, Send, Sparkles, User } from "lucide-react";
+import "./AIAssistant.css";
+import { useAlert } from "../../hooks/useAlert";
+import { askAttendeeChatbot } from "../../api/attendeeApi";
+import AlertSnackbar from "../../components/common/AlertSnackbar";
+
+type ChatMessage = {
+  id: string;
+  sender: "user" | "assistant";
+  text: string;
+};
+
+const AIAssistant: React.FC = () => {
+  const { open, message, severity, showAlert, handleClose } = useAlert();
+
+  const initialMessages = useMemo<ChatMessage[]>(
+    () => [
+      {
+        id: "assistant-welcome",
+        sender: "assistant",
+        text: "Hello! I’m Eventia AI Support. Ask me anything about bookings, tickets, events, or how to use the platform.",
+      },
+    ],
+    []
+  );
+
+  const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
+  const [prompt, setPrompt] = useState("");
+  
+  // States to handle the 2 phases: fetching from API, and animating the text
+  const [isSending, setIsSending] = useState(false);
+  const [isTypingText, setIsTypingText] = useState(false);
+
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Auto-scroll to bottom. Uses "auto" during typing to prevent scroll jitter, "smooth" otherwise.
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({
+        behavior: isTypingText ? "auto" : "smooth",
+      });
+    }
+  }, [messages, isSending, isTypingText]);
+
+  // Cleanup interval on unmount
+  useEffect(() => {
+    return () => {
+      if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
+    };
+  }, []);
+
+  // Auto-resize textarea
+  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setPrompt(e.target.value);
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 150)}px`;
+    }
+  };
+
+  // ─── Typewriter Animation Logic ──────────────────────────────────────────
+  const typeWriter = (messageId: string, fullText: string) => {
+    return new Promise<void>((resolve) => {
+      let index = 0;
+      const speed = 15; // 15ms per character creates a natural, fast ChatGPT feel
+
+      typingIntervalRef.current = setInterval(() => {
+        index++;
+        
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === messageId
+              ? { ...msg, text: fullText.slice(0, index) }
+              : msg
+          )
+        );
+
+        if (index >= fullText.length) {
+          if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
+          resolve();
+        }
+      }, speed);
+    });
+  };
+
+  const handleSendMessage = async () => {
+    const trimmedPrompt = prompt.trim();
+
+    if (!trimmedPrompt) return;
+
+    // 1. Add user message
+    const userMessage: ChatMessage = {
+      id: `user-${Date.now()}`,
+      sender: "user",
+      text: trimmedPrompt,
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setPrompt("");
+    
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+    }
+
+    // 2. Show loading dots
+    setIsSending(true);
+
+    try {
+      // Fetch reply from backend
+      const reply = await askAttendeeChatbot({ prompt: trimmedPrompt });
+
+      // 3. Hide loading dots, start typing phase
+      setIsSending(false);
+      setIsTypingText(true);
+
+      const assistantMessageId = `assistant-${Date.now()}`;
+
+      // Insert empty bubble for the assistant
+      setMessages((prev) => [
+        ...prev,
+        { id: assistantMessageId, sender: "assistant", text: "" },
+      ]);
+
+      // 4. Animate the text into the empty bubble
+      await typeWriter(assistantMessageId, reply);
+
+    } catch (error) {
+      setIsSending(false);
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to connect to AI Support.";
+      showAlert(errorMessage, "error");
+    } finally {
+      setIsTypingText(false);
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      // Block sending if currently fetching OR currently animating text
+      if (!isSending && !isTypingText && prompt.trim()) {
+        handleSendMessage();
+      }
+    }
+  };
+
+  return (
+    <div className="page-shell">
+      <div className="page-header">
+        <h1 className="page-title">AI Assistant</h1>
+        <p className="page-subtitle">
+          Get instant answers about your tickets, bookings, and platform features.
+        </p>
+      </div>
+
+      <div className="surface-card ai-chat-container">
+        {/* Chat Header */}
+        <div className="ai-chat-header">
+          <div className="ai-chat-header-info">
+            <div className="ai-chat-icon-wrapper">
+              <Sparkles size={18} />
+            </div>
+            <div>
+              <h2>Eventia AI Support</h2>
+              <div className="ai-status-indicator">
+                <span className="status-dot"></span>
+                <span>Online and ready to help</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Chat Messages Area */}
+        <div className="ai-chat-body">
+          <div className="ai-chat-messages-wrapper">
+            {messages.map((chat) => (
+              <div
+                key={chat.id}
+                className={`ai-message-row ${chat.sender}`}
+              >
+                {chat.sender === "assistant" && (
+                  <div className="ai-avatar assistant">
+                    <Bot size={18} />
+                  </div>
+                )}
+
+                <div className="ai-message-content">
+                  <span className="ai-sender-name">
+                    {chat.sender === "user" ? "You" : "Eventia AI"}
+                  </span>
+                  <div className={`ai-bubble ${chat.sender}`}>
+                    <p>{chat.text}</p>
+                  </div>
+                </div>
+
+                {chat.sender === "user" && (
+                  <div className="ai-avatar user">
+                    <User size={18} />
+                  </div>
+                )}
+              </div>
+            ))}
+
+            {/* Pulsing loading dots (only shows while waiting for API) */}
+            {isSending && (
+              <div className="ai-message-row assistant">
+                <div className="ai-avatar assistant">
+                  <Bot size={18} />
+                </div>
+                <div className="ai-message-content">
+                  <span className="ai-sender-name">Eventia AI</span>
+                  <div className="ai-bubble assistant typing">
+                    <div className="typing-dot"></div>
+                    <div className="typing-dot"></div>
+                    <div className="typing-dot"></div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+        </div>
+
+        {/* Chat Input Area */}
+        <div className="ai-chat-footer">
+          <div className="ai-input-wrapper">
+            <textarea
+              ref={textareaRef}
+              className="ai-textarea"
+              placeholder={isTypingText ? "AI is typing..." : "Message Eventia AI..."}
+              value={prompt}
+              onChange={handleInput}
+              onKeyDown={handleKeyDown}
+              rows={1}
+              disabled={isSending || isTypingText}
+              autoFocus
+            />
+            <button
+              type="button"
+              className={`ai-send-button ${prompt.trim() && !isTypingText ? "active" : ""}`}
+              onClick={handleSendMessage}
+              disabled={isSending || isTypingText || !prompt.trim()}
+              aria-label="Send message"
+            >
+              <Send size={16} className="send-icon" />
+            </button>
+          </div>
+          <div className="ai-footer-note">
+            AI generated content may be inaccurate or incomplete.
+          </div>
+        </div>
+      </div>
+
+      <AlertSnackbar
+        open={open}
+        message={message}
+        severity={severity}
+        onClose={handleClose}
+      />
+    </div>
+  );
+};
+
+export default AIAssistant;

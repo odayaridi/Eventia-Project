@@ -1,0 +1,163 @@
+.attendee-contact-support-card {
+  padding: 24px;
+}
+
+.attendee-contact-support-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.attendee-contact-support-header-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.attendee-contact-support-section-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+}
+
+.attendee-contact-support-section-subtitle {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.attendee-contact-support-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.attendee-contact-support-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.attendee-contact-support-field label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.attendee-contact-support-select-wrap,
+.attendee-contact-support-textarea-wrap {
+  position: relative;
+}
+
+.attendee-contact-support-field select,
+.attendee-contact-support-field textarea {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-surface);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--color-text);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.attendee-contact-support-field select {
+  height: 54px;
+  padding: 0 14px;
+  cursor: pointer;
+}
+
+.attendee-contact-support-field textarea {
+  min-height: 180px;
+  padding: 14px 15px;
+  resize: vertical;
+}
+
+.attendee-contact-support-field textarea::placeholder {
+  color: #94a3b8;
+}
+
+.attendee-contact-support-field select:focus,
+.attendee-contact-support-field textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
+}
+
+.attendee-contact-support-textarea-icon {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.attendee-contact-support-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.attendee-contact-support-submit-btn {
+  border: none;
+  border-radius: var(--radius-md);
+  height: 46px;
+  padding: 0 18px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: white;
+  box-shadow: var(--shadow-md);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.attendee-contact-support-submit-btn:hover {
+  transform: translateY(-1px);
+}
+
+.attendee-contact-support-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.spin-icon {
+  animation: attendee-contact-support-spin 0.9s linear infinite;
+}
+
+@keyframes attendee-contact-support-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .attendee-contact-support-card {
+    padding: 18px;
+  }
+
+  .attendee-contact-support-actions {
+    justify-content: stretch;
+  }
+
+  .attendee-contact-support-submit-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

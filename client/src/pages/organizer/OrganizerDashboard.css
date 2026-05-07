@@ -1,0 +1,340 @@
+/* ============================
+   4-COLUMN STAT CARDS GRID
+============================ */
+.od-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.od-stat-card {
+  padding: 22px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.od-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Stat icon badge */
+.od-stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Icon colour variants */
+.od-icon-orange { background: #fff7ed; color: #f97316; }
+.od-icon-blue   { background: #eff6ff; color: #3b82f6; }
+.od-icon-green  { background: #f0fdf4; color: #10b981; }
+.od-icon-purple { background: #f5f3ff; color: #8b5cf6; }
+
+.od-stat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.od-stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.od-stat-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Loading skeleton for stat value */
+.od-stat-skeleton {
+  width: 80px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--color-border);
+  animation: od-shimmer 1.4s ease-in-out infinite;
+}
+
+/* ============================
+   BOTTOM ROW: CHART + QUICK STATS
+============================ */
+.od-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 18px;
+  align-items: start;
+}
+
+/* ============================
+   SHARED CARD HEADER
+============================ */
+.od-chart-card,
+.od-quick-card {
+  padding: 22px 24px;
+}
+
+.od-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.od-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.od-card-title-icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.od-card-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+.od-chart-total-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ============================
+   BAR CHART
+============================ */
+.od-chart-wrap {
+  width: 100%;
+}
+
+.od-chart-loading,
+.od-chart-empty {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Custom tooltip */
+.od-chart-tooltip {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow-md);
+}
+
+.od-tooltip-label {
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.od-tooltip-revenue {
+  margin: 0 0 2px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+}
+
+.od-tooltip-pct {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* Chart legend */
+.od-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
+}
+
+.od-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.od-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.od-legend-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.od-legend-pct {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* ============================
+   QUICK STATS LIST
+============================ */
+.od-quick-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.od-quick-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.od-quick-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.od-quick-row:first-child {
+  padding-top: 0;
+}
+
+.od-quick-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.od-quick-label {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+  min-width: 0;
+}
+
+.od-quick-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+/* Skeleton for quick stat value */
+.od-quick-skeleton {
+  width: 40px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--color-border);
+  animation: od-shimmer 1.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* ============================
+   SHIMMER ANIMATION
+============================ */
+@keyframes od-shimmer {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+/* ============================
+   SPIN (for chart loading)
+============================ */
+.od-spin {
+  animation: od-spin-anim 0.9s linear infinite;
+}
+
+@keyframes od-spin-anim {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ============================
+   RESPONSIVE
+============================ */
+@media (max-width: 1200px) {
+  .od-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 960px) {
+  .od-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .od-quick-card {
+    order: -1; /* quick stats above chart on small screens */
+  }
+}
+
+@media (max-width: 640px) {
+  .od-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .od-stat-value {
+    font-size: 22px;
+  }
+
+  .od-chart-card,
+  .od-quick-card {
+    padding: 18px;
+  }
+}

@@ -1,0 +1,560 @@
+.ed-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+
+  height: 42px;
+  padding: 0 16px;
+
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  color: #ea580c;
+
+  font-size: 14px;
+  font-weight: 800;
+  font-family: inherit;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 6px;
+}
+
+.ed-back-btn svg {
+  color: #f97316;
+}
+
+.ed-back-btn:hover {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: #ffffff;
+  border-color: #f97316;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(249, 115, 22, 0.18);
+}
+
+.ed-back-btn:hover svg {
+  color: #ffffff;
+}
+/* ============================
+   HERO CARD — image + key info side by side
+============================ */
+.ed-hero-card {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 0;
+  overflow: hidden;
+  padding: 0;
+  border-radius: 20px;
+}
+
+/* Image pane */
+.ed-hero-img-wrap {
+  position: relative;
+  width: 100%;
+  background: var(--color-surface-muted);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.ed-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  min-height: 260px;
+}
+
+.ed-hero-fallback {
+  width: 100%;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  background: var(--color-surface-muted);
+}
+
+/* Info pane */
+.ed-hero-info {
+  padding: 28px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+}
+
+.ed-event-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  border-radius: 20px;
+  padding: 5px 13px;
+  font-size: 12px;
+  font-weight: 700;
+  width: fit-content;
+}
+
+.ed-event-name {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+}
+
+.ed-hero-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.ed-hero-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.ed-hero-meta-item svg {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.ed-hero-description {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+  line-height: 1.75;
+  border-top: 1px solid var(--color-border);
+  padding-top: 14px;
+}
+
+/* ============================
+   TICKETS CARD
+============================ */
+.ed-tickets-card {
+  padding: 24px;
+}
+
+.ed-tickets-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.ed-tickets-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-text);
+}
+
+.ed-tickets-title-group h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Active selection pill in header */
+.ed-selection-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ============================
+   TICKETS GRID
+============================ */
+.ed-tickets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+/* ============================
+   SINGLE TICKET CARD
+============================ */
+.ed-ticket-card {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.ed-ticket-selected {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+  background: var(--color-surface);
+}
+
+.ed-ticket-sold-out {
+  opacity: 0.5;
+}
+
+.ed-ticket-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ed-ticket-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ed-ticket-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  width: fit-content;
+}
+
+.ed-ticket-perks {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.ed-ticket-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.ed-ticket-price {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
+.ed-ticket-per {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* Bottom: remaining + qty */
+.ed-ticket-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ed-ticket-remaining {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.ed-sold-out-label {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+/* Quantity control */
+.ed-qty-control {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.ed-qty-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.14s ease;
+  flex-shrink: 0;
+  font-family: inherit;
+}
+
+.ed-qty-btn:hover:not(:disabled) {
+  background: var(--color-surface-muted);
+}
+
+.ed-qty-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.ed-qty-value {
+  min-width: 30px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 32px;
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+}
+
+/* Subtotal row inside ticket card */
+.ed-ticket-subtotal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-primary-soft);
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 13px;
+  color: var(--color-primary-dark);
+}
+
+.ed-ticket-subtotal strong {
+  font-weight: 800;
+  font-size: 14px;
+}
+
+/* ============================
+   ORDER FOOTER
+============================ */
+.ed-order-footer {
+  border-top: 1px solid var(--color-border);
+  padding-top: 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.ed-order-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 200px;
+}
+
+.ed-order-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.ed-order-row-total {
+  padding-top: 6px;
+  border-top: 1px solid var(--color-border);
+}
+
+.ed-order-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.ed-order-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.ed-order-price {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  letter-spacing: -0.02em;
+}
+
+/* Book button area */
+.ed-book-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.ed-book-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  height: 48px;
+  padding: 0 28px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: white;
+  font-size: 14.5px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+/* disabled state */
+.ed-book-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.ed-book-note {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* ============================
+   NO TICKETS
+============================ */
+.ed-no-tickets {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 32px 0;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ============================
+   NOT FOUND STATE
+============================ */
+.ed-not-found {
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  padding: 40px 28px;
+}
+
+.ed-not-found-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ed-not-found h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.ed-not-found p {
+  max-width: 400px;
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+
+.ed-left-seats-item {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.ed-left-seats-item svg {
+  color: #dc2626;
+}
+
+
+/* ============================
+   RESPONSIVE
+============================ */
+@media (max-width: 900px) {
+  .ed-hero-card {
+    grid-template-columns: 1fr;
+  }
+
+  .ed-hero-img,
+  .ed-hero-fallback {
+    min-height: 220px;
+    max-height: 280px;
+  }
+
+  .ed-order-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .ed-book-wrap {
+    align-items: stretch;
+  }
+
+  .ed-book-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .ed-tickets-card {
+    padding: 18px;
+  }
+
+  .ed-hero-info {
+    padding: 20px 18px;
+  }
+
+  .ed-event-name {
+    font-size: 22px;
+  }
+
+  .ed-tickets-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ed-order-summary {
+    min-width: unset;
+  }
+}

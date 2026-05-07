@@ -1,0 +1,363 @@
+/* ============================
+   STATE CARDS
+============================ */
+.ann-state-card {
+  min-height: 280px;
+}
+
+.ann-state-inner {
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-muted, #64748b);
+}
+
+.ann-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  padding: 52px 28px;
+}
+
+.ann-empty-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 22px;
+  background: var(--color-primary-soft, #fff7ed);
+  color: var(--color-primary, #f97316);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ann-empty h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text, #0f172a);
+}
+
+.ann-empty p {
+  margin: 0;
+  max-width: 440px;
+  font-size: 14.5px;
+  color: var(--color-text-muted, #64748b);
+  line-height: 1.7;
+}
+
+/* ============================
+   ENTERPRISE ANNOUNCEMENTS LIST
+============================ */
+.ann-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Each announcement is a button for keyboard + click accessibility */
+.ann-item {
+  width: 100%;
+  text-align: left;
+  padding: 24px;
+  display: flex;
+  align-items: flex-start; /* Keeps text and bell aligned at top */
+  gap: 24px; /* Slightly wider gap for cleaner breathing room */
+  cursor: pointer;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-family: inherit;
+  animation: ann-in 0.28s ease both;
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  overflow: hidden;
+}
+
+.ann-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.05);
+  border-color: #cbd5e1;
+}
+
+@keyframes ann-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+/* Bell icon */
+.ann-item-left {
+  flex-shrink: 0;
+}
+
+.ann-item-bell {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff7ed;
+  color: #ea580c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ffedd5;
+}
+
+/* Body */
+.ann-item-body {
+  flex: 1;
+  min-width: 0; /* CRITICAL: Allows flex truncation and wrapping */
+}
+
+.ann-item-header {
+  margin-bottom: 10px;
+}
+
+.ann-item-event {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ea580c;
+  background: #fff7ed;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1px solid #ffedd5;
+}
+
+.ann-item-title {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ann-item-preview {
+  margin: 0;
+  font-size: 14.5px;
+  color: #475569;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  /* CRITICAL: Fixes long continuous strings breaking the layout */
+  word-break: break-word; 
+  overflow-wrap: anywhere; 
+}
+
+/* Enterprise Divider */
+.ann-divider {
+  width: 100%;
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 16px 0; /* Creates exact, uniform spacing between text and footer */
+}
+
+.ann-item-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #64748b;
+  background: #f8fafc;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.ann-date-icon {
+  color: #94a3b8;
+}
+
+/* Chevron */
+.ann-item-chevron {
+  flex-shrink: 0;
+  align-self: center; /* Natively centers the chevron perfectly regardless of card height */
+  color: #cbd5e1;
+  transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ann-item:hover .ann-item-chevron {
+  color: #ea580c;
+  transform: translateX(4px);
+}
+
+/* ============================
+   DETAIL MODAL
+============================ */
+.ann-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.42);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 300;
+}
+
+.ann-modal {
+  width: 100%;
+  max-width: 560px;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 20px;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.2);
+  animation: ann-modal-in 0.22s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+@keyframes ann-modal-in {
+  from { opacity: 0; transform: scale(0.94) translateY(8px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);   }
+}
+
+.ann-modal-header {
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  background: var(--color-surface, #ffffff);
+  z-index: 1;
+}
+
+.ann-modal-header-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ann-modal-bell {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff7ed;
+  color: #ea580c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ffedd5;
+  flex-shrink: 0;
+}
+
+.ann-modal-event {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ea580c;
+  background: #fff7ed;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1px solid #ffedd5;
+  margin-bottom: 8px;
+}
+
+.ann-modal-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.ann-close-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 11px;
+  background: var(--color-surface, #ffffff);
+  color: var(--color-text-muted, #64748b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.16s ease;
+  font-family: inherit;
+}
+
+.ann-close-btn:hover {
+  background: var(--color-surface-muted, #f8fafc);
+  color: var(--color-text, #0f172a);
+}
+
+.ann-modal-body {
+  padding: 24px;
+}
+
+.ann-modal-message {
+  margin: 0 0 20px;
+  font-size: 15px;
+  color: #334155;
+  line-height: 1.7;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.ann-modal-date {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 16px;
+}
+
+/* ============================
+   SPIN
+============================ */
+.ann-spin {
+  animation: ann-spin-anim 0.9s linear infinite;
+}
+
+@keyframes ann-spin-anim {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ============================
+   RESPONSIVE
+============================ */
+@media (max-width: 640px) {
+  .ann-overlay {
+    padding: 14px;
+  }
+
+  .ann-modal-header,
+  .ann-modal-body {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .ann-item {
+    padding: 20px 16px;
+  }
+}

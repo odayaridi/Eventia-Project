@@ -1,0 +1,324 @@
+.admin-management-page-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.admin-management-section-card {
+  border-radius: 28px;
+  border: 1px solid var(--color-border, #e5e7eb);
+  background: var(--color-surface, #ffffff);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
+  padding: 24px;
+}
+
+.admin-management-table-header {
+  margin-bottom: 20px;
+}
+
+.admin-management-title-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.admin-management-title-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: #fff7ed;
+  color: #f97316;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.admin-management-section-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.admin-management-section-subtitle {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.admin-management-state-box {
+  min-height: 300px;
+  border: 1px dashed #dbe3ee;
+  border-radius: 24px;
+  background: #fcfdff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+  padding: 32px;
+}
+
+.admin-management-state-box h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #0f172a;
+}
+
+.admin-management-state-box p {
+  margin: 0;
+  color: #64748b;
+  max-width: 520px;
+}
+
+.admin-management-empty-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: #fff7ed;
+  color: #f97316;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-management-table-paper {
+  border: 1px solid #eef2f7;
+  border-radius: 22px !important;
+  overflow: hidden;
+  background: #ffffff !important;
+}
+
+.admin-management-data-grid {
+  min-height: 560px;
+}
+
+.admin-management-actions-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-management-update-btn,
+.admin-management-delete-btn {
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-management-update-btn {
+  background: #dbeafe;
+  color: #1d4ed8;
+  border: 1px solid #93c5fd;
+}
+
+.admin-management-update-btn:hover:not(:disabled) {
+  background: #bfdbfe;
+}
+
+.admin-management-delete-btn {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+}
+
+.admin-management-delete-btn:hover:not(:disabled) {
+  background: #fecaca;
+}
+
+.admin-management-update-btn:disabled,
+.admin-management-delete-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.admin-management-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.46);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 1200;
+}
+
+.admin-management-modal-card,
+.admin-management-confirm-card {
+  width: 100%;
+  max-width: 620px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 28px;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.2);
+  padding: 24px;
+}
+
+.admin-management-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.admin-management-modal-title {
+  margin: 0;
+  font-size: 1.22rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.admin-management-modal-subtitle {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.admin-management-close-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #334155;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.admin-management-form-group {
+  margin-bottom: 18px;
+}
+
+.admin-management-form-group label {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.admin-management-form-group input {
+  width: 100%;
+  height: 50px;
+  border-radius: 16px;
+  border: 1px solid #dbe3ee;
+  background: #ffffff;
+  padding: 0 16px;
+  font-size: 0.96rem;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.admin-management-form-group input:focus {
+  border-color: #f97316;
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
+}
+
+.admin-management-save-btn {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(249, 115, 22, 0.22);
+}
+
+.admin-management-confirm-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  color: #0f172a;
+}
+
+.admin-management-confirm-card p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.admin-management-confirm-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.admin-management-cancel-btn,
+.admin-management-delete-confirm-btn {
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.admin-management-cancel-btn {
+  border: 1px solid #dbe3ee;
+  background: #ffffff;
+  color: #334155;
+}
+
+.admin-management-delete-confirm-btn {
+  border: none;
+  background: #dc2626;
+  color: #ffffff;
+}
+
+@media (max-width: 900px) {
+  .admin-management-actions-cell {
+    flex-wrap: wrap;
+  }
+
+  .admin-management-modal-card,
+  .admin-management-confirm-card {
+    border-radius: 22px;
+    padding: 18px;
+  }
+}
+
+
+
+.admin-management-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.admin-management-actions-cell {
+  width: 100%;
+  justify-content: center;
+}
+
+.admin-management-update-btn,
+.admin-management-delete-btn {
+  min-width: 92px;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .admin-management-form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}

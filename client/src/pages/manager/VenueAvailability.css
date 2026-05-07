@@ -1,0 +1,371 @@
+.venue-availability-list-card,
+.venue-availability-form-card {
+  padding: 24px;
+}
+
+.venue-availability-section-header,
+.venue-availability-form-header {
+  margin-bottom: 20px;
+}
+
+.venue-availability-header-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.venue-availability-header-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.venue-availability-header-icon-booked {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.venue-availability-section-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+.venue-availability-section-subtitle {
+  margin: 6px 0 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.venue-availability-state {
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.venue-availability-error {
+  color: var(--color-danger);
+}
+
+.venue-availability-empty {
+  min-height: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.venue-availability-empty h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.venue-availability-empty p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+.venue-availability-empty-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.venue-availability-empty-icon-booked {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.venue-availability-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.venue-availability-item {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.venue-availability-item-booked {
+  background: #fffafa;
+  border-color: #fecaca;
+}
+
+.venue-availability-item-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.venue-availability-item-top {
+  display: none;
+}
+
+.venue-availability-item-badge {
+  height: 26px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.venue-availability-item-badge-booked {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.venue-availability-item-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.venue-availability-item-time-row {
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.venue-availability-item-price-row {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
+
+.venue-availability-slots-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.venue-availability-slot-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  font-weight: 500;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 10px 11px;
+}
+
+.venue-availability-slot-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.venue-availability-slot-time,
+.venue-availability-slot-price {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.venue-availability-slot-price {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
+
+.venue-availability-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.venue-availability-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.venue-availability-time-range {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 18px;
+  align-items: end;
+}
+
+.venue-availability-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.venue-availability-field label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.venue-availability-input-wrap {
+  position: relative;
+}
+
+.venue-availability-field input {
+  width: 100%;
+  height: 54px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-surface);
+  padding: 0 14px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--color-text);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.venue-availability-field input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
+}
+
+.venue-availability-time-separator {
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 0 4px;
+}
+
+.venue-availability-submit-error {
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #b91c1c;
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.venue-availability-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.venue-availability-create-btn {
+  border: none;
+  border-radius: var(--radius-md);
+  height: 46px;
+  padding: 0 18px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: white;
+  box-shadow: var(--shadow-md);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.venue-availability-create-btn:hover {
+  transform: translateY(-1px);
+}
+
+.venue-availability-create-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.spin-icon {
+  animation: venue-availability-spin 0.9s linear infinite;
+}
+
+@keyframes venue-availability-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@media (max-width: 1100px) {
+  .venue-availability-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .venue-availability-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .venue-availability-time-range {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .venue-availability-time-separator {
+    height: auto;
+    justify-content: flex-start;
+    padding: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .venue-availability-list-card,
+  .venue-availability-form-card {
+    padding: 18px;
+  }
+
+  .venue-availability-actions {
+    justify-content: stretch;
+  }
+
+  .venue-availability-create-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
