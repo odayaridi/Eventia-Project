@@ -49,9 +49,9 @@ async getEventVenueRequestsService(organizerId) {
 
     async countEventRequestsService(managerId){
         const venueId = await this.venueRepo.getVenueIdByManagerId(managerId);
-        if(!venueId){
-            throw new HttpError('No venue exists for this manager')
-        }
+        // if(!venueId){
+        //     throw new HttpError('No venue exists for this manager')
+        // }
         
         let pendingRequestsCount = 0,approvedRequestsCount=0,rejectedRequestsCount=0;
         const pendingRequests = await this.eventVenueRequestsRepo.countEventRequestsRepo(venueId,'Pending');

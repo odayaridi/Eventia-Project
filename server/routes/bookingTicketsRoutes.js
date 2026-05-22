@@ -12,8 +12,8 @@ const bookingTicketsController = new BookingTicketsController();
 
 router.get(
     "/getAttendeeBookingTickets",
-    // authenticateToken,
-    // restrictTo('attendee'),
+    authenticateToken,
+    restrictTo('attendee'),
     getBookingsByAttendeeIdValidator,
     validationRequest,
     bookingTicketsController.getAttendeeBookingTicketsController.bind(bookingTicketsController)

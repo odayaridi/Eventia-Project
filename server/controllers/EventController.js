@@ -6,36 +6,10 @@ class EventController {
     }
 
 
-    
-// {
-//   "name": "Heat Festival",
-//   "organizerId" : 1,
-//   "description": "A fun heat festival with live music, food stalls, and family activities.",
-//   "eventType": "Music Festival",
-//   "venueName": "Grand Ballroom",
-//   "capacity": 232,
-//   "date": "2026-03-15",
-//   "startTime": "09:00:00",
-//   "endTime": "17:00:00",
-//   "imageUrl": "https://example.com/images/spring-music-festival.jpg"
-// }
-
-    // async createEventController(req,res,next){
-    //     try {
-    //         await this.eventService.createEventService(req.body);
-    //         res.status(201).json({success:"true",message:"Event created successfully"})
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // }
-
-
-
     async createEventController(req, res, next) {
     try {
         const eventData = req.body;
 
-        // 👇 Get uploaded image
         if (req.file) {
             eventData.imageUrl = req.file.filename;
         }
@@ -213,24 +187,6 @@ async updateEventController(req, res, next) {
         next(error);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

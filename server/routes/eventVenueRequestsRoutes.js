@@ -10,8 +10,8 @@ const eventVenueRequestsController = new EventVenueRequestController();
 
 router.get(
     "/countEventBookingRequests",
-    // authenticateToken,
-    // restrictTo('eventOrganizer'),
+    authenticateToken,
+    restrictTo('eventOrganizer'),
     countEventBookingReqsValidator,
     validationRequest,
     eventVenueRequestsController.countEventBookingReqsController.bind(eventVenueRequestsController)
@@ -21,8 +21,8 @@ router.get(
 //It gets all event booking requests by orhganizerId in the booking requrst section
 router.get(
     "/getById",
-    // authenticateToken,
-    // restrictTo('eventOrganizer'),
+    authenticateToken,
+    restrictTo('eventOrganizer'),
     getEventVenueRequestsValidator,
     validationRequest,
     eventVenueRequestsController.getEventVenueRequestsController.bind(eventVenueRequestsController)
@@ -30,8 +30,8 @@ router.get(
 
 router.get(
     "/countEventRequests",
-    // authenticateToken,
-    // restrictTo('venueManager'),
+    authenticateToken,
+    restrictTo('venueManager'),
     countEventRequestsValidator,
     validationRequest,
     eventVenueRequestsController.countEventRequestsController.bind(eventVenueRequestsController)

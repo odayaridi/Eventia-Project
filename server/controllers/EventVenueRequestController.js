@@ -32,13 +32,7 @@ class EventVenueRequestController {
 
 
 
-    /*
-{
-    "organizerId" : 2,
-    "status": "Approved"
 
-}
-   */
     async countEventBookingReqsController(req,res,next){
          try {
             const {organizerId} = req.query;

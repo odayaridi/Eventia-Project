@@ -22,9 +22,7 @@ class VenueRepository {
         const [result] = await pool.query(sql,[venueId]);
         return result[0].capacity;
     }
-    // -----------------------------
-    // 1️⃣ CREATE VENUE
-    // -----------------------------
+
     async createVenueRepo(newVenue) {
         const sql = `
             INSERT INTO venues 
@@ -42,9 +40,7 @@ class VenueRepository {
         return result;
     }
 
-    // -----------------------------
-    // 2️⃣ UPDATE VENUE
-    // -----------------------------
+
     async updateVenueRepo(dto) {
     const fields = [];
     const values = [];
@@ -97,268 +93,6 @@ class VenueRepository {
     return result;
 }
 
-    // // -----------------------------
-    // // 3️⃣ FILTER VENUES (Paginated & Accurate)
-    // // -----------------------------
-    // async filterVenuesRepo(filters) {
-    //     const page = Number(filters.page) || 1;
-    //     const limit = Number(filters.limit) || 10;
-    //     const offset = (page - 1) * limit;
-
-    //     let baseSql = `
-    //         FROM venues v
-    //         LEFT JOIN venueavailability va ON va.venue_id = v.id
-    //         LEFT JOIN venueavailabilitystatus vas ON vas.id = va.status_id
-    //         WHERE vas.name = 'Available'
-    //     `;
-
-    //     const values = [];
-
-    //     if (filters.name) {
-    //         baseSql += " AND v.name LIKE ?";
-    //         values.push(`%${filters.name}%`);
-    //     }
-
-    //     if (filters.location) {
-    //         baseSql += " AND v.location LIKE ?";
-    //         values.push(`%${filters.location}%`);
-    //     }
-
-    //     if (filters.facilities) {
-    //         const words = filters.facilities.split(" ").filter(Boolean);
-    //         words.forEach(word => {
-    //             baseSql += " AND v.facilities LIKE ?";
-    //             values.push(`%${word}%`);
-    //         });
-    //     }
-
-    //     if (filters.capacity !== undefined) {
-    //         baseSql += " AND v.capacity >= ?";
-    //         values.push(filters.capacity);
-    //     }
-
-    //     if (filters.date) {
-    //         baseSql += " AND va.date = ?";
-    //         values.push(filters.date);
-    //     }
-
-    //     if (filters.start_time) {
-    //         baseSql += " AND va.start_time <= ?";
-    //         values.push(filters.start_time);
-    //     }
-
-    //     if (filters.end_time) {
-    //         baseSql += " AND va.end_time >= ?";
-    //         values.push(filters.end_time);
-    //     }
-
-    //     // 1️⃣ Count total
-    //     const countSql = `SELECT COUNT(DISTINCT v.id) AS total ${baseSql}`;
-    //     const [countRows] = await pool.query(countSql, values);
-    //     const total = countRows[0]?.total || 0;
-
-    //     // 2️⃣ Get paginated data
-    //     const dataSql = `
-    //         SELECT v.*, va.date AS availability_date, va.start_time, va.end_time
-    //         ${baseSql}
-    //         ORDER BY v.id ASC
-    //         LIMIT ? OFFSET ?
-    //     `;
-    //     const [rows] = await pool.query(dataSql, [...values, limit, offset]);
-
-    //     return {
-    //         venues: rows,
-    //         total,
-    //         page,
-    //         limit,
-    //         totalPages: Math.ceil(total / limit)
-    //     };
-    // }
-
-
-
-
-
-//     // -----------------------------
-// // 3️⃣ FILTER VENUES (Paginated & Accurate + Images)
-// // -----------------------------
-// async filterVenuesRepo(filters) {
-//     const page = Number(filters.page) || 1;
-//     const limit = Number(filters.limit) || 10;
-//     const offset = (page - 1) * limit;
-
-//     const values = [];
-
-//     // ✅ ENV base URL
-//     const BASE_URL = process.env.BASE_URL;
-//     const IMAGE_BASE = `${BASE_URL}/uploads/venueImages/`;
-
-//     let baseSql = `
-//         FROM venues v
-//         LEFT JOIN venueavailability va ON va.venue_id = v.id AND va.status_id = 1
-//         LEFT JOIN venueavailabilitystatus vas ON vas.id = va.status_id
-//         LEFT JOIN VenueImages vi ON vi.venue_id = v.id
-//         WHERE 1=1
-//     `;
-
-//     // -----------------------------
-//     // 🔎 Filters
-//     // -----------------------------
-//     if (filters.name) {
-//         baseSql += " AND v.name LIKE ?";
-//         values.push(`%${filters.name}%`);
-//     }
-
-//     if (filters.location) {
-//         baseSql += " AND v.location LIKE ?";
-//         values.push(`%${filters.location}%`);
-//     }
-
-//     if (filters.facilities) {
-//         const words = filters.facilities.split(" ").filter(Boolean);
-//         words.forEach(word => {
-//             baseSql += " AND v.facilities LIKE ?";
-//             values.push(`%${word}%`);
-//         });
-//     }
-
-//     if (filters.capacity !== undefined) {
-//         baseSql += " AND v.capacity >= ?";
-//         values.push(filters.capacity);
-//     }
-
-//     if (filters.date) {
-//         baseSql += " AND va.date = ?";
-//         values.push(filters.date);
-//     }
-
-//     if (filters.start_time) {
-//         baseSql += " AND va.start_time <= ?";
-//         values.push(filters.start_time);
-//     }
-
-//     if (filters.end_time) {
-//         baseSql += " AND va.end_time >= ?";
-//         values.push(filters.end_time);
-//     }
-
-//     // -----------------------------
-//     // 1️⃣ Count venues
-//     // -----------------------------
-//     const countSql = `
-//         SELECT COUNT(DISTINCT v.id) AS total
-//         ${baseSql}
-//     `;
-
-//     const [countRows] = await pool.query(countSql, values);
-//     const total = countRows[0]?.total || 0;
-
-//     // -----------------------------
-//     // 2️⃣ Fetch venues
-//     // -----------------------------
-//     const dataSql = `
-//         SELECT 
-//             v.id,
-//             v.name,
-//             v.location,
-//             v.location_link,
-//             v.capacity,
-//             v.facilities,
-//             v.manager_id,
-//             DATE_FORMAT(v.created_at, '%Y-%m-%d %H:%i:%s') AS created_at,
-
-//             JSON_ARRAYAGG(
-//                 DISTINCT JSON_OBJECT(
-//                     'availability_id', va.id,
-//                     'date', DATE_FORMAT(va.date, '%Y-%m-%d'),
-//                     'start_time', va.start_time,
-//                     'end_time', va.end_time
-//                 )
-//             ) AS availabilities,
-
-//             JSON_ARRAYAGG(
-//                 DISTINCT vi.image_url
-//             ) AS images
-
-//         ${baseSql}
-
-//         GROUP BY v.id
-//         ORDER BY v.id ASC
-//         LIMIT ? OFFSET ?
-//     `;
-
-//     const [rows] = await pool.query(dataSql, [...values, limit, offset]);
-
-//     // -----------------------------
-//     // 3️⃣ Clean + Transform
-//     // -----------------------------
-//     const cleanedRows = rows.map(row => {
-//         let images = [];
-//         let availabilities = [];
-
-//         // ✅ Images fix
-//         try {
-//             if (row.images) {
-//                 images = JSON.parse(row.images)
-//                     .filter(img => img)
-//                     .map(img => `${IMAGE_BASE}${img}`);
-//             }
-//         } catch (err) {
-//             console.error("Image parsing error:", err);
-//         }
-
-//         // ✅ Availabilities grouping by date
-//         try {
-//             if (row.availabilities) {
-//                 const parsed = JSON.parse(row.availabilities)
-//                     .filter(a => a.availability_id !== null);
-
-//                 const grouped = {};
-
-//                 parsed.forEach(a => {
-//                     if (!grouped[a.date]) {
-//                         grouped[a.date] = {
-//                             date: a.date,
-//                             slots: []
-//                         };
-//                     }
-
-//                     grouped[a.date].slots.push({
-//                         start_time: a.start_time,
-//                         end_time: a.end_time
-//                     });
-//                 });
-
-//                 // Optional: sort slots by time
-//                 Object.values(grouped).forEach(day => {
-//                     day.slots.sort((a, b) =>
-//                         a.start_time.localeCompare(b.start_time)
-//                     );
-//                 });
-
-//                 availabilities = Object.values(grouped);
-//             }
-//         } catch (err) {
-//             console.error("Availability parsing error:", err);
-//         }
-
-//         return {
-//             ...row,
-//             images,
-//             availabilities
-//         };
-//     });
-
-//     return {
-//         venues: cleanedRows,
-//         total,
-//         page,
-//         limit,
-//         totalPages: Math.ceil(total / limit)
-//     };
-// }
-
-
 
 
 async filterVenuesRepo(filters) {
@@ -372,12 +106,17 @@ async filterVenuesRepo(filters) {
     const IMAGE_BASE = `${BASE_URL}/uploads/venueImages/`;
 
     let baseSql = `
-        FROM venues v
-        LEFT JOIN venueavailability va ON va.venue_id = v.id AND va.status_id = 1
-        LEFT JOIN venueavailabilitystatus vas ON vas.id = va.status_id
-        LEFT JOIN VenueImages vi ON vi.venue_id = v.id
-        WHERE 1=1
-    `;
+    FROM venues v
+    JOIN venuemanagers vm ON vm.id = v.manager_id
+    JOIN users u ON u.id = vm.user_id
+
+    LEFT JOIN venueavailability va ON va.venue_id = v.id AND va.status_id = 1
+    LEFT JOIN venueavailabilitystatus vas ON vas.id = va.status_id
+    LEFT JOIN VenueImages vi ON vi.venue_id = v.id
+
+    WHERE 1=1
+    AND u.is_deleted = 0
+`;
 
     if (filters.name) {
         baseSql += " AND v.name LIKE ?";
@@ -532,38 +271,6 @@ async filterVenuesRepo(filters) {
 
 
 
-    // -----------------------------
-    // 4️⃣ GET VENUE NAMES (Paginated)
-    // -----------------------------
-    // async getVenuesNamesRepo(query) {
-    //     const page = Number(query.page) || 1;
-    //     const limit = Number(query.limit) || 10;
-    //     const offset = (page - 1) * limit;
-    //     const search = query.search || '';
-
-    //     let baseSql = `FROM venues WHERE 1`;
-    //     const values = [];
-    //     if (search) {
-    //         baseSql += " AND name LIKE ?";
-    //         values.push(`%${search}%`);
-    //     }
-
-    //     const countSql = `SELECT COUNT(*) AS total ${baseSql}`;
-    //     const [countRows] = await pool.query(countSql, values);
-    //     const total = countRows[0]?.total || 0;
-
-    //     const dataSql = `SELECT name ${baseSql} ORDER BY name ASC LIMIT ? OFFSET ?`;
-    //     const [rows] = await pool.query(dataSql, [...values, limit, offset]);
-
-    //     return {
-    //         venues: rows,
-    //         total,
-    //         page,
-    //         limit,
-    //         totalPages: Math.ceil(total / limit)
-    //     };
-    // }
-
 
     async getVenuesNamesRepo(query) {
     const page = Number(query.page) || 1;
@@ -608,9 +315,7 @@ async filterVenuesRepo(filters) {
     };
 }
 
-    // -----------------------------
-    // 5️⃣ GET VENUE AVAILABILITY DATES (Paginated)
-    // -----------------------------
+
    async getVenueAvailabilityDatesRepo(venueName) {
 
     let sql = `
@@ -634,9 +339,7 @@ async filterVenuesRepo(filters) {
     return rows;
 }
 
-    // -----------------------------
-    // 6️⃣ GET VENUE AVAILABILITY TIMES (Paginated)
-    // -----------------------------
+  
   async getVenueAvailabilityTimesRepo(venueName,date) {
     const sql = `
         SELECT 
@@ -656,116 +359,6 @@ async filterVenuesRepo(filters) {
 
     return rows
 }
-
-//     async fetchEventRequestsRepo(venueId) {
-//     const sql = `
-//         SELECT 
-//             e.id AS eventId,
-//             u.username AS organizerUsername,
-//             e.name AS eventName,
-//             et.name AS eventType,
-//             e.date AS eventDate,
-//             e.start_time AS startTime,
-//             e.end_time AS endTime,
-//             e.description AS eventDescription,
-//             e.capacity AS eventCapacity,
-//             va.id AS venueAvailabilityId,
-//             v.name AS venueName,
-//             v.location AS venueLocation,
-//             evr.status AS requestStatus
-//         FROM EventVenueRequests evr
-//         JOIN Events e ON evr.event_id = e.id
-//         JOIN VenueAvailability va ON evr.venue_availability_id = va.id
-//         JOIN Venues v ON va.venue_id = v.id
-//         JOIN EventOrganizers eo ON eo.id = e.organizer_id
-//         JOIN Users u ON u.id = eo.user_id
-//         JOIN EventTypes et ON et.id = e.event_type_id
-//         WHERE evr.status = 'Pending'
-//           AND v.id = ?;
-//     `;
-
-  
-//         const [result] = await pool.query(sql, [venueId]);
-
-//         const newArr = [];
-
-//         for (let i = 0; i < result.length; i++) {
-//             const { eventDate, ...res } = result[i];
-//             const formattedEventDate = format(eventDate, 'yyyy-MM-dd');
-//             newArr.push({
-//                 ...res,
-//                 eventDate: formattedEventDate
-//             });
-//         }
-
-//         return newArr;
-// }
-
-
-// async fetchEventRequestsRepo(query) {
-//     const page = Number(query.page) || 1;
-//     const limit = Number(query.limit) || 10;
-//     const offset = (page - 1) * limit;
-//     const { venueId } = query;
-
-//     if (!venueId) {
-//         return { requests: [], total: 0, page, limit, totalPages: 0 };
-//     }
-
-//     const baseSql = `
-//         FROM EventVenueRequests evr
-//         JOIN Events e ON evr.event_id = e.id
-//         JOIN VenueAvailability va ON evr.venue_availability_id = va.id
-//         JOIN Venues v ON va.venue_id = v.id
-//         JOIN EventOrganizers eo ON eo.id = e.organizer_id
-//         JOIN Users u ON u.id = eo.user_id
-//         JOIN EventTypes et ON et.id = e.event_type_id
-//         WHERE evr.status = 'Pending'
-//           AND v.id = ?
-//     `;
-
-//     // 1️⃣ Count total
-//     const countSql = `SELECT COUNT(*) AS total ${baseSql}`;
-//     const [countRows] = await pool.query(countSql, [venueId]);
-//     const total = countRows[0]?.total || 0;
-
-//     // 2️⃣ Fetch paginated data
-//     const dataSql = `
-//         SELECT 
-//             e.id AS eventId,
-//             u.username AS organizerUsername,
-//             e.name AS eventName,
-//             et.name AS eventType,
-//             e.date AS eventDate,
-//             e.start_time AS startTime,
-//             e.end_time AS endTime,
-//             e.description AS eventDescription,
-//             e.capacity AS eventCapacity,
-//             va.id AS venueAvailabilityId,
-//             v.name AS venueName,
-//             v.location AS venueLocation,
-//             evr.status AS requestStatus
-//         ${baseSql}
-//         ORDER BY e.date ASC
-//         LIMIT ? OFFSET ?
-//     `;
-
-//     const [rows] = await pool.query(dataSql, [venueId, limit, offset]);
-
-//     const formattedRows = rows.map(r => ({
-//         ...r,
-//         eventDate: format(r.eventDate, 'yyyy-MM-dd')
-//     }));
-
-//     return {
-//         requests: formattedRows,
-//         total,
-//         page,
-//         limit,
-//         totalPages: Math.ceil(total / limit)
-//     };
-// }
-
 
 
 async fetchEventRequestsRepo(query) {
@@ -863,27 +456,6 @@ async getVenueInfoRepo(managerId) {
     return result[0];
 }
    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

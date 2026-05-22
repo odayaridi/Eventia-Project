@@ -16,121 +16,89 @@ class EventTicketsService {
       return response;
   }
 
-// async createEventTicketService(eventTicket) {
-//     const ticketTypeId = await this.ticketTypeRepo.getIdByType(eventTicket.type);
-//     if (!ticketTypeId) {
-//         throw new HttpError('Ticket type is not found', 404);
-//     }
 
-//     const eventId = await this.eventRepo.getEventIdByName(eventTicket.eventName);
-//     if (!eventId) {
-//         throw new HttpError('Event does not exist', 404);
-//     }
+    async createEventTicketService(eventTicket) {
+        const ticketTypeId = await this.ticketTypeRepo.getIdByType(eventTicket.type);
+        if (!ticketTypeId) {
+            throw new HttpError('Ticket type is not found', 404);
+        }
 
-//     const existingTicket = await this.eventTicketsRepo.geEventTicketByEventAndType(eventId, ticketTypeId);
+        const eventId = await this.eventRepo.getEventIdByName(eventTicket.eventName);
+        if (!eventId) {
+            throw new HttpError('Event does not exist', 404);
+        }
 
-//     if (existingTicket) {
-//         // Throw error if ticket already exists
-//         throw new HttpError('You already have this ticket type for the event. Please update the quantity instead.', 400);
-//     }
-
-//     // Create new ticket record
-//     const { type, name, ...result } = eventTicket;
-//     const response = { ...result, ticketTypeId, eventId };
-//     const newEventTicket = await this.eventTicketsRepo.createEventTicketRepo(response);
-
-//     return {
-//         ...response,
-//         id: newEventTicket.insertId
-//     };
-// }
+        const existingTicket = await this.eventTicketsRepo.geEventTicketByEventAndType(eventId, ticketTypeId);
+        if (existingTicket) {
+            throw new HttpError('You already have this ticket type for the event. Please update instead.', 400);
+        }
 
 
+        const currentTotal = await this.eventTicketsRepo.getTotalTicketQuantityByEvent(eventId);
+        const capacity = await this.eventRepo.getEventCapacityById(eventId);
 
+        if (currentTotal + eventTicket.quantityAvailable > capacity) {
+            throw new HttpError(
+                `Total tickets exceed event capacity (${capacity})`,
+                400
+            );
+        }
 
+        const { type, name, ...result } = eventTicket;
 
-async createEventTicketService(eventTicket) {
-    const ticketTypeId = await this.ticketTypeRepo.getIdByType(eventTicket.type);
-    if (!ticketTypeId) {
+        const response = {
+            ...result,
+            ticketTypeId,
+            eventId
+        };
+
+        const newEventTicket = await this.eventTicketsRepo.createEventTicketRepo(response);
+
+        return {
+            ...response,
+            id: newEventTicket.insertId
+        };
+    }
+
+    async updateEventTicketService(eventTicket) {
+      const ticketTypeId = await this.ticketTypeRepo.getIdByType(eventTicket.type);
+      if (!ticketTypeId) {
         throw new HttpError('Ticket type is not found', 404);
-    }
+      }
 
-    const eventId = await this.eventRepo.getEventIdByName(eventTicket.eventName);
-    if (!eventId) {
-        throw new HttpError('Event does not exist', 404);
-    }
+      const existingTicket = await this.eventTicketsRepo.getEventTicketById(eventTicket.eventTicketId);
 
-    const existingTicket = await this.eventTicketsRepo.geEventTicketByEventAndType(eventId, ticketTypeId);
-    if (existingTicket) {
-        throw new HttpError('You already have this ticket type for the event. Please update instead.', 400);
-    }
+      if (!existingTicket) {
+        throw new HttpError('Ticket not found', 404);
+      }
 
-    // 🔥 NEW VALIDATION
-    const currentTotal = await this.eventTicketsRepo.getTotalTicketQuantityByEvent(eventId);
-    const capacity = await this.eventRepo.getEventCapacityById(eventId);
+      const eventId = existingTicket.eventId;
 
-    if (currentTotal + eventTicket.quantityAvailable > capacity) {
+      const currentTotal = await this.eventTicketsRepo.getTotalTicketQuantityByEvent(eventId);
+      const capacity = await this.eventRepo.getEventCapacityById(eventId);
+
+      // subtract old quantity, add new one
+      const newTotal =
+        currentTotal - existingTicket.quantityAvailable + eventTicket.quantityAvailable;
+
+      if (newTotal > capacity) {
         throw new HttpError(
-            `Total tickets exceed event capacity (${capacity})`,
-            400
+          `Updated quantity exceeds event capacity (${capacity})`,
+          400
         );
-    }
+      }
 
-    const { type, name, ...result } = eventTicket;
+      const { type, ...result } = eventTicket;
 
-    const response = {
+      const response = {
         ...result,
-        ticketTypeId,
-        eventId
-    };
+        ticketTypeId
+      };
 
-    const newEventTicket = await this.eventTicketsRepo.createEventTicketRepo(response);
+      await this.eventTicketsRepo.updateEventTicketRepo(response);
 
-    return {
-        ...response,
-        id: newEventTicket.insertId
-    };
-}
-
-async updateEventTicketService(eventTicket) {
-  const ticketTypeId = await this.ticketTypeRepo.getIdByType(eventTicket.type);
-  if (!ticketTypeId) {
-    throw new HttpError('Ticket type is not found', 404);
-  }
-
-  const existingTicket = await this.eventTicketsRepo.getEventTicketById(eventTicket.eventTicketId);
-
-  if (!existingTicket) {
-    throw new HttpError('Ticket not found', 404);
-  }
-
-  const eventId = existingTicket.eventId;
-
-  const currentTotal = await this.eventTicketsRepo.getTotalTicketQuantityByEvent(eventId);
-  const capacity = await this.eventRepo.getEventCapacityById(eventId);
-
-  // subtract old quantity, add new one
-  const newTotal =
-    currentTotal - existingTicket.quantityAvailable + eventTicket.quantityAvailable;
-
-  if (newTotal > capacity) {
-    throw new HttpError(
-      `Updated quantity exceeds event capacity (${capacity})`,
-      400
-    );
-  }
-
-  const { type, ...result } = eventTicket;
-
-  const response = {
-    ...result,
-    ticketTypeId
-  };
-
-  await this.eventTicketsRepo.updateEventTicketRepo(response);
-
-  return response;
-}
+      return response;
+    }
 
 
 

@@ -49,15 +49,6 @@ class AdminService {
 
 
 
-
-
-
-
-
-
-
-
-
     /* ==================== GET ALL ==================== */
 
     async getAllAttendeesService(query) {
@@ -218,19 +209,6 @@ async updateAttendeeService(data) {
             throw new HttpError("Venue manager delete failed", 400);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     async countAllUsersService() {
     const attendees = await this.adminRepo.countAttendeesRepo();

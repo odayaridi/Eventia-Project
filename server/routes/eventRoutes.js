@@ -34,51 +34,22 @@ router.get(
 
 router.get(
     "/getEndedEventNames/:organizerId",
-    // authenticateToken,
-    // restrictTo('attendee'),
+    authenticateToken,
+    restrictTo('attendee'),
     eventController.getEndedEventNamesController.bind(eventController)
 );
 
 
 router.get(
     "/filterEvents",
-    // authenticateToken,
-    // restrictTo('attendee'),
+    authenticateToken,
+    restrictTo('attendee'),
     filterEventsValidation,
     validationRequest,
     eventController.filterEventsController.bind(eventController)
 );
 
 
-
-
-// // Attendee Support Request
-// router.post(
-//     "/createEvent",
-
-//     // 👇 Multer FIRST
-//     uploadImages.single("image"), 
-
-//     createEventValidator,
-//     validationRequest,
-
-//     eventController.createEventController.bind(eventController)
-// );
-
-
-
-
-// router.put(
-//     "/updateEvent",
-//     uploadImages.single("image"),         // optional image file
-//     updateEventValidator,
-//     validationRequest,
-//     eventController.updateEventController.bind(eventController)
-// );
-
-
-
-// 👇 Create image uploader
 const uploadImages = createUploadMiddleware({
     uploadDir: 'public/uploads/eventsImages',
     fileType: 'image'
@@ -130,22 +101,12 @@ router.put(
 
 router.get(
     "/getEvents/:organizerId",
-    // authenticateToken,
-    // restrictTo('eventOrganizer'),
+    authenticateToken,
+    restrictTo('eventOrganizer'),
     getEventsByOrganizerValidator,
     validationRequest,
     eventController.getEventsByOrganizer.bind(eventController)
 );
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -206,8 +167,8 @@ router.get(
 
 router.delete(
   "/deleteEvent/:eventId",
-//   authenticateToken,
-//   restrictTo('eventOrganizer'),
+  authenticateToken,
+  restrictTo('eventOrganizer'),
   deleteEventValidator,
   validationRequest,
   eventController.deleteEventController.bind(eventController)

@@ -8,7 +8,7 @@ const SupportRequestManagerController = require("../controllers/SupportRequestMa
 const router = express.Router();
 const supportReqManagerController = new SupportRequestManagerController();
 
-// Venue Manager Support Request
+
 router.post(
     "/create",
     authenticateToken,
@@ -23,16 +23,16 @@ router.post(
 
 router.get(
     "/getManagerRequests",
-    // authenticateToken,
-    // restrictTo('admin'),
+    authenticateToken,
+    restrictTo('admin'),
     supportReqManagerController.getManagerRequestsController.bind(supportReqManagerController)
 );
 
 
 router.put(
     "/resolveManagerReq",
-    // authenticateToken,
-    // restrictTo('admin'),
+    authenticateToken,
+    restrictTo('admin'),
     resolveRequestValidator,
     validationRequest,
     supportReqManagerController.resolveManagerController.bind(supportReqManagerController)

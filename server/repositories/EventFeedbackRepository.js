@@ -133,15 +133,6 @@ ORDER BY ef.created_at DESC;
 }
 
 
-
-
-
-
-
-
-
-
-
 async editAttendeeFeedbackRepo({ attendeeId, eventId, rating, comment }) {
   const sql = `
     UPDATE eventfeedback

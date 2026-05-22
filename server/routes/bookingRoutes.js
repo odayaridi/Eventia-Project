@@ -16,9 +16,9 @@ router.post(
 );
 
 router.get(
-      "/getAttendeeBookings",
-    // authenticateToken,
-    // restrictTo('attendee'),
+    "/getAttendeeBookings",
+    authenticateToken,
+    restrictTo('attendee'),
     getBookingsByAttendeeIdValidator,
     validationRequest,
     bookingController.getBookingsByAttendeeIdController.bind(bookingController)
@@ -28,8 +28,8 @@ router.get(
 
 router.delete(
   "/delete/eventName/:eventName/bookingId/:bookingId",
-//   authenticateToken,
-//   restrictTo('attendee'),
+  authenticateToken,
+  restrictTo('attendee'),
   deleteBookingValidator,
   validationRequest,
   bookingController.deleteBookingController.bind(bookingController)

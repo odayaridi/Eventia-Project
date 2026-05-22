@@ -1,118 +1,3 @@
-// const pool = require("../config/database");
-
-// class EventTicketsRepository {
-//     constructor() {}
-
-//     async createEventTicketRepo(eventTicket) {
-//         const sql = `
-//             INSERT INTO EventTickets
-//             (event_id, ticket_type_id, name, perks, price, quantity_available)
-//             VALUES (?, ?, ?, ?, ?, ?)
-//         `;
-
-//         const [result] = await pool.query(sql, [
-//             eventTicket.eventId,
-//             eventTicket.ticketTypeId || 1, // default if not provided
-//             eventTicket.name,
-//             eventTicket.perks,
-//             eventTicket.price,
-//             eventTicket.quantityAvailable
-//         ]);
-
-//         return result;
-//     }
-
-//  async updateEventTicketRepo(eventTicket) {
-//     const sql = `
-//         UPDATE EventTickets
-//         SET 
-//             ticket_type_id = ?,
-//             name = ?,
-//             perks = ?,
-//             price = ?,
-//             quantity_available = ?
-//         WHERE id = ?
-//     `;
-
-//     const [result] = await pool.query(sql, [
-//         eventTicket.ticketId,
-//         eventTicket.name,
-//         eventTicket.perks,
-//         eventTicket.price,
-//         eventTicket.quantityAvailable,
-//         eventTicket.id  
-//     ]);
-
-//     return result;
-// }
-
-// async getEventTicketsRepo(organizerId, ticketTypeName, eventName, eventStatus) {
-
-//     let sql = `
-//         SELECT 
-//             e.name AS eventName,
-//             es.name AS eventStatus,
-//             tt.name AS ticketType,
-//             et.price,
-//             et.perks,
-//             et.quantity_available AS quantityAvailable,
-//             et.quantity_sold AS quantitySold
-//         FROM Events e
-//         JOIN EventTickets et ON e.id = et.event_id
-//         JOIN TicketTypes tt ON et.ticket_type_id = tt.id
-//         JOIN EventStatus es ON e.status_id = es.id
-//         WHERE e.organizer_id = ?
-//     `;
-
-//     const values = [organizerId];
-
-//     // Optional filters
-//     if (eventName) {
-//         sql += ` AND e.name = ?`;
-//         values.push(eventName);
-//     }
-
-//     if (ticketTypeName) {
-//         sql += ` AND tt.name = ?`;
-//         values.push(ticketTypeName);
-//     }
-
-//     if (eventStatus) {
-//         sql += ` AND es.name = ?`;
-//         values.push(eventStatus);
-//     }
-
-//     const [result] = await pool.query(sql, values);
-
-//     return result;
-// }
-
-
-// async getEventTicketQuantityAvailableByPk(id){
-//     const sql = 'SELECT quantity_available AS quantityAvailable FROM eventTickets WHERE id = ?';
-//     const [result] = await pool.query(sql,[id]);
-//     return result[0]?.quantityAvailable;
-// }
-
-// async updateQuantityAvailableRepo(id, newQuantity){
-//     const sql = 'UPDATE eventtickets SET quantity_available = ? WHERE id = ?';
-//     const [result] = await pool.query(sql,[newQuantity, id]);
-//     return result;
-// }
-
-// async updateQuantitySoldRepo(id, soldQuantity){
-//     const sql = 'UPDATE eventtickets SET quantity_sold = quantity_sold + ? WHERE id = ?';
-//     const [result] = await pool.query(sql,[soldQuantity, id]);
-//     return result;
-// }
-
-// }
-
-// module.exports = EventTicketsRepository;
-
-
-
-
 const pool = require("../config/database");
 
 class EventTicketsRepository {
@@ -135,29 +20,6 @@ class EventTicketsRepository {
     ]);
     return result;
   }
-
-  // // Update an EventTicket
-  // async updateEventTicketRepo(eventTicket) {
-  //   const sql = `
-  //     UPDATE EventTickets
-  //     SET 
-  //       ticket_type_id = ?,
-  //       name = ?,
-  //       perks = ?,
-  //       price = ?,
-  //       quantity_available = ?
-  //     WHERE id = ?
-  //   `;
-  //   const [result] = await pool.query(sql, [
-  //     eventTicket.ticketTypeId,
-  //     eventTicket.name,
-  //     eventTicket.perks,
-  //     eventTicket.price,
-  //     eventTicket.quantityAvailable,
-  //     eventTicket.id
-  //   ]);
-  //   return result;
-  // }
 
 
   // Update an EventTicket
@@ -194,49 +56,6 @@ async updateEventTicketRepo(eventTicket) {
   const [result] = await pool.query(sql, values);
   return result;
 }
-
-  // Get event tickets with optional filters, return camelCase
-  // async getEventTicketsRepo({ organizerId, ticketTypeName, eventName, eventStatus }) {
-  //   let sql = `
-  //     SELECT 
-  //       e.id AS eventId,
-  //       e.name AS eventName,
-  //       es.name AS eventStatus,
-  //       tt.id AS ticketTypeId,
-  //       tt.name AS ticketType,
-  //       et.id AS eventTicketId,
-  //       et.price AS price,
-  //       et.perks AS perks,
-  //       et.quantity_available AS quantityAvailable,
-  //       et.quantity_sold AS quantitySold
-  //     FROM Events e
-  //     JOIN EventTickets et ON e.id = et.event_id
-  //     JOIN TicketTypes tt ON et.ticket_type_id = tt.id
-  //     JOIN EventStatus es ON e.status_id = es.id
-  //     WHERE e.organizer_id = ?
-  //   `;
-
-  //   const values = [organizerId];
-
-  //   if (eventName) {
-  //     sql += ` AND e.name = ?`;
-  //     values.push(eventName);
-  //   }
-  //   if (ticketTypeName) {
-  //     sql += ` AND tt.name = ?`;
-  //     values.push(ticketTypeName);
-  //   }
-  //   if (eventStatus) {
-  //     sql += ` AND es.name = ?`;
-  //     values.push(eventStatus);
-  //   }
-
-  //   const [rows] = await pool.query(sql, values);
-  //   return rows;
-  // }
-
-
-
 
 
   // Get event tickets with optional filters, return camelCase
@@ -285,12 +104,7 @@ async updateEventTicketRepo(eventTicket) {
     const [rows] = await pool.query(sql, [id]);
     return rows[0];
   }
-
-
-
-
   
-
   // Get quantity available by ticket ID
   async getEventTicketQuantityAvailableByPk(id) {
     const sql = `
@@ -326,20 +140,6 @@ async updateEventTicketRepo(eventTicket) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   async geEventTicketByEventAndType(eventId, ticketTypeId) {
     const sql = `
         SELECT * FROM EventTickets
@@ -354,19 +154,46 @@ async updateEventTicketRepo(eventTicket) {
 
 
 
+async getEventTicketCapacityInfoRepo(eventId) {
+  const sql = `
+    SELECT 
+      e.capacity,
+      COALESCE(SUM(et.quantity_available), 0) AS totalTicketQuantity
+    FROM Events e
+    LEFT JOIN EventTickets et 
+      ON et.event_id = e.id
+    WHERE e.id = ?
+    GROUP BY e.id, e.capacity
+  `;
+
+  const [rows] = await pool.query(sql, [eventId]);
+
+  return rows[0] || null;
+}
+
 
 
 
 async getTotalAvailableSeatsByEventRepo(eventId) {
-    const sql = `
-        SELECT SUM(quantity_available) AS totalAvailable
-        FROM EventTickets
-        WHERE event_id = ?
-    `;
+  const sql = `
+    SELECT 
+      e.capacity,
+      COALESCE(SUM(et.quantity_sold), 0) AS totalSold,
+      GREATEST(e.capacity - COALESCE(SUM(et.quantity_sold), 0), 0) AS seatsLeft
+    FROM Events e
+    LEFT JOIN EventTickets et 
+      ON et.event_id = e.id
+    WHERE e.id = ?
+    GROUP BY e.id, e.capacity
+  `;
 
-    const [rows] = await pool.query(sql, [eventId]);
+  const [rows] = await pool.query(sql, [eventId]);
 
-    return Number(rows[0]?.totalAvailable || 0);
+  if (!rows.length) {
+    return 0;
+  }
+
+  return Number(rows[0].seatsLeft);
 }
 
 
@@ -439,25 +266,7 @@ async getEventsTotalTicketsQuantitiesRepo() {
 
 
 
-async 
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -138,22 +138,7 @@ class MessageRepository {
     return rows;
   }
 
-  // async getVenuesChattingRepo(organizerId) {
-  //   const sql = `
-  //     SELECT
-  //       v.id AS venueId,
-  //       v.name AS venueName,
-  //       vm.id AS managerId,
-  //       u.username AS managerName
-  //     FROM Venues v
-  //     JOIN VenueManagers vm ON vm.id = v.manager_id
-  //     JOIN Users u ON u.id = vm.user_id
-  //     ORDER BY v.name ASC
-  //   `;
-
-  //   const [rows] = await pool.query(sql);
-  //   return rows;
-  // }
+ 
 
 
 
@@ -193,89 +178,6 @@ class MessageRepository {
   const [rows] = await pool.query(sql, [organizerId, organizerId]);
   return rows;
 }
-
-
-
-//   async getOrganizersChattingRepo(managerId) {
-//   const sql = `
-//     SELECT
-//       c.id AS conversationId,
-//       eo.id AS organizerId,
-//       uo.username AS organizerName,
-//       vm.id AS managerId,
-//       v.id AS venueId,
-//       v.name AS venueName,
-//       lm.message AS lastMessagePreview,
-//       DATE_FORMAT(lm.created_at, '%Y-%m-%d %H:%i:%s') AS lastMessageAt
-//     FROM Conversations c
-//     JOIN EventOrganizers eo ON eo.id = c.organizer_id
-//     JOIN Users uo ON uo.id = eo.user_id
-//     JOIN VenueManagers vm ON vm.id = c.manager_id
-//     LEFT JOIN Venues v ON v.id = c.venue_id
-//     LEFT JOIN Messages lm ON lm.id = (
-//       SELECT m2.id
-//       FROM Messages m2
-//       WHERE m2.conversation_id = c.id
-//       ORDER BY m2.created_at DESC, m2.id DESC
-//       LIMIT 1
-//     )
-//     WHERE c.manager_id = ?
-//     ORDER BY lm.created_at DESC, c.created_at DESC
-//   `;
-
-//   const [rows] = await pool.query(sql, [managerId]);
-//   return rows;
-// }
-
-
-
-// async getOrganizersChattingRepo(managerId) {
-//   const sql = `
-//     SELECT
-//       c.id AS conversationId,
-//       eo.id AS organizerId,
-//       uo.username AS organizerName,
-//       vm.id AS managerId,
-//       v.id AS venueId,
-//       v.name AS venueName,
-//       lm.message AS lastMessagePreview,
-//       DATE_FORMAT(lm.created_at, '%Y-%m-%d %H:%i:%s') AS lastMessageAt,
-//       COALESCE(uc.unreadCount, 0) AS unreadCount
-//     FROM Conversations c
-//     JOIN EventOrganizers eo ON eo.id = c.organizer_id
-//     JOIN Users uo ON uo.id = eo.user_id
-//     JOIN VenueManagers vm ON vm.id = c.manager_id
-//     LEFT JOIN Venues v ON v.id = c.venue_id
-//     LEFT JOIN Messages lm ON lm.id = (
-//       SELECT m2.id
-//       FROM Messages m2
-//       WHERE m2.conversation_id = c.id
-//       ORDER BY m2.created_at DESC, m2.id DESC
-//       LIMIT 1
-//     )
-//     LEFT JOIN (
-//       SELECT
-//         m.conversation_id,
-//         COUNT(*) AS unreadCount
-//       FROM Messages m
-//       JOIN Conversations c2 ON c2.id = m.conversation_id
-//       JOIN EventOrganizers eo2 ON eo2.id = c2.organizer_id
-//       JOIN Users organizerUser ON organizerUser.id = eo2.user_id
-//       WHERE c2.manager_id = ?
-//         AND m.sender_id = organizerUser.id
-//         AND m.is_read = 0
-//       GROUP BY m.conversation_id
-//     ) uc ON uc.conversation_id = c.id
-//     WHERE c.manager_id = ?
-//     ORDER BY lm.created_at DESC, c.created_at DESC
-//   `;
-
-//   const [rows] = await pool.query(sql, [managerId, managerId]);
-//   return rows;
-// }
-
-
-
 
 
 

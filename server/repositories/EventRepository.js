@@ -90,15 +90,22 @@ async filterEventsRepo(filters) {
     
 
     let baseSql = `
-        FROM Events e
-        JOIN VenueAvailability va ON e.venue_availability_id = va.id
-        JOIN Venues v ON va.venue_id = v.id
-        JOIN EventTypes et ON e.event_type_id = et.id
-        LEFT JOIN EventTickets etk ON e.id = etk.event_id
-        LEFT JOIN TicketTypes tt ON etk.ticket_type_id = tt.id
-        WHERE e.status_id = 1 
-          AND e.venue_availability_id IS NOT NULL
-    `;
+    FROM Events e
+    JOIN EventOrganizers eo ON eo.id = e.organizer_id
+    JOIN Users u ON u.id = eo.user_id
+
+    JOIN VenueAvailability va ON e.venue_availability_id = va.id
+    JOIN Venues v ON va.venue_id = v.id
+    JOIN EventTypes et ON e.event_type_id = et.id
+    LEFT JOIN EventTickets etk ON e.id = etk.event_id
+    LEFT JOIN TicketTypes tt ON etk.ticket_type_id = tt.id
+
+    WHERE e.status_id = 1
+      AND e.venue_availability_id IS NOT NULL
+      AND u.is_deleted = 0
+   AND TIMESTAMP(e.date, va.end_time) > NOW()
+
+`;
 
     // AND TIMESTAMP(e.date, va.end_time) > NOW()
 
@@ -225,7 +232,7 @@ async filterEventsRepo(filters) {
 
 
 async getEventsByOrganizerRepo(organizerId) {
-    // 1️⃣ Get events with basic info + venue request status
+    //  Get events with basic info + venue request status
     const sql = `
         SELECT 
             e.id AS eventId,
@@ -251,7 +258,7 @@ async getEventsByOrganizerRepo(organizerId) {
 
     const [rows] = await pool.query(sql, [organizerId]);
 
-    // 2️⃣ Loop over each event and fetch venueName
+    //  Loop over each event and fetch venueName
     const eventsWithVenue = await Promise.all(
         rows.map(async (event) => {
             if (!event.eventId) return event;
@@ -277,9 +284,6 @@ async getEventsByOrganizerRepo(organizerId) {
 
     return eventsWithVenue;
 }
-
-
-
 
 
 
@@ -322,32 +326,24 @@ async getEventById(eventId) {
 
 
 
+    async getEventCapacityById(eventId) {
+    const sql = `
+        SELECT capacity
+        FROM Events
+        WHERE id = ?
+    `;
+    const [rows] = await pool.query(sql, [eventId]);
+    return rows[0]?.capacity;
+    }
 
 
-
-
-
-async getEventCapacityById(eventId) {
-  const sql = `
-    SELECT capacity
-    FROM Events
-    WHERE id = ?
-  `;
-  const [rows] = await pool.query(sql, [eventId]);
-  return rows[0]?.capacity;
-}
-
-
-
-
-// 1. Total events for this organizer
     async getDashboardTotalEventsRepo(organizerId) {
         const sql = `SELECT COUNT(*) AS totalEvents FROM events WHERE organizer_id = ?`;
         const [rows] = await pool.query(sql, [organizerId]);
         return { totalEvents: Number(rows[0]?.totalEvents || 0) };
     }
  
-    // 2. Total tickets sold across all organizer events
+ 
     async getDashboardTicketsSoldRepo(organizerId) {
         const sql = `
             SELECT COALESCE(SUM(et.quantity_sold), 0) AS totalTicketsSold

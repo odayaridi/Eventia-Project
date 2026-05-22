@@ -484,7 +484,7 @@
 
 
 
-
+/* 
 
 .venue-chat-page-shell {
   display: flex;
@@ -1013,7 +1013,7 @@
   .venue-chat-send-btn {
     width: 100%;
   }
-}
+} */
 
 
 
@@ -1022,14 +1022,6 @@
 
 
 
-
-
-
-
-
-
-
-/* 
 
 .venue-chat-page-shell {
   display: flex;
@@ -1057,6 +1049,20 @@
   height: calc(100vh - 245px);
   min-height: 620px;
   background: var(--color-surface);
+}
+
+.venue-chat-call-status-bar {
+  min-height: 46px;
+  padding: 0 18px;
+  border-bottom: 1px solid #fed7aa;
+  background: #fff7ed;
+  color: var(--color-primary-dark);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  font-weight: 850;
+  flex-shrink: 0;
 }
 
 .venue-chat-conversation-header {
@@ -1592,7 +1598,7 @@
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1100px) {
   .venue-chat-layout {
     grid-template-columns: 1fr;
   }
@@ -1600,46 +1606,26 @@
   .venue-chat-main-card,
   .venue-chat-sidebar {
     height: auto;
-  }
-
-  .venue-chat-main-card {
-    min-height: 620px;
+    min-height: auto;
   }
 
   .venue-chat-sidebar {
-    min-height: 360px;
+    max-height: 520px;
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 720px) {
   .venue-chat-conversation-header {
-    padding: 16px;
     align-items: flex-start;
-  }
-
-  .venue-chat-conversation-left {
-    align-items: flex-start;
-  }
-
-  .venue-chat-conversation-meta h2 {
-    font-size: 19px;
+    flex-direction: column;
   }
 
   .venue-chat-call-btn {
-    width: 42px;
-    padding: 0;
-  }
-
-  .venue-chat-call-btn span {
-    display: none;
+    width: 100%;
   }
 
   .venue-chat-message-bubble {
-    max-width: 88%;
-  }
-
-  .venue-chat-messages-list {
-    padding: 16px;
+    max-width: 84%;
   }
 
   .venue-chat-composer {
@@ -1649,4 +1635,10 @@
   .venue-chat-send-btn {
     width: 100%;
   }
-} */
+
+  .venue-chat-call-status-bar {
+    align-items: flex-start;
+    padding: 12px 18px;
+    line-height: 1.5;
+  }
+}

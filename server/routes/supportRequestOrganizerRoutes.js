@@ -18,22 +18,18 @@ router.post(
     supportReqOrganizerController.createSupportReqController.bind(supportReqOrganizerController)
 );
 
-
-
-
-
 router.get(
     "/getOrganizerRequests",
-    // authenticateToken,
-    // restrictTo('attendee'),
+    authenticateToken,
+    restrictTo('attendee'),
     supportReqOrganizerController.getOrganizerRequestsController.bind(supportReqOrganizerController)
 );
 
 
 router.put(
     "/resolveOrganizerReq",
-    // authenticateToken,
-    // restrictTo('attendee'),
+    authenticateToken,
+    restrictTo('attendee'),
     resolveRequestValidator,
     validationRequest,
     supportReqOrganizerController.resolveOrganizerController.bind(supportReqOrganizerController)

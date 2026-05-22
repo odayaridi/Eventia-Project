@@ -27,8 +27,8 @@ const adminController = new AdminController();
 // Venue Manager Approval / Rejection
 router.put(
     "/acceptVenueManager",
-    // authenticateToken,
-    // restrictTo('Admin'),
+    authenticateToken,
+    restrictTo('admin'),
     approveVenueManagerValidator,
     validationRequest,
     adminController.acceptVenueManagerController.bind(adminController)
@@ -46,7 +46,8 @@ router.put(
 // Event Organizer Approval / Rejection
 router.put(
     "/acceptEventOrganizer",
-
+    authenticateToken,
+    restrictTo('admin'),
     approveEventOrganizerValidator,
     validationRequest,
     adminController.acceptEventOrganizerController.bind(adminController)
@@ -54,8 +55,8 @@ router.put(
 
 router.put(
     "/rejectEventOrganizer",
-    // authenticateToken,
-    // restrictTo('Admin'),
+   authenticateToken,
+    restrictTo('admin'),
     rejectEventOrganizerValidator,
     validationRequest,
     adminController.rejectEventOrganizerController.bind(adminController)
@@ -68,8 +69,8 @@ router.put(
 
 router.get(
     "/getPendingEventOrganizers",
-    // authenticateToken,
-    // restrictTo('Admin'),
+   authenticateToken,
+    restrictTo('admin'),
     getPendingEventOrganizersValidator,
     validationRequest,
     adminController.getPendingEventOrganizersController.bind(adminController)
@@ -77,8 +78,8 @@ router.get(
 
 router.get(
     "/getPendingVenueManagers",
-    // authenticateToken,
-    // restrictTo('Admin'),
+    authenticateToken,
+    restrictTo('admin'),
     getPendingVenueManagersValidator,
     validationRequest,
     adminController.getPendingVenueManagersController.bind(adminController)
@@ -86,23 +87,12 @@ router.get(
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 /* ==================== ATTENDEES ==================== */
 
 router.get(
     "/getAllAttendees",
-    // authenticateToken,
-    // restrictTo("Admin"),
+     authenticateToken,
+    restrictTo('admin'),
     getAllAttendeesValidator,
     validationRequest,
     adminController.getAllAttendeesController.bind(adminController)
@@ -110,8 +100,8 @@ router.get(
 
 router.put(
     "/updateAttendee",
-    // authenticateToken,
-    // restrictTo("Admin"),
+     authenticateToken,
+    restrictTo('admin'),
     updateAttendeeValidator,
     validationRequest,
     adminController.updateAttendeeController.bind(adminController)
@@ -119,8 +109,8 @@ router.put(
 
 router.put(
     "/deleteAttendee",
-    // authenticateToken,
-    // restrictTo("Admin"),
+      authenticateToken,
+    restrictTo('admin'),
     deleteAttendeeValidator,
     validationRequest,
     adminController.deleteAttendeeController.bind(adminController)
@@ -130,8 +120,8 @@ router.put(
 
 router.get(
     "/getAllEventOrganizers",
-    // authenticateToken,
-    // restrictTo("Admin"),
+     authenticateToken,
+    restrictTo('admin'),
     getAllEventOrganizersValidator,
     validationRequest,
     adminController.getAllEventOrganizersController.bind(adminController)
@@ -139,8 +129,8 @@ router.get(
 
 router.put(
     "/updateEventOrganizerProfileAdmin",
-    // authenticateToken,
-    // restrictTo("Admin"),
+     authenticateToken,
+    restrictTo('admin'),
     updateEventOrganizerProfileAdminValidator,
     validationRequest,
     adminController.updateEventOrganizerProfileAdminController.bind(adminController)
@@ -148,8 +138,8 @@ router.put(
 
 router.put(
     "/deleteEventOrganizer",
-    // authenticateToken,
-    // restrictTo("Admin"),
+     authenticateToken,
+    restrictTo('admin'),
     deleteEventOrganizerValidator,
     validationRequest,
     adminController.deleteEventOrganizerController.bind(adminController)
@@ -159,8 +149,8 @@ router.put(
 
 router.get(
     "/getAllVenueManagers",
-    // authenticateToken,
-    // restrictTo("Admin"),
+     authenticateToken,
+    restrictTo('admin'),
     getAllVenueManagersValidator,
     validationRequest,
     adminController.getAllVenueManagersController.bind(adminController)
@@ -168,8 +158,8 @@ router.get(
 
 router.put(
     "/updateVenueManagerProfileAdmin",
-    // authenticateToken,
-    // restrictTo("Admin"),
+      authenticateToken,
+    restrictTo('admin'),
     updateVenueManagerProfileAdminValidator,
     validationRequest,
     adminController.updateVenueManagerProfileAdminController.bind(adminController)
@@ -177,17 +167,12 @@ router.put(
 
 router.put(
     "/deleteVenueManager",
-    // authenticateToken,
-    // restrictTo("Admin"),
+    authenticateToken,
+    restrictTo('admin'),
     deleteVenueManagerValidator,
     validationRequest,
     adminController.deleteVenueManagerController.bind(adminController)
 );
-
-
-
-
-
 
 
 

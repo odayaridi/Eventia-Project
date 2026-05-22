@@ -6,7 +6,6 @@ import {
   CircleAlert,
   X,
   Inbox,
-  CalendarDays,
 } from "lucide-react";
 import { Paper } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
@@ -113,23 +112,33 @@ const ContactRequests: React.FC = () => {
     fetchManagerRequests();
   }, []);
 
+  const buildResolvePayload = (row: RequestRow) => ({
+    id: row.id,
+    username: row.username,
+    email: row.email,
+    subject: row.subject,
+    message: row.message,
+  });
+
   const handleResolve = async (role: RequestRole, row: RequestRow) => {
     const key = `${role}-${row.id}`;
 
     try {
       setProcessingKey(key);
 
+      const payload = buildResolvePayload(row);
+
       if (role === "attendee") {
-        await resolveAttendeeReq(row.id);
-        showAlert("Attendee request resolved successfully.", "success");
+        await resolveAttendeeReq(payload);
+        showAlert("Attendee request resolved and email sent successfully.", "success");
         await fetchAttendeeRequests();
       } else if (role === "organizer") {
-        await resolveOrganizerReq(row.id);
-        showAlert("Organizer request resolved successfully.", "success");
+        await resolveOrganizerReq(payload);
+        showAlert("Organizer request resolved and email sent successfully.", "success");
         await fetchOrganizerRequests();
       } else {
-        await resolveManagerReq(row.id);
-        showAlert("Manager request resolved successfully.", "success");
+        await resolveManagerReq(payload);
+        showAlert("Manager request resolved and email sent successfully.", "success");
         await fetchManagerRequests();
       }
     } catch (error) {
@@ -438,14 +447,16 @@ const ContactRequests: React.FC = () => {
                   await handleResolve(viewTarget.role, viewTarget.row);
                   setViewTarget(null);
                 }}
-                disabled={processingKey === `${viewTarget.role}-${viewTarget.row.id}`}
+                disabled={
+                  processingKey === `${viewTarget.role}-${viewTarget.row.id}`
+                }
               >
                 <CheckCircle2 size={16} />
-              <span>
-  {processingKey === `${viewTarget.role}-${viewTarget.row.id}`
-    ? "Resolving..."
-    : "Resolve Request"}
-</span>
+                <span>
+                  {processingKey === `${viewTarget.role}-${viewTarget.row.id}`
+                    ? "Resolving..."
+                    : "Resolve Request"}
+                </span>
               </button>
             </div>
           </div>

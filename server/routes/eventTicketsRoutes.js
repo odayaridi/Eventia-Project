@@ -12,8 +12,8 @@ const router = express.Router();
 
 router.get(
     "/get",
-    // authenticateToken,
-    // restrictTo('eventOrganizer'),
+    authenticateToken,
+    restrictTo('eventOrganizer'),
     getEventTicketsValidator,
     validationRequest,
     eventTicketsController.getEventTicketsController.bind(eventTicketsController)
@@ -31,8 +31,8 @@ router.post(
 
 router.put(
     "/update",
-    // authenticateToken,
-    // restrictTo('eventOrganizer'),
+    authenticateToken,
+    restrictTo('eventOrganizer'),
     updateEventTicketValidator,
     validationRequest,
     eventTicketsController.updateEventTicketsController.bind(eventTicketsController)
@@ -42,8 +42,8 @@ router.put(
 
 router.get(
   "/getTicketTypes",
-  // authenticateToken,
-  // restrictTo('eventOrganizer'),
+  authenticateToken,
+  restrictTo('eventOrganizer'),
   eventTicketsController.getTicketTypesController.bind(eventTicketsController)
 );
 
@@ -51,8 +51,8 @@ router.get(
 
 router.get(
   "/getTotalTicketsQuantityAllEvents",
-  // authenticateToken,
-  // restrictTo('eventOrganizer'),
+  authenticateToken,
+  restrictTo('eventOrganizer'),
   eventTicketsController.getEventsTotalTicketsQuantitiesController.bind(eventTicketsController)
 );
 

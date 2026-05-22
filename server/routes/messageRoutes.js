@@ -59,13 +59,6 @@ router.get(
 
 
 
-
-
-
-
-
-
-
 router.get(
   "/unread/organizer",
   // authenticateToken,

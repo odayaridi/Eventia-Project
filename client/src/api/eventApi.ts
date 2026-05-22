@@ -262,59 +262,6 @@ export const getUpcomingEventNamesHelper = async (
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export interface EventTypeItem {
   name: string;
 }
@@ -496,20 +443,6 @@ export const getOrganizerEvents = async (
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export interface UpdateEventPayload {
   eventId: number;
   venueName: string;
@@ -559,56 +492,6 @@ export const updateEventDetails = async (
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export interface CheckInAttendeePayload {
-//   bookingTicketId: number;
-// }
-
-// export interface CheckInAttendeeResponse {
-//   id: number;
-// }
-
-// export const checkInAttendee = async (
-//   payload: CheckInAttendeePayload
-// ): Promise<CheckInAttendeeResponse> => {
-//   try {
-//     const response = await axiosInstance.post<BackendResponse<CheckInAttendeeResponse>>(
-//       "/eventAttendance/checkInAttendee",
-//       payload,
-//       {
-//         _requiresAuth: true,
-//       } as any
-//     );
-
-//     if (!response.data.data) {
-//       throw new Error("Attendee check-in failed.");
-//     }
-
-//     return response.data.data;
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
-
-
 export interface CheckInAttendeePayload {
   ticketCode: string;
 }
@@ -640,16 +523,6 @@ export const checkInAttendee = async (
     throw new Error(getErrorMessage(error));
   }
 };
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -710,14 +583,6 @@ export const getOrganizerEventsFeedbacks = async (
 
 
 
-
-
-
-
-
-
-
-
 export interface AnalyzeEventFeedbackSummaryPayload {
   organizerId: number;
   eventName: string;
@@ -763,12 +628,6 @@ export const analyzeEventFeedbackSummary = async (
 
 
 
-
-
-
-
-
-// ─── ADD these types + methods to your existing eventApi.ts ─────────────────
 
 export interface OrganizerAnnouncementItem {
   announcementId: number;
@@ -824,22 +683,6 @@ export const createAnnouncement = async (
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export interface OrganizerProfileItem {
   userId: number;
   firstName: string;
@@ -870,11 +713,6 @@ export const getEventOrganizerProfile = async (
 
 
 
-
-
-
-
-
 export interface ChatbotReplyResponse {
   success: boolean;
   reply: string;
@@ -899,27 +737,6 @@ export const askEventChatbot = async (
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ─── ADD these types + 9 methods to your existing eventApi.ts ────────────────
-
-// ── Types ────────────────────────────────────────────────────────────────────
 
 export interface DashboardTotalEvents      { totalEvents: number }
 export interface DashboardTicketsSold     { totalTicketsSold: number }
@@ -982,14 +799,6 @@ export const getDashboardTotalAnnouncements = (organizerId: number) =>
 
 export const getDashboardTotalFeedbacks = (organizerId: number) =>
   dashboardGet<DashboardTotalFeedbacks>(`/event/dashboard/totalFeedbacks/${organizerId}`);
-
-
-
-
-
-
-
-
 
 
 
@@ -1102,12 +911,6 @@ export const getAttendanceSummary = async (
 
 
 
-
-
-
-
-
-
 export interface TicketTypeItem {
   name: string;
 }
@@ -1126,8 +929,6 @@ export const getTicketTypes = async (): Promise<TicketTypeItem[]> => {
     throw new Error(getErrorMessage(error));
   }
 };
-
-
 
 
 
@@ -1211,94 +1012,6 @@ export const getTotalTicketsQuantityAllEvents = async (): Promise<
   }
 };
 
-
-
-
-
-
-// export interface VenueChattingItem {
-//   venueId: number;
-//   venueName: string;
-//   managerId: number;
-//   managerName: string;
-// }
-
-// export interface ConversationItem {
-//   id: number;
-//   organizerId: number;
-//   managerId: number;
-//   venueId: number | null;
-//   createdAt: string;
-// }
-
-// export interface ChatMessageItem {
-//   id: number;
-//   conversationId: number;
-//   senderId: number;
-//   senderUsername: string;
-//   message: string;
-//   isRead: number | boolean;
-//   createdAt: string;
-// }
-
-// export const getVenuesChatting = async (
-//   organizerId: number
-// ): Promise<VenueChattingItem[]> => {
-//   try {
-//     const response = await axiosInstance.get<BackendResponse<VenueChattingItem[]>>(
-//       "/messages/getVenuesChatting",
-//       {
-//         params: { organizerId },
-//         _requiresAuth: true,
-//       } as any
-//     );
-
-//     return response.data.data || [];
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
-
-// export const createOrGetConversation = async (payload: {
-//   organizerId: number;
-//   managerId: number;
-//   venueId?: number | null;
-// }): Promise<ConversationItem> => {
-//   try {
-//     const response = await axiosInstance.post<BackendResponse<ConversationItem>>(
-//       "/messages/conversation",
-//       payload,
-//       {
-//         _requiresAuth: true,
-//       } as any
-//     );
-
-//     if (!response.data.data) {
-//       throw new Error("Failed to create or retrieve conversation.");
-//     }
-
-//     return response.data.data;
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
-
-// export const getConversationMessages = async (
-//   conversationId: number
-// ): Promise<ChatMessageItem[]> => {
-//   try {
-//     const response = await axiosInstance.get<BackendResponse<ChatMessageItem[]>>(
-//       `/messages/${conversationId}/messages`,
-//       {
-//         _requiresAuth: true,
-//       } as any
-//     );
-
-//     return response.data.data || [];
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
 
 
 
@@ -1456,3 +1169,36 @@ export const deleteEvent = async (eventId: number): Promise<void> => {
     throw new Error(getErrorMessage(error));
   }
 };
+
+
+
+export type WebRTCCallType = "audio";
+
+export interface WebRTCAck {
+  success: boolean;
+  message: string;
+  receiverUserId?: number;
+}
+
+export interface WebRTCIncomingCallPayload {
+  conversationId: number;
+  callerUserId: number;
+  receiverUserId: number;
+  callerUsername: string;
+  callType: WebRTCCallType;
+  offer: RTCSessionDescriptionInit;
+}
+
+export interface WebRTCAnswerPayload {
+  conversationId: number;
+  callerUserId: number;
+  receiverUserId: number;
+  answer: RTCSessionDescriptionInit;
+}
+
+export interface WebRTCIceCandidatePayload {
+  conversationId: number;
+  senderUserId: number;
+  receiverUserId: number;
+  candidate: RTCIceCandidateInit;
+}

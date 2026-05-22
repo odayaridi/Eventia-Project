@@ -9,6 +9,8 @@ const {
   editTicketTypeValidator,
   deleteTicketTypeValidator,
 } = require("../validations/platformSettingsValidation");
+const authenticateToken = require("../middleware/authenticateToken");
+const restrictTo = require("../middleware/restrictTo");
 
 const router = express.Router();
 const platformSettingsController = new PlatformSettingsController();
@@ -17,15 +19,15 @@ const platformSettingsController = new PlatformSettingsController();
 
 router.get(
   "/getEventTypeNames",
-  // authenticateToken,
-  // restrictTo("Admin"),
+  authenticateToken,
+    restrictTo('admin'),
   platformSettingsController.getEventTypeNamesController.bind(platformSettingsController)
 );
 
 router.post(
   "/addEventType",
-  // authenticateToken,
-  // restrictTo("Admin"),
+  authenticateToken,
+    restrictTo('admin'),
   addEventTypeValidator,
   validationRequest,
   platformSettingsController.addEventTypeController.bind(platformSettingsController)
@@ -33,8 +35,8 @@ router.post(
 
 router.put(
   "/editEventType",
-  // authenticateToken,
-  // restrictTo("Admin"),
+  authenticateToken,
+    restrictTo('admin'),
   editEventTypeValidator,
   validationRequest,
   platformSettingsController.editEventTypeController.bind(platformSettingsController)
@@ -42,8 +44,8 @@ router.put(
 
 router.put(
   "/deleteEventType",
-  // authenticateToken,
-  // restrictTo("Admin"),
+  authenticateToken,
+    restrictTo('admin'),
   deleteEventTypeValidator,
   validationRequest,
   platformSettingsController.deleteEventTypeController.bind(platformSettingsController)
@@ -53,15 +55,15 @@ router.put(
 
 router.get(
   "/getTicketTypeNames",
-  // authenticateToken,
-  // restrictTo("Admin"),
+  authenticateToken,
+    restrictTo('admin'),
   platformSettingsController.getTicketTypeNamesController.bind(platformSettingsController)
 );
 
 router.post(
   "/addTicketType",
-  // authenticateToken,
-  // restrictTo("Admin"),
+  authenticateToken,
+    restrictTo('admin'),
   addTicketTypeValidator,
   validationRequest,
   platformSettingsController.addTicketTypeController.bind(platformSettingsController)
@@ -69,8 +71,8 @@ router.post(
 
 router.put(
   "/editTicketType",
-  // authenticateToken,
-  // restrictTo("Admin"),
+  authenticateToken,
+  restrictTo('admin'),
   editTicketTypeValidator,
   validationRequest,
   platformSettingsController.editTicketTypeController.bind(platformSettingsController)
@@ -78,8 +80,8 @@ router.put(
 
 router.put(
   "/deleteTicketType",
-  // authenticateToken,
-  // restrictTo("Admin"),
+  authenticateToken,
+  restrictTo('admin'),
   deleteTicketTypeValidator,
   validationRequest,
   platformSettingsController.deleteTicketTypeController.bind(platformSettingsController)

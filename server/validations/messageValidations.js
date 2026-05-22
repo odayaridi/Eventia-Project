@@ -46,13 +46,6 @@ exports.getOrganizersChattingValidator = [
 ];
 
 
-
-
-
-
-
-
-
 exports.getOrganizerUnreadSummaryValidator = [
   query("organizerId")
     .notEmpty()

@@ -20,51 +20,6 @@ class AuthService {
   }
 
 
-
-  //  async registerService(userCredentials) {
-  //   const role = await this.roleRepo.findRoleByName(userCredentials.role);
-  //   if (!role) throw new HttpError('Invalid role', 400);
-
-  //   const exists = await this.userRepo.findUserByEmailOrUsername(userCredentials.email, userCredentials.username);
-  //   if (exists) throw new HttpError('User already exists', 400);
-
-
-  //   const userExists = await this.userRepo.findUserByPhone(userCredentials.phoneNumber);
-  //   if(userExists) {
-  //     throw new HttpError('User already exists')
-  //   }
-
-  //   const hashed = await bcrypt.hash(userCredentials.password, 10);
-
-  //   const newUser = await this.userRepo.createUser({
-  //     email: userCredentials.email,
-  //     username: userCredentials.username,
-  //     password: hashed,
-  //     phoneNumber: userCredentials.phoneNumber,
-  //     roleId: role.id,
-  //   });
-
-  //   switch (role.name) {
-  //     case 'Attendee':
-  //       await this.attendeeRepo.createAttendee(newUser.id);
-  //       break;
-  //     case 'Event Organizer':
-  //       await this.eventOrganizerRepo.createEventOrganizer(
-  //         newUser.id, 
-  //         userCredentials.organization, 
-  //         userCredentials.commercialRegistrationDocument // This is now the filename string
-  //       );
-  //       break;
-  //     case 'Venue Manager':
-  //       await this.venueManagerRepo.createVenueManager(
-  //         newUser.id, 
-  //         userCredentials.venueAuthorizationDocument // This is now the filename string
-  //       );
-  //       break;
-  //   }
-  // }
-
-
   async registerService(userCredentials) {
   const role = await this.roleRepo.findRoleByName(userCredentials.role);
   if (!role) throw new HttpError('Invalid role', 400);
@@ -74,11 +29,11 @@ class AuthService {
     userCredentials.username
   );
 
-  if (exists) throw new HttpError('User already exists', 400);
+  if (exists) throw new HttpError('User already exists with this email or username', 400);
 
   const userExists = await this.userRepo.findUserByPhone(userCredentials.phoneNumber);
   if (userExists) {
-    throw new HttpError('User already exists', 400);
+    throw new HttpError('User already exists with this phone number', 400);
   }
 
   const hashed = await bcrypt.hash(userCredentials.password, 10);
@@ -173,83 +128,22 @@ async login(dto) {
 
   const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
 
-  // return {
-  //   accessToken: token,
-  //   user: {
-  //     username: user.username,
-  //     email: user.email,
-  //     phoneNumber: user.phone_number,
-  //     role: roleMap[user.roleName],
-  //     ...roleIdField,
-  //   },
-  // };
-
 
 
    return {
     accessToken: token,
- user: {
-  userId: user.id,   // ✅ ADD THIS
-  username: user.username,
-  email: user.email,
-  phoneNumber: user.phone_number,
-  role: roleMap[user.roleName],
-  ...roleIdField,
-},
+    user: {
+      userId: user.id,   
+      username: user.username,
+      email: user.email,
+      phoneNumber: user.phone_number,
+      role: roleMap[user.roleName],
+      ...roleIdField,
+    },
   };
-
-  
 }
 
 
-
-
-
-
-
-
-
-
-
-// ////////////////////////////////////////////////////////
-// /////////// FORGOT PASSWORD
-// ////////////////////////////////////////////////////////
-
-// async forgotPassword(email){
-
-//   const user = await this.authRepo.findUserByEmail(email);
-
-//   if(!user){
-//     throw new HttpError('Email is not registered in our system to change the password',404)// prevent email enumeration
-//   }
-
-//   const token = jwt.sign(
-//     {
-//       userId:user.id,
-//       purpose:"password_reset"
-//     },
-//     process.env.JWT_RESET_SECRET,
-//     { expiresIn:"15m" }
-//   );
-
-//   const resetLink =
-//     `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
-
-//   const html = `
-//     <h3>Password Reset</h3>
-//     <p>Click the link below to reset your password:</p>
-//     <a href="${resetLink}">${resetLink}</a>
-//     <p>This link expires in 15 minutes.</p>
-//   `;
-
-//   await sendMail(user.email,"Reset your password",html);
-// }
-
-
-
-////////////////////////////////////////////////////////
-/////////// FORGOT PASSWORD
-////////////////////////////////////////////////////////
 
 async forgotPassword(email) {
   const user = await this.authRepo.findUserByEmail(email);
@@ -382,10 +276,6 @@ async forgotPassword(email) {
 }
 
 
-////////////////////////////////////////////////////////
-/////////// VERIFY RESET TOKEN
-////////////////////////////////////////////////////////
-
 async verifyResetToken(token){
 
   try{
@@ -406,9 +296,7 @@ async verifyResetToken(token){
   }
 }
 
-////////////////////////////////////////////////////////
-/////////// RESET PASSWORD
-////////////////////////////////////////////////////////
+
 
 async resetPassword(token,newPassword){
 

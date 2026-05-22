@@ -1,109 +1,3 @@
-// import axiosInstance from "./interceptor/axiosInstance";
-
-// // ─── Types ────────────────────────────────────────────────────────────────────
-
-// export interface EventTicket {
-//   eventTicketId: number;
-//   ticketTypeName: string;
-//   eventTicketPerks: string;
-//   ticketPrice: string;
-//   quantityAvailable: number;
-//   quantitySold: number;
-//   remainingTickets: number;
-// }
-
-// export interface EventResult {
-//   eventId: number;
-//   organizerId: number;
-//   venueAvailabilityId: number;
-//   eventName: string;
-//   eventDescription: string;
-//   imageUrl: string;
-//   eventDate: string;
-//   startTime: string;
-//   endTime: string;
-//   eventCapacity: number;
-//   venueName: string;
-//   eventType: string;
-//   tickets: EventTicket[];
-// }
-
-// export interface EventFilterParams {
-//   page?: number;
-//   limit?: number;
-//   eventName?: string;
-//   venueName?: string;
-//   eventTypeName?: string;
-//   date?: string;
-//   startTime?: string;
-//   endTime?: string;
-//   description?: string;
-//   location?: string;
-// }
-
-// export interface FilterEventsResponse {
-//   events: EventResult[];
-//   total: number;
-//   page: number;
-//   limit: number;
-//   totalPages: number;
-// }
-
-// interface BackendResponse<T = unknown> {
-//   success: string | boolean;
-//   message: string;
-//   data?: T;
-//   error?: string;
-// }
-
-// const getErrorMessage = (error: unknown): string => {
-//   const fallback = "Something went wrong. Please try again.";
-
-//   if (
-//     typeof error === "object" &&
-//     error !== null &&
-//     "response" in error &&
-//     typeof (error as { response?: unknown }).response === "object"
-//   ) {
-//     const response = (error as {
-//       response?: { data?: { error?: string; message?: string } };
-//     }).response;
-//     return response?.data?.error || response?.data?.message || fallback;
-//   }
-
-//   if (error instanceof Error) {
-//     return error.message;
-//   }
-
-//   return fallback;
-// };
-
-// // ─── Filter Events ────────────────────────────────────────────────────────────
-
-// export const filterEvents = async (
-//   params: EventFilterParams
-// ): Promise<FilterEventsResponse> => {
-//   try {
-//     const response = await axiosInstance.get<BackendResponse<FilterEventsResponse>>(
-//       "/event/filterEvents",
-//       {
-//         params,
-//         _requiresAuth: true, // Added flag
-//       } as any
-//     );
-
-//     if (!response.data.data) {
-//       throw new Error("Failed to retrieve events.");
-//     }
-
-//     return response.data.data;
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
-
-
-
 import axiosInstance from "./interceptor/axiosInstance";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -264,13 +158,6 @@ export const sendAttendeeSupport = async (
 
 
 
-
-
-
-
-
-
-
 export interface AttendeeBookingTicket {
   ticketType: string;
   quantity: number;
@@ -309,21 +196,6 @@ export const getAttendeeBookings = async (
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ─── ADD these types + method to your existing attendeeApi.ts ────────────────
-
 export interface CheckoutTicketItem {
   eventTicketId: number;
   quantity: number;
@@ -341,8 +213,6 @@ export interface CreateCheckoutSessionResponse {
   success: boolean;
   url: string;
 }
-
-// ─── ADD this function to your existing attendeeApi.ts ────────────────────────
 
 export const createCheckoutSession = async (
   payload: CreateCheckoutSessionPayload
@@ -363,46 +233,6 @@ export const createCheckoutSession = async (
     throw new Error(getErrorMessage(error));
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-// export interface AttendeeBookingTicketItem {
-//   eventName: string;
-//   eventDate: string;
-//   eventTime: string;
-//   venueName: string;
-//   qrCode: string;
-//   quantity: number;
-//   price: string;
-//   ticketTypeName: string;
-//   purchased: string;
-// }
-
-// export const getAttendeeBookingTickets = async (
-//   attendeeId: number
-// ): Promise<AttendeeBookingTicketItem[]> => {
-//   try {
-//     const response = await axiosInstance.get<
-//       BackendResponse<AttendeeBookingTicketItem[]>
-//     >("/bookingTickets/getAttendeeBookingTickets", {
-//       params: { attendeeId },
-//       _requiresAuth: true,
-//     } as any);
-
-//     return Array.isArray(response.data.data) ? response.data.data : [];
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
 
 
 
@@ -467,14 +297,6 @@ export const getAttendeeBookingTickets = async (
 
 
 
-
-
-
-
-
-
-
-
 export interface AskChatbotPayload {
   prompt: string;
 }
@@ -513,19 +335,6 @@ export const askAttendeeChatbot = async (
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 export interface SendEventFeedbackPayload {
   eventId: number;
   attendeeId: number;
@@ -548,52 +357,6 @@ export const sendEventFeedback = async (
     throw new Error(getErrorMessage(error));
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export interface CheckAttendeeRatedPayload {
-//   attendeeId: number;
-//   eventId: number;
-// }
-
-// export interface CheckAttendeeRatedResponse {
-//   success: boolean;
-//   message: string;
-//   ratingExists: boolean;
-// }
-
-// export const checkAttendeeRated = async (
-//   payload: CheckAttendeeRatedPayload
-// ): Promise<boolean> => {
-//   try {
-//     const response = await axiosInstance.get<CheckAttendeeRatedResponse>(
-//       "/eventFeedback/checkAttendeeRated",
-//       {
-//         params: {
-//           attendeeId: payload.attendeeId,
-//           eventId: payload.eventId,
-//         },
-//         _requiresAuth: true,
-//       } as any
-//     );
-
-//     return Boolean(response.data.ratingExists);
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
-
-
 
 
 
@@ -682,25 +445,6 @@ export const checkAttendeeRated = async (
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ─── ADD these types + methods to your existing attendeeApi.ts ───────────────
-
 export interface AnnouncementItem {
   announcementId: number;
   eventId: number;
@@ -730,20 +474,6 @@ export const getAttendeeAnnouncements = async (
     throw new Error(getErrorMessage(error));
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

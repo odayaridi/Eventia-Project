@@ -6,40 +6,6 @@ class VenueController {
     }
 
 
-    // {
-//   "name": "HERO ROOK",
-//   "location": "Beirut City Center",
-//   "locationLink": "https://maps.google.com/?q=Beirut",
-//   "capacity": 193,
-//   "facilities": "Stage, Sound System, Lighting",
-//   "managerId": 2
-// }
-
-
-    // async createVenueController(req, res, next) {
-    //     try {
-    //         const data = await this.venueService.createVenueService(req.body);
-    //         res.status(201).json({ success: "true", message: "Venue created successfully", data });
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // }
-
-    
-
-
-
-
-    // async updateVenueController(req, res, next) {
-    //     try {
-    //         const data = await this.venueService.updateVenueService(req.body);
-    //         res.status(200).json({ success: "true", message: "Venue updated successfully", data });
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // }
-
-
 
     async createVenueController(req, res, next) {
     try {
@@ -60,24 +26,24 @@ class VenueController {
     }
 }
 
-async updateVenueController(req, res, next) {
-    try {
-        const images = req.files || [];
+        async updateVenueController(req, res, next) {
+            try {
+                const images = req.files || [];
 
-        const data = await this.venueService.updateVenueService(
-            req.body,
-            images
-        );
+                const data = await this.venueService.updateVenueService(
+                    req.body,
+                    images
+                );
 
-        res.status(200).json({
-            success: "true",
-            message: "Venue updated successfully",
-            data
-        });
-    } catch (error) {
-        next(error);
-    }
-}
+                res.status(200).json({
+                    success: "true",
+                    message: "Venue updated successfully",
+                    data
+                });
+            } catch (error) {
+                next(error);
+            }
+        }
 
 
     async filterVenuesController(req, res, next) {
@@ -118,23 +84,6 @@ async updateVenueController(req, res, next) {
             next(error);
         }
     }
-
-
-    // async fetchEventRequestsController(req,res,next){
-    //     try {
-    //       // Inside fetchEventRequestsController
-    //     const { managerId, page, limit } = req.query; // Ensure it says req.query here!
-           
-    //         const data = await this.venueService.fetchEventRequestsService({ managerId, page, limit });
-    //         if (data.length == 0){
-    //             return res.status(200).json({ success: "true", message: "No Events Requests are available to fetch", data });
-    //         } 
-    //         res.status(200).json({ success: "true", message: "Events Requests are fetched successfully", data });
-    //     } catch (error) {
-    //         next(error)
-    //     }
-    // }
-
 
 
     async fetchEventRequestsController(req, res, next) {
@@ -192,14 +141,7 @@ async updateVenueController(req, res, next) {
              next(error);
         }
     }
-
-
-
-
-
-
-
-
+    
        async getVenueDashboardStatsController(req, res, next) {
         try {
             const { managerId } = req.params;

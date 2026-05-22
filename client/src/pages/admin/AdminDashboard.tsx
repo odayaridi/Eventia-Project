@@ -219,7 +219,7 @@ const AdminDashboard: React.FC = () => {
   const barData = [
     { name: "Attendees",        count: totalAttendees },
     { name: "Event Organizers", count: totalOrganizers },
-    { name: "Venue Managers",   count: totalManagers },
+    { name: "Venue Owners",   count: totalManagers },
   ];
 
   const vmPieData = [
@@ -352,7 +352,7 @@ const AdminDashboard: React.FC = () => {
                   <div className="ad-pie-block">
                     <p className="ad-pie-label">
                       <Building2 size={13} />
-                      Venue Managers
+                      Venue Owners
                       <span className="ad-pie-total">({vmTotal})</span>
                     </p>
                     <ResponsiveContainer width="100%" height={180}>
@@ -441,7 +441,7 @@ const AdminDashboard: React.FC = () => {
                       <div className="ad-quick-icon ad-icon-blue">
                         <Building2 size={15} />
                       </div>
-                      <span className="ad-quick-label">Pending Venue Managers</span>
+                      <span className="ad-quick-label">Pending Venue Owners</span>
                       <span className="ad-quick-value">{pendingVM}</span>
                     </div>
                     <div className="ad-quick-row">

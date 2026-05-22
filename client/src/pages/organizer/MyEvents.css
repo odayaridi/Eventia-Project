@@ -5,10 +5,15 @@
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
+  margin-bottom: 24px;
 }
 
 .page-title {
   margin: 0 0 6px;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
 }
 
 .page-subtitle {
@@ -22,8 +27,8 @@
 /* ── Primary Button ─────────────────────────────────────────── */
 .my-events-primary-btn {
   border: none;
-  border-radius: 12px;
-  height: 44px;
+  border-radius: 10px;
+  height: 42px;
   padding: 0 18px;
   display: inline-flex;
   align-items: center;
@@ -34,22 +39,24 @@
   cursor: pointer;
   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
   color: #ffffff;
-  box-shadow: 0 10px 20px rgba(249, 115, 22, 0.16);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 16px rgba(249, 115, 22, 0.22);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
   white-space: nowrap;
   flex-shrink: 0;
+  letter-spacing: 0.2px;
 }
 
 .my-events-primary-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 24px rgba(249, 115, 22, 0.2);
+  box-shadow: 0 10px 22px rgba(249, 115, 22, 0.28);
+  filter: brightness(1.04);
 }
 
 /* ── State Cards ────────────────────────────────────────────── */
 .my-events-state-card,
 .my-events-empty-card {
   min-height: 110px;
-  border-radius: 18px;
+  border-radius: 16px;
 }
 
 .my-events-loading {
@@ -70,7 +77,7 @@
   justify-content: center;
   gap: 12px;
   text-align: center;
-  padding: 30px 22px;
+  padding: 36px 22px;
 }
 
 .my-events-empty-card h3 {
@@ -88,9 +95,9 @@
 }
 
 .my-events-empty-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 14px;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
   background: var(--color-primary-soft);
   color: var(--color-primary);
   display: flex;
@@ -99,11 +106,13 @@
 }
 
 /* ── Events Grid ────────────────────────────────────────────── */
+/* Fluid grid — cards keep a comfortable size (~340px) and flow naturally
+   so the 4th card sits next to the 3rd on wider screens. */
 .my-events-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(280px, 360px));
-  gap: 20px;
-  align-items: start;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 22px;
+  align-items: stretch;
 }
 
 /* ── Individual Event Card ──────────────────────────────────── */
@@ -112,29 +121,27 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  border: 1px solid var(--color-border);
-  border-radius: 20px;
+  border: 1px solid #e8edf3;
+  border-radius: 16px;
   overflow: hidden;
-  background: var(--color-surface);
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.04);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .my-event-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
-  border-color: #f3d2bc;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.06), 0 16px 32px rgba(15, 23, 42, 0.08);
+  border-color: #dbe3ec;
 }
 
 /* ── Image Wrap ─────────────────────────────────────────────── */
 .my-event-image-wrap {
   position: relative;
   width: 100%;
-  height: 210px;
-  aspect-ratio: 16 / 8.5;
+  aspect-ratio: 16 / 9;
   background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
   overflow: hidden;
-  border-bottom: 1px solid #edf2f7;
   flex-shrink: 0;
 }
 
@@ -143,11 +150,11 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease;
 }
 
 .my-event-card:hover .my-event-image {
-  transform: scale(1.02);
+  transform: scale(1.04);
 }
 
 .my-event-image-placeholder {
@@ -162,41 +169,62 @@
     linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
 }
 
+.my-event-image-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.18) 0%,
+    rgba(15, 23, 42, 0) 35%,
+    rgba(15, 23, 42, 0) 65%,
+    rgba(15, 23, 42, 0.12) 100%
+  );
+  pointer-events: none;
+}
+
 /* ── Status Badge ───────────────────────────────────────────── */
 .my-event-status-badge {
   position: absolute;
   top: 12px;
   right: 12px;
-  min-height: 28px;
-  padding: 5px 12px;
+  z-index: 2;
+  height: 26px;
+  padding: 0 10px;
   border-radius: 999px;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-transform: capitalize;
-  letter-spacing: 0.2px;
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+  letter-spacing: 0.3px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
 }
 
 .my-event-status-badge.approved {
-  background: #dcfce7;
+  background: rgba(220, 252, 231, 0.95);
   color: #15803d;
+  border-color: rgba(134, 239, 172, 0.7);
 }
 
 .my-event-status-badge.rejected {
-  background: #fee2e2;
-  color: #dc2626;
+  background: rgba(254, 226, 226, 0.95);
+  color: #b91c1c;
+  border-color: rgba(252, 165, 165, 0.7);
 }
 
 .my-event-status-badge.pending {
-  background: #ffedd5;
-  color: #ea580c;
+  background: rgba(255, 237, 213, 0.95);
+  color: #c2410c;
+  border-color: rgba(253, 186, 116, 0.7);
 }
 
 .my-event-status-badge.default {
-  background: #f1f5f9;
+  background: rgba(241, 245, 249, 0.95);
   color: #475569;
 }
 
@@ -204,7 +232,8 @@
 .my-event-content {
   display: flex;
   flex-direction: column;
-  padding: 16px 16px 14px;
+  flex: 1;
+  padding: 18px 20px 20px;
 }
 
 .my-event-top {
@@ -212,55 +241,49 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 10px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
+/* Title — full text, wraps onto multiple lines, no ellipsis */
 .my-event-title {
   margin: 0;
   min-width: 0;
   flex: 1;
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 17px;
+  font-weight: 700;
   color: var(--color-text);
-  line-height: 1.3;
+  line-height: 1.35;
   letter-spacing: -0.01em;
   word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .my-event-type-badge {
-  height: 26px;
+  height: 24px;
   padding: 0 10px;
-  border-radius: 999px;
+  border-radius: 6px;
   background: #fff7ed;
-  color: #ea580c;
+  color: #c2410c;
   border: 1px solid #fed7aa;
-  font-size: 11px;
-  font-weight: 800;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
+/* Description — full text, no clamp, no ellipsis */
 .my-event-description {
-  margin: 0 0 12px;
+  margin: 0 0 14px;
   font-size: 13px;
   color: var(--color-text-muted);
-  line-height: 1.55;
+  line-height: 1.6;
   word-break: break-word;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-}
-
-.my-event-description--with-button {
-  -webkit-line-clamp: 2;
-  min-height: 40px;
-}
-
-.my-event-description--full {
-  -webkit-line-clamp: 2;
-  min-height: 40px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 
 /* ── Meta List ──────────────────────────────────────────────── */
@@ -269,16 +292,19 @@
   flex-direction: column;
   gap: 8px;
   margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px dashed #eef2f7;
 }
 
 .my-event-meta-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 9px;
   min-width: 0;
   font-size: 13px;
-  color: #64748b;
+  color: #475569;
   line-height: 1.4;
+  font-weight: 500;
 }
 
 .my-event-meta-item span {
@@ -289,37 +315,40 @@
 .my-event-meta-item svg {
   color: var(--color-primary);
   flex-shrink: 0;
+  opacity: 0.9;
 }
 
 /* ── Footer / Update Button ─────────────────────────────────── */
 .my-events-update-btn {
-  margin-top: 14px;
+  margin-top: 16px;
   width: 100%;
   height: 40px;
   border: 1px solid #fed7aa;
-  border-radius: 12px;
+  border-radius: 10px;
   background: #fffaf5;
   color: var(--color-primary);
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
   font-family: inherit;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 .my-events-update-btn:hover {
   background: #fff3e8;
   border-color: #fdba74;
   transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(249, 115, 22, 0.14);
 }
 
 .my-events-card-footer-spacer {
-  height: 40px;
-  margin-top: 14px;
+  height: 0;
+  margin-top: 0;
 }
 
 /* ── Spin icon ──────────────────────────────────────────────── */
@@ -331,19 +360,12 @@
   from {
     transform: rotate(0deg);
   }
-
   to {
     transform: rotate(360deg);
   }
 }
 
 /* ── Responsive ─────────────────────────────────────────────── */
-@media (max-width: 1280px) {
-  .my-events-grid {
-    grid-template-columns: repeat(2, minmax(280px, 360px));
-  }
-}
-
 @media (max-width: 900px) {
   .my-events-header-row {
     flex-direction: column;
@@ -354,10 +376,6 @@
     width: 100%;
     justify-content: center;
   }
-
-  .my-events-grid {
-    grid-template-columns: repeat(2, minmax(260px, 1fr));
-  }
 }
 
 @media (max-width: 640px) {
@@ -367,55 +385,49 @@
   }
 
   .my-event-content {
-    padding: 14px 14px 14px;
+    padding: 16px 16px 18px;
   }
 
   .my-event-title {
-    font-size: 17px;
+    font-size: 16px;
   }
 }
 
-
-
-
-
-
-
-
-
-
-
+/* ── Delete icon button ─────────────────────────────────────── */
 .my-events-delete-icon-btn {
   position: absolute;
   top: 12px;
   left: 12px;
-  z-index: 2;
-  width: 34px;
-  height: 34px;
-  border: 1px solid #fecaca;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.94);
+  z-index: 3;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(252, 165, 165, 0.7);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.95);
   color: #dc2626;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
-  transition: all 0.2s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+  transition: all 0.18s ease;
 }
 
 .my-events-delete-icon-btn:hover {
   background: #fef2f2;
-  border-color: #fca5a5;
+  border-color: #f87171;
   transform: translateY(-1px);
 }
 
+/* ── Confirm Delete Dialog ──────────────────────────────────── */
 .my-events-dialog-backdrop {
   position: fixed;
   inset: 0;
   z-index: 1200;
-  background: rgba(15, 23, 42, 0.48);
-  backdrop-filter: blur(5px);
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -424,18 +436,19 @@
 
 .my-events-dialog {
   width: min(100%, 420px);
-  border-radius: 22px;
+  border-radius: 18px;
   background: #ffffff;
   border: 1px solid var(--color-border);
-  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.28);
-  padding: 24px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+  padding: 26px;
 }
 
 .my-events-dialog h3 {
   margin: 0;
-  font-size: 20px;
-  font-weight: 850;
+  font-size: 18px;
+  font-weight: 800;
   color: var(--color-text);
+  letter-spacing: -0.01em;
 }
 
 .my-events-dialog p {
@@ -455,12 +468,13 @@
 .my-events-dialog-cancel-btn,
 .my-events-dialog-delete-btn {
   height: 40px;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 0 16px;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
   cursor: pointer;
   border: 1px solid var(--color-border);
+  transition: all 0.18s ease;
 }
 
 .my-events-dialog-cancel-btn {
@@ -468,10 +482,24 @@
   color: var(--color-text);
 }
 
+.my-events-dialog-cancel-btn:hover {
+  background: #f8fafc;
+}
+
 .my-events-dialog-delete-btn {
   border-color: #dc2626;
   background: #dc2626;
   color: #ffffff;
+  box-shadow: 0 6px 14px rgba(220, 38, 38, 0.22);
 }
 
+.my-events-dialog-delete-btn:hover {
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
 
+.my-events-dialog-cancel-btn:disabled,
+.my-events-dialog-delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

@@ -12,33 +12,6 @@ class EventAttendanceService {
         this.eventRepo = new EventRepository();
     }
 
-    // async insertEventAttendanceService(bookingTicketId) {
-    //     const ticketId = await this.ticketsRepo.getTicketIdByBookingTicketId(bookingTicketId);
-    //     const eventId = await this.bookingTicketRepo.getEventIdByBookingTicketId(bookingTicketId);
-
-    //     if (!ticketId || !eventId) {
-    //         throw new HttpError('Invalid ticket', 404);
-    //     }
-
-    //     const attendeeAttendanceExists = await this.eventAttendanceRepo.checkAttendeeAttendanceExists(eventId, ticketId);
-
-    //     if (attendeeAttendanceExists) {
-    //         throw new HttpError('Attendee already checked in', 409);
-    //     }
-
-    //     const checkInTime = new Date();
-
-    //     const result = await this.eventAttendanceRepo.insertEventAttendanceRepo({
-    //         eventId,
-    //         ticketId,
-    //         checkInTime
-    //     });
-
-    //     return { id: result.insertId };
-    // }
-
-
-
       async insertEventAttendanceService(ticketCode) {
     const ticket = await this.ticketsRepo.getTicketByCode(ticketCode);
 
@@ -57,7 +30,6 @@ class EventAttendanceService {
       throw new HttpError("Ticket already checked in", 409);
     }
 
-    // 3️⃣ Insert attendance
     const result = await this.eventAttendanceRepo.insertEventAttendanceRepo({
       eventId,
       ticketId,
@@ -116,32 +88,30 @@ class EventAttendanceService {
 
 
 
+    async getEventAttendancePieChart(eventName) {
+      const eventId = await this.eventRepo.getEventIdByName(eventName);
+      if(!eventId) {
+        throw new HttpError('Event does not exists');
+      }
 
+      const attendedResult = await this.eventAttendanceRepo.countEventAttendance(eventId);
+      const nonAttendedResult = await this.eventAttendanceRepo.countNonAttendedTicketsByEvent(eventId);
 
- async getEventAttendancePieChart(eventName) {
-  const eventId = await this.eventRepo.getEventIdByName(eventName);
-  if(!eventId) {
-    throw new HttpError('Event does not exists');
-  }
+      const attended = attendedResult.attendanceCount || 0;
+      const nonAttended = nonAttendedResult.nonAttendedCount || 0;
 
-  const attendedResult = await this.eventAttendanceRepo.countEventAttendance(eventId);
-  const nonAttendedResult = await this.eventAttendanceRepo.countNonAttendedTicketsByEvent(eventId);
+      const total = attended + nonAttended;
 
-  const attended = attendedResult.attendanceCount || 0;
-  const nonAttended = nonAttendedResult.nonAttendedCount || 0;
+      const attendedPercentage = total ? (attended / total) * 100 : 0;
+      const nonAttendedPercentage = total ? (nonAttended / total) * 100 : 0;
 
-  const total = attended + nonAttended;
-
-  const attendedPercentage = total ? (attended / total) * 100 : 0;
-  const nonAttendedPercentage = total ? (nonAttended / total) * 100 : 0;
-
-  return {
-    chart: {
-      attended: Number(attendedPercentage.toFixed(2)),
-      nonAttended: Number(nonAttendedPercentage.toFixed(2)),
+      return {
+        chart: {
+          attended: Number(attendedPercentage.toFixed(2)),
+          nonAttended: Number(nonAttendedPercentage.toFixed(2)),
+        }
+      };
     }
-  };
-}
 }
 
 module.exports = EventAttendanceService;

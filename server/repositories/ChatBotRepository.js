@@ -1,31 +1,3 @@
-// const pool = require("../config/database");
-
-// class ChatBotRepository {
-
-//     async getFAQs() {
-//         try {
-
-//             const [rows] = await pool.query(`
-//                 SELECT question, answer
-//                 FROM FAQs
-//             `);
-
-//             return rows;
-
-//         } catch (error) {
-
-//             console.error("Database Error (FAQs):", error);
-//             return [];
-//         }
-//     }
-// }
-
-// module.exports = ChatBotRepository;
-
-
-
-
-
 const pool = require("../config/database");
 
 class ChatBotRepository {

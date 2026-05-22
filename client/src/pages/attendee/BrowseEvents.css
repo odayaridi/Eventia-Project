@@ -408,3 +408,37 @@
     padding: 18px;
   }
 }
+
+
+
+
+.be-filter-field input,
+.be-filter-field select {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+  padding: 11px 13px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: var(--color-text);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.be-filter-field input::placeholder {
+  color: #94a3b8;
+}
+
+.be-filter-field input:focus,
+.be-filter-field select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
+}
+
+.be-filter-field select:disabled {
+  color: #94a3b8;
+  cursor: not-allowed;
+  background: #f8fafc;
+}

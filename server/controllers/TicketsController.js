@@ -7,10 +7,6 @@ class TicketsController {
     }
 
 
-    
-// {
-//     "ticketCode": "BT-1"
-// }
       async validateTicket(req, res, next) {
         try {
             const { ticketCode } = req.body;

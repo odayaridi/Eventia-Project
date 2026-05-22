@@ -10,8 +10,8 @@ const eventFeedbackController = new EventFeedbackController();
 
 router.post(
     "/sendFeedback",
-    // authenticateToken,
-    // restrictTo('attendee'),
+    authenticateToken,
+    restrictTo('attendee'),
     sendFeedbackValidator,
     validationRequest,
     eventFeedbackController.sendFeedbackController.bind(eventFeedbackController)
@@ -20,8 +20,8 @@ router.post(
 
 router.get(
     '/checkAttendeeRated',
-       // authenticateToken,
-    // restrictTo('attendee'),
+    authenticateToken,
+    restrictTo('attendee'),
     checkAttendeeRatedValidator,
     validationRequest,
     eventFeedbackController.checkAttendeeRatedController.bind(eventFeedbackController)
@@ -31,8 +31,8 @@ router.get(
 
 router.get(
   "/getAttendeeFeedbacks",
-//   authenticateToken,
-//   restrictTo("attendee"),
+  authenticateToken,
+  restrictTo("attendee"),
   getAttendeeFeedbacksValidator,
   validationRequest,
   eventFeedbackController.getAttendeeFeedbacksController.bind(eventFeedbackController)
@@ -42,14 +42,12 @@ router.get(
 
 router.get(
   "/getOrganizerEventsFeedbacks",
-//   authenticateToken,
-//   restrictTo("eventOrganizer"),
+  authenticateToken,
+  restrictTo("eventOrganizer"),
   getOrganizerEventsFeedbacksValidator,
   validationRequest,
   eventFeedbackController.getOrganizerEventsFeedbacksController.bind(eventFeedbackController)
 );
-
-
 
 
 
@@ -77,16 +75,10 @@ router.post(
 
 
 
-
-
-
-
-
-
 router.put(
   "/editAttendeeFeedback",
-  // authenticateToken,
-  // restrictTo("attendee"),
+  authenticateToken,
+  restrictTo("attendee"),
   editAttendeeFeedbackValidator,
   validationRequest,
   eventFeedbackController.editAttendeeFeedbackController.bind(eventFeedbackController)

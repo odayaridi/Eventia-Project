@@ -23,16 +23,16 @@ router.post(
 
 router.get(
     "/getAttendeeRequests",
-    // authenticateToken,
-    // restrictTo('attendee'),
+    authenticateToken,
+    restrictTo('attendee'),
     supportReqAttendeeController.getAttendeeRequestsController.bind(supportReqAttendeeController)
 );
 
 
 router.put(
     "/resolveAttendeeReq",
-    // authenticateToken,
-    // restrictTo('attendee'),
+    authenticateToken,
+    restrictTo('attendee'),
     resolveRequestValidator,
     validationRequest,
     supportReqAttendeeController.resolveAttendeeController.bind(supportReqAttendeeController)

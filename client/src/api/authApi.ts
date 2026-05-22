@@ -1,98 +1,3 @@
-
-
-
-
-
-
-// import axiosInstance from "./interceptor/axiosInstance";
-
-// export type UserRole = "admin" | "eventOrganizer" | "venueManager" | "attendee";
-
-// export interface AuthResponse {
-//   accessToken: string;
-//   user: {
-//     username: string;
-//     email: string;
-//     phoneNumber: string;
-//     role: UserRole;
-//     organizerId?: number;
-//     managerId?: number;
-//     attendeeId?: number;
-//   };
-// }
-
-// interface BackendResponse<T = unknown> {
-//   success: string | boolean;
-//   message: string;
-//   data?: T;
-//   error?: string;
-// }
-
-// /**
-//  * Extracts error message from backend response
-//  */
-// const getErrorMessage = (error: unknown): string => {
-//   const fallback = "Something went wrong. Please try again.";
-
-//   if (
-//     typeof error === "object" &&
-//     error !== null &&
-//     "response" in error &&
-//     typeof (error as { response?: unknown }).response === "object"
-//   ) {
-//     const response = (error as {
-//       response?: { data?: { error?: string; message?: string } };
-//     }).response;
-
-//     return response?.data?.error || response?.data?.message || fallback;
-//   }
-
-//   if (error instanceof Error) {
-//     return error.message;
-//   }
-
-//   return fallback;
-// };
-
-// /**
-//  * Register User
-//  */
-// export const createUser = async (formData: FormData) => {
-//   try {
-//     const response = await axiosInstance.post("/auth/register", formData, {
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//       },
-//     });
-
-//     return response.data;
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
-
-// /**
-//  * Login User
-//  */
-// export const loginUser = async (credentials: {
-//   username: string;
-//   password: string;
-// }): Promise<AuthResponse> => {
-//   try {
-//     const response = await axiosInstance.post<AuthResponse>(
-//       "/auth/login",
-//       credentials
-//     );
-
-//     return response.data;
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
-
-
-
-
 import axiosInstance from "./interceptor/axiosInstance";
 
 export type UserRole =
@@ -104,12 +9,13 @@ export type UserRole =
 export interface AuthResponse {
   accessToken: string;
   user: {
-    firstName: string;   // ✅ NEW
-    lastName: string;    // ✅ NEW
+    firstName: string;   
+    lastName: string;    
     username: string;
     email: string;
     phoneNumber: string;
     role: UserRole;
+    userId:number
     organizerId?: number;
     managerId?: number;
     attendeeId?: number;

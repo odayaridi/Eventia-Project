@@ -41,52 +41,6 @@ class BookingTicketsRepository {
   }
 
 
- 
-  
-// async getAttendeeBookingTicketsRepo(attendeeId) {
-//   const sql = `
-//     SELECT 
-//       e.name AS eventName,
-//       DATE_FORMAT(e.date, '%Y-%m-%d') AS eventDate,
-//       CONCAT(e.start_time, ' - ', e.end_time) AS eventTime,
-//       v.name AS venueName,
-//       t.qr_code AS qrCode,
-//       bt.quantity AS quantity,
-//       bt.price_snapshot * bt.quantity AS price,
-//       tt.name AS ticketTypeName,
-//       DATE_FORMAT(t.created_at,'%Y-%m-%d %H:%i') AS purchased
-
-//     FROM bookings b
-//     JOIN bookingtickets bt 
-//       ON b.id = bt.booking_id
-
-//     JOIN eventtickets et 
-//       ON et.id = bt.event_ticket_id
-
-//     JOIN events e 
-//       ON e.id = et.event_id
-
-//     JOIN venueavailability va
-//       ON va.id = e.venue_availability_id
-
-//     JOIN venues v
-//       ON v.id = va.venue_id
-
-//     JOIN tickettypes tt 
-//       ON tt.id = et.ticket_type_id
-
-//     JOIN tickets t 
-//       ON t.booking_ticket_id = bt.id
-
-//     WHERE b.attendee_id = ?
-//   `;
-
-//   const [rows] = await pool.query(sql, [attendeeId]);
-//   return rows;
-// }
-
-
-
 async getAttendeeBookingTicketsRepo(attendeeId) {
   const sql = `
     SELECT 
@@ -132,12 +86,12 @@ async getAttendeeBookingTicketsRepo(attendeeId) {
 
     WHERE b.attendee_id = ?
 
-    ORDER BY bt.id;
+    ORDER BY bt.id DESC;
   `;
 
   const [rows] = await pool.query(sql, [attendeeId]);
 
-  // 🔥 GROUPING LOGIC
+
   const grouped = {};
 
   rows.forEach(row => {

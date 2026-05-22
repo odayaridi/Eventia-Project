@@ -9,9 +9,8 @@ const eventTypeController = new EventTypeController();
 
 eventTypeRoutes.get(
     "/getEventTypes",
-    // authenticateToken,
-    // restrictTo('eventOrganizer'),
-
+    authenticateToken,
+    restrictTo('eventOrganizer'),
     eventTypeController.getAllEventTypesController.bind(eventTypeController)
 );
 

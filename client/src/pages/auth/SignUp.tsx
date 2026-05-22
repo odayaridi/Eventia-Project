@@ -1,3 +1,4 @@
+
 // import React, { useMemo, useState } from "react";
 // import type { ChangeEvent, FormEvent } from "react";
 // import "./SignUp.css";
@@ -19,6 +20,8 @@
 // type Role = "eventOrganizer" | "attendee" | "venueManager";
 
 // interface BaseFormData {
+//   firstName: string;
+//   lastName: string;
 //   email: string;
 //   password: string;
 //   username: string;
@@ -47,6 +50,8 @@
 // };
 
 // const initialBaseForm: BaseFormData = {
+//   firstName: "",
+//   lastName: "",
 //   email: "",
 //   password: "",
 //   username: "",
@@ -83,17 +88,25 @@
 //     role: Role
 //   ) => {
 //     const { name, value } = e.target;
+
 //     setFormState((prev) => ({
 //       ...prev,
-//       [role]: { ...prev[role], [name]: value },
+//       [role]: {
+//         ...prev[role],
+//         [name]: value,
+//       },
 //     }));
 //   };
 
 //   const handleOrganizerInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 //     const { name, value } = e.target;
+
 //     setFormState((prev) => ({
 //       ...prev,
-//       eventOrganizer: { ...prev.eventOrganizer, [name]: value },
+//       eventOrganizer: {
+//         ...prev.eventOrganizer,
+//         [name]: value,
+//       },
 //     }));
 //   };
 
@@ -103,9 +116,13 @@
 //     fieldName: "commercialRegistrationDocument" | "venueAuthorizationDocument"
 //   ) => {
 //     const file = e.target.files?.[0] || null;
+
 //     setFormState((prev) => ({
 //       ...prev,
-//       [role]: { ...prev[role], [fieldName]: file },
+//       [role]: {
+//         ...prev[role],
+//         [fieldName]: file,
+//       },
 //     }));
 //   };
 
@@ -122,6 +139,8 @@
 //       const data = new FormData();
 //       const currentRoleData = formState[selectedRole];
 
+//       data.append("firstName", currentRoleData.firstName);
+//       data.append("lastName", currentRoleData.lastName);
 //       data.append("email", currentRoleData.email);
 //       data.append("username", currentRoleData.username);
 //       data.append("password", currentRoleData.password);
@@ -130,7 +149,9 @@
 
 //       if (selectedRole === "eventOrganizer") {
 //         const organizerData = formState.eventOrganizer;
+
 //         data.append("organization", organizerData.organization);
+
 //         if (organizerData.commercialRegistrationDocument) {
 //           data.append(
 //             "commercialRegistrationDocument",
@@ -139,6 +160,7 @@
 //         }
 //       } else if (selectedRole === "venueManager") {
 //         const managerData = formState.venueManager;
+
 //         if (managerData.venueAuthorizationDocument) {
 //           data.append(
 //             "venueAuthorizationDocument",
@@ -148,6 +170,7 @@
 //       }
 
 //       const result = await createUser(data);
+
 //       showAlert(result?.message || "Registration successful.", "success");
 //       resetCurrentForm();
 
@@ -157,6 +180,7 @@
 //         error instanceof Error
 //           ? error.message
 //           : "An error occurred during registration.";
+
 //       showAlert(errorMessage, "error");
 //     } finally {
 //       setLoading(false);
@@ -170,6 +194,40 @@
 
 //     return (
 //       <>
+//         <div className="signup-row">
+//           <div className="signup-input-group">
+//             <label htmlFor={`firstName-${role}`}>First Name</label>
+//             <div className="signup-input-wrapper">
+//               <User size={18} />
+//               <input
+//                 id={`firstName-${role}`}
+//                 type="text"
+//                 name="firstName"
+//                 placeholder="John"
+//                 value={currentData.firstName}
+//                 onChange={(e) => handleBaseInputChange(e, role)}
+//                 required
+//               />
+//             </div>
+//           </div>
+
+//           <div className="signup-input-group">
+//             <label htmlFor={`lastName-${role}`}>Last Name</label>
+//             <div className="signup-input-wrapper">
+//               <User size={18} />
+//               <input
+//                 id={`lastName-${role}`}
+//                 type="text"
+//                 name="lastName"
+//                 placeholder="Doe"
+//                 value={currentData.lastName}
+//                 onChange={(e) => handleBaseInputChange(e, role)}
+//                 required
+//               />
+//             </div>
+//           </div>
+//         </div>
+
 //         <div className="signup-input-group">
 //           <label htmlFor={`email-${role}`}>Email Address</label>
 //           <div className="signup-input-wrapper">
@@ -195,7 +253,7 @@
 //                 id={`username-${role}`}
 //                 type="text"
 //                 name="username"
-//                 placeholder="John Doe"
+//                 placeholder="johndoe"
 //                 value={currentData.username}
 //                 onChange={(e) => handleBaseInputChange(e, role)}
 //                 required
@@ -356,25 +414,33 @@
 //               type="button"
 //               role="tab"
 //               aria-selected={selectedRole === "eventOrganizer"}
-//               className={`role-btn ${selectedRole === "eventOrganizer" ? "active" : ""}`}
+//               className={`role-btn ${
+//                 selectedRole === "eventOrganizer" ? "active" : ""
+//               }`}
 //               onClick={() => handleRoleChange("eventOrganizer")}
 //             >
 //               Organizer
 //             </button>
+
 //             <button
 //               type="button"
 //               role="tab"
 //               aria-selected={selectedRole === "attendee"}
-//               className={`role-btn ${selectedRole === "attendee" ? "active" : ""}`}
+//               className={`role-btn ${
+//                 selectedRole === "attendee" ? "active" : ""
+//               }`}
 //               onClick={() => handleRoleChange("attendee")}
 //             >
 //               Attendee
 //             </button>
+
 //             <button
 //               type="button"
 //               role="tab"
 //               aria-selected={selectedRole === "venueManager"}
-//               className={`role-btn ${selectedRole === "venueManager" ? "active" : ""}`}
+//               className={`role-btn ${
+//                 selectedRole === "venueManager" ? "active" : ""
+//               }`}
 //               onClick={() => handleRoleChange("venueManager")}
 //             >
 //               Venue Manager
@@ -431,6 +497,7 @@
 
 
 
+
 import React, { useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import "./SignUp.css";
@@ -443,6 +510,10 @@ import {
   ArrowRight,
   UploadCloud,
   CalendarCheck,
+  CheckCircle2,
+  XCircle,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { createUser } from "../../api/authApi";
 import { useNavigate } from "react-router-dom";
@@ -503,23 +574,103 @@ const initialFormState: FormState = {
   },
 };
 
+const getPasswordChecks = (password: string) => {
+  return {
+    minLength: password.length >= 8,
+    uppercase: /[A-Z]/.test(password),
+    lowercase: /[a-z]/.test(password),
+    number: /[0-9]/.test(password),
+    specialChar: /[^A-Za-z0-9]/.test(password),
+  };
+};
+
+const getPasswordStrength = (password: string) => {
+  const checks = getPasswordChecks(password);
+  const passedCount = Object.values(checks).filter(Boolean).length;
+
+  if (!password) {
+    return {
+      score: 0,
+      label: "Password strength",
+      className: "empty",
+      isStrong: false,
+      checks,
+    };
+  }
+
+  if (passedCount <= 2) {
+    return {
+      score: 33,
+      label: "Weak password",
+      className: "weak",
+      isStrong: false,
+      checks,
+    };
+  }
+
+  if (passedCount <= 4) {
+    return {
+      score: 66,
+      label: "Medium password",
+      className: "medium",
+      isStrong: false,
+      checks,
+    };
+  }
+
+  return {
+    score: 100,
+    label: "Strong password",
+    className: "strong",
+    isStrong: true,
+    checks,
+  };
+};
+
 const SignUp: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<Role>("eventOrganizer");
   const [formState, setFormState] = useState<FormState>(initialFormState);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordTouchedByRole, setPasswordTouchedByRole] = useState<
+    Record<Role, boolean>
+  >({
+    eventOrganizer: false,
+    attendee: false,
+    venueManager: false,
+  });
 
   const currentRoleLabel = useMemo(() => roleLabels[selectedRole], [selectedRole]);
-  const navigate = useNavigate();
+  const currentPassword = formState[selectedRole].password;
 
+  const passwordStrength = useMemo(
+    () => getPasswordStrength(currentPassword),
+    [currentPassword]
+  );
+
+  const shouldShowPasswordValidation =
+    passwordTouchedByRole[selectedRole] || currentPassword.length > 0;
+
+  const navigate = useNavigate();
   const { open, message, severity, showAlert, handleClose } = useAlert();
 
-  const handleRoleChange = (role: Role) => setSelectedRole(role);
+  const handleRoleChange = (role: Role) => {
+    setSelectedRole(role);
+    setShowPassword(false);
+  };
 
   const handleBaseInputChange = (
     e: ChangeEvent<HTMLInputElement>,
     role: Role
   ) => {
     const { name, value } = e.target;
+
+    if (name === "password") {
+      setPasswordTouchedByRole((prev) => ({
+        ...prev,
+        [role]: true,
+      }));
+    }
 
     setFormState((prev) => ({
       ...prev,
@@ -561,15 +712,37 @@ const SignUp: React.FC = () => {
   const resetCurrentForm = () => {
     setFormState(initialFormState);
     setSelectedRole("eventOrganizer");
+    setShowPassword(false);
+    setPasswordTouchedByRole({
+      eventOrganizer: false,
+      attendee: false,
+      venueManager: false,
+    });
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    const currentRoleData = formState[selectedRole];
+    const currentPasswordStrength = getPasswordStrength(currentRoleData.password);
+
+    setPasswordTouchedByRole((prev) => ({
+      ...prev,
+      [selectedRole]: true,
+    }));
+
+    if (!currentPasswordStrength.isStrong) {
+      showAlert(
+        "Please create a stronger password before registering.",
+        "error"
+      );
+      return;
+    }
+
     setLoading(true);
 
     try {
       const data = new FormData();
-      const currentRoleData = formState[selectedRole];
 
       data.append("firstName", currentRoleData.firstName);
       data.append("lastName", currentRoleData.lastName);
@@ -621,8 +794,20 @@ const SignUp: React.FC = () => {
 
   const handleLogin = () => navigate("/login");
 
+  const renderPasswordRequirement = (passed: boolean, text: string) => {
+    return (
+      <li className={passed ? "valid" : "invalid"}>
+        {passed ? <CheckCircle2 size={14} /> : <XCircle size={14} />}
+        <span>{text}</span>
+      </li>
+    );
+  };
+
   const renderCommonFields = (role: Role) => {
     const currentData = formState[role];
+    const rolePasswordStrength = getPasswordStrength(currentData.password);
+    const showPasswordValidation =
+      passwordTouchedByRole[role] || currentData.password.length > 0;
 
     return (
       <>
@@ -701,7 +886,7 @@ const SignUp: React.FC = () => {
                 id={`phone-${role}`}
                 type="tel"
                 name="phoneNumber"
-                placeholder="+1 555 000 0000"
+                placeholder="+961 70 000 000"
                 value={currentData.phoneNumber}
                 onChange={(e) => handleBaseInputChange(e, role)}
                 required
@@ -711,22 +896,91 @@ const SignUp: React.FC = () => {
         </div>
 
         <div className="signup-input-group">
-          <label htmlFor={`password-${role}`}>Password</label>
-          <div className="signup-input-wrapper">
+          <div className="signup-label-row">
+            <label htmlFor={`password-${role}`}>Password</label>
+
+            {showPasswordValidation && (
+              <span
+                className={`password-strength-label ${rolePasswordStrength.className}`}
+              >
+                {rolePasswordStrength.label}
+              </span>
+            )}
+          </div>
+
+          <div
+            className={`signup-input-wrapper ${
+              showPasswordValidation && !rolePasswordStrength.isStrong
+                ? "input-error"
+                : ""
+            } ${
+              showPasswordValidation && rolePasswordStrength.isStrong
+                ? "input-success"
+                : ""
+            }`}
+          >
             <Lock size={18} />
             <input
               id={`password-${role}`}
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
-              placeholder="At least 8 characters"
+              placeholder="Create a strong password"
               value={currentData.password}
               onChange={(e) => handleBaseInputChange(e, role)}
               required
+              minLength={8}
             />
+            <button
+              type="button"
+              className="password-toggle-btn"
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
           </div>
-          <span className="signup-input-hint">
-            Use 8+ characters with letters, numbers & symbols.
-          </span>
+
+          <div
+            className={`password-strength-meter ${
+              showPasswordValidation ? "visible" : ""
+            }`}
+          >
+            <div className="password-strength-track">
+              <span
+                className={`password-strength-fill ${rolePasswordStrength.className}`}
+                style={{ width: `${rolePasswordStrength.score}%` }}
+              />
+            </div>
+          </div>
+
+          {showPasswordValidation && (
+            <div className="password-rules-box">
+              <p>Enterprise password requirements:</p>
+
+              <ul>
+                {renderPasswordRequirement(
+                  rolePasswordStrength.checks.minLength,
+                  "At least 8 characters"
+                )}
+                {renderPasswordRequirement(
+                  rolePasswordStrength.checks.uppercase,
+                  "At least one uppercase letter"
+                )}
+                {renderPasswordRequirement(
+                  rolePasswordStrength.checks.lowercase,
+                  "At least one lowercase letter"
+                )}
+                {renderPasswordRequirement(
+                  rolePasswordStrength.checks.number,
+                  "At least one number"
+                )}
+                {renderPasswordRequirement(
+                  rolePasswordStrength.checks.specialChar,
+                  "At least one symbol"
+                )}
+              </ul>
+            </div>
+          )}
         </div>
       </>
     );
@@ -841,7 +1095,12 @@ const SignUp: React.FC = () => {
             <h2>Create your account</h2>
           </div>
 
-          <div className="signup-role-switcher" role="tablist">
+          <div
+            className={`signup-role-switcher active-${selectedRole}`}
+            role="tablist"
+          >
+            <span className="role-slider" />
+
             <button
               type="button"
               role="tab"
@@ -880,13 +1139,15 @@ const SignUp: React.FC = () => {
           </div>
 
           <form className="signup-form" onSubmit={handleSubmit}>
-            {renderCommonFields(selectedRole)}
-            {renderRoleSpecificFields()}
+            <div key={selectedRole} className="signup-role-content">
+              {renderCommonFields(selectedRole)}
+              {renderRoleSpecificFields()}
+            </div>
 
             <button
               type="submit"
               className="signup-submit-btn"
-              disabled={loading}
+              disabled={loading || !passwordStrength.isStrong}
             >
               {loading ? (
                 <span className="btn-loading">
@@ -900,6 +1161,12 @@ const SignUp: React.FC = () => {
                 </>
               )}
             </button>
+
+            {!passwordStrength.isStrong && shouldShowPasswordValidation && (
+              <span className="signup-submit-helper">
+                Complete all password requirements to continue.
+              </span>
+            )}
           </form>
 
           <div className="signup-footer-note">
@@ -926,3 +1193,19 @@ const SignUp: React.FC = () => {
 };
 
 export default SignUp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

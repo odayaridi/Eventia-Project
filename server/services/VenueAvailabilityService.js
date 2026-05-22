@@ -7,101 +7,6 @@ class VenueAvailabilityService {
     this.venueavailabilityRepo = new VenueAvailabilityRepository();
   }
 
-  // async createVenueAvailabilityService(venueAv) {
-
-  //   const venueId = await this.venueavailabilityRepo.getVenueIdByManagerId(venueAv.managerId);
-  //   if(!venueId){
-  //     throw new HttpError('Venue Id is not found for this manager', managerId)
-  //   }
-  //   // Check if the same date + startTime already exists
-  //   const conflict = await this.venueavailabilityRepo.checkVenueAvailabilityConflictRepo(
-  //     venueId,
-  //     venueAv.date,
-  //     venueAv.startTime
-  //   );
-  //   if (conflict) {
-  //     throw new HttpError(
-  //       `Venue is already available for ${venueAv.date} at ${venueAv.startTime}`,
-  //       400
-  //     );
-  //   }
-
-  //   venueAv.venueId = venueId;
-  //   const response = await this.venueavailabilityRepo.createVenueAvailabilityRepo(
-  //     venueAv
-  //   );
-
-  //   if (!response.insertId) {
-  //     throw new HttpError("Failed to create venue availability", 500);
-  //   }
-
-  //   return {
-  //     id: response.insertId,
-  //     venueId: venueId,
-  //     date: venueAv.date,
-  //     startTime: venueAv.startTime,
-  //     endTime: venueAv.endTime,
-  //   };
-  // }
-
-//     async createVenueAvailabilityService(venueAv) {
-
-//     // 1️⃣ Get venueId from manager
-//     const venueId = await this.venueavailabilityRepo.getVenueIdByManagerId(venueAv.managerId);
-
-//     if (!venueId) {
-//         throw new HttpError('Venue Id is not found for this manager', 404);
-//     }
-
-//     // 2️⃣ Validate date is not in the past
-//     const today = new Date();
-//     const inputDate = new Date(venueAv.date);
-
-//     // remove time part for accurate comparison
-//     today.setHours(0,0,0,0);
-//     inputDate.setHours(0,0,0,0);
-
-//     if (inputDate < today) {
-//         throw new HttpError("Invalid date: cannot select a past date", 400);
-//     }
-
-//     // 3️⃣ Validate time logic (start < end)
-//     if (venueAv.startTime >= venueAv.endTime) {
-//         throw new HttpError("Start time must be before end time", 400);
-//     }
-
-//     // 4️⃣ Check overlap
-//     const overlap = await this.venueavailabilityRepo.checkVenueAvailabilityOverlapRepo(
-//         venueId,
-//         venueAv.date,
-//         venueAv.startTime,
-//         venueAv.endTime
-//     );
-
-//     if (overlap) {
-//         throw new HttpError(
-//             "This time slot overlaps with an existing availability",
-//             400
-//         );
-//     }
-
-//     // 5️⃣ Create availability
-//     venueAv.venueId = venueId;
-
-//     const response = await this.venueavailabilityRepo.createVenueAvailabilityRepo(venueAv);
-
-//     if (!response.insertId) {
-//         throw new HttpError("Failed to create venue availability", 500);
-//     }
-
-//     return {
-//         id: response.insertId,
-//         venueId: venueId,
-//         date: venueAv.date,
-//         startTime: venueAv.startTime,
-//         endTime: venueAv.endTime,
-//     };
-// }
 
 
 async createVenueAvailabilityService(venueAv) {
@@ -162,31 +67,6 @@ async createVenueAvailabilityService(venueAv) {
     };
 }
 
-// async getVenueAvailabilitiesService(managerId){
-//     const venueId = await this.venueavailabilityRepo.getVenueIdByManagerId(managerId);
-//     const vAvs = await this.venueavailabilityRepo.getVenueAvailabilitiesRepo(venueId);
-
-//     const formatted = vAvs.map(v => ({
-//         ...v,
-//         date: format(v.date, "yyyy-MM-dd")
-//     }));
-
-//     return formatted;
-// }
-
-
-
-// async getVenueBookedTimesService(managerId){
-//     const venueId = await this.venueavailabilityRepo.getVenueIdByManagerId(managerId);
-//     const vAvs = await this.venueavailabilityRepo.getVenueBookedTimesRepo(venueId);
-
-//     const formatted = vAvs.map(v => ({
-//         ...v,
-//         date: format(v.date, "yyyy-MM-dd")
-//     }));
-
-//     return formatted;
-// }
 
 
 
@@ -229,8 +109,152 @@ async getVenueBookedTimesService(managerId){
         if (!venueId) return { available: 0, booked: 0 };
         return await this.venueavailabilityRepo.getBookingByStatusRepo(venueId);
     }
+
+
+
+
+    async updateVenueAvailabilityService(data) {
+  const {
+    venueAvailabilityId,
+    managerId,
+    date,
+    startTime,
+    endTime,
+    price,
+  } = data;
+
+  const venueId = await this.venueavailabilityRepo.getVenueIdByManagerId(
+    managerId
+  );
+
+  if (!venueId) {
+    throw new HttpError("Venue Id is not found for this manager", 404);
+  }
+
+  const existing =
+    await this.venueavailabilityRepo.getVenueAvailabilityByIdRepo(
+      venueAvailabilityId
+    );
+
+  if (!existing) {
+    throw new HttpError("Venue availability was not found", 404);
+  }
+
+  if (Number(existing.venueId) !== Number(venueId)) {
+    throw new HttpError(
+      "You are not allowed to update this venue availability",
+      403
+    );
+  }
+
+  if (Number(existing.statusId) === 2) {
+    throw new HttpError(
+      "Cannot update a booked venue availability slot",
+      400
+    );
+  }
+
+  const today = new Date();
+  const inputDate = new Date(date);
+
+  today.setHours(0, 0, 0, 0);
+  inputDate.setHours(0, 0, 0, 0);
+
+  if (inputDate < today) {
+    throw new HttpError("Invalid date: cannot select a past date", 400);
+  }
+
+  if (startTime >= endTime) {
+    throw new HttpError("Start time must be before end time", 400);
+  }
+
+  if (!price || Number(price) <= 0) {
+    throw new HttpError("Price must be greater than 0", 400);
+  }
+
+  const overlap =
+    await this.venueavailabilityRepo.checkVenueAvailabilityOverlapForUpdateRepo(
+      venueId,
+      venueAvailabilityId,
+      date,
+      startTime,
+      endTime
+    );
+
+  if (overlap) {
+    throw new HttpError(
+      "This time slot overlaps with an existing availability",
+      400
+    );
+  }
+
+  const response =
+    await this.venueavailabilityRepo.updateVenueAvailabilityRepo({
+      venueAvailabilityId,
+      date,
+      startTime,
+      endTime,
+      price,
+    });
+
+  if (response.affectedRows === 0) {
+    throw new HttpError("Failed to update venue availability", 500);
+  }
+
+  return {
+    id: Number(venueAvailabilityId),
+    venueId,
+    date,
+    startTime,
+    endTime,
+    price: Number(price),
+  };
+}
+
+async deleteVenueAvailabilityService(data) {
+  const { venueAvailabilityId, managerId } = data;
+
+  const venueId = await this.venueavailabilityRepo.getVenueIdByManagerId(
+    managerId
+  );
+
+  if (!venueId) {
+    throw new HttpError("Venue Id is not found for this manager", 404);
+  }
+
+  const existing =
+    await this.venueavailabilityRepo.getVenueAvailabilityByIdRepo(
+      venueAvailabilityId
+    );
+
+  if (!existing) {
+    throw new HttpError("Venue availability was not found", 404);
+  }
+
+
+
+  const response =
+    await this.venueavailabilityRepo.deleteVenueAvailabilityRepo(
+      venueAvailabilityId
+    );
+
+  if (response.affectedRows === 0) {
+    throw new HttpError("Failed to delete venue availability", 500);
+  }
+
+  return {
+    id: Number(venueAvailabilityId),
+  };
+}
  
 
 }
 
 module.exports = VenueAvailabilityService;
+
+
+
+
+
+
+

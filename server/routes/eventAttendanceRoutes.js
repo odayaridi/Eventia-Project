@@ -15,8 +15,8 @@ const eventAttendanceController = new EventAttendanceController();
 
 router.post(
     "/checkInAttendee",
-    // authenticateToken,
-    // restrictTo('eventOrganizer'),
+    authenticateToken,
+    restrictTo('eventOrganizer'),
     insertEventAttendanceValidator,
     validationRequest,
     eventAttendanceController.insertEventAttendanceController.bind(eventAttendanceController)
@@ -24,8 +24,8 @@ router.post(
 
 router.get(
     "/getFinishedOrganizerEventNames",
-    // authenticateToken,
-    // restrictTo('eventOrganizer'),
+    authenticateToken,
+    restrictTo('eventOrganizer'),
     getFinishedOrganizerEventNamesValidator,
     validationRequest,
     eventAttendanceController.getFinishedOrganizerEventNamesController.bind(eventAttendanceController)
@@ -33,8 +33,8 @@ router.get(
 
 router.get(
     "/getAttendedAttendeesByEvent",
-    // authenticateToken,
-    // restrictTo('eventOrganizer'),
+    authenticateToken,
+    restrictTo('eventOrganizer'),
     getAttendanceRowsValidator,
     validationRequest,
     eventAttendanceController.getAttendedAttendeesByEventController.bind(eventAttendanceController)
@@ -42,8 +42,8 @@ router.get(
 
 router.get(
     "/getUnattendedAttendeesByEvent",
-    // authenticateToken,
-    // restrictTo('eventOrganizer'),
+    authenticateToken,
+    restrictTo('eventOrganizer'),
     getAttendanceRowsValidator,
     validationRequest,
     eventAttendanceController.getUnattendedAttendeesByEventController.bind(eventAttendanceController)
@@ -51,8 +51,8 @@ router.get(
 
 router.get(
     "/getAttendanceSummary",
-    // authenticateToken,
-    // restrictTo('eventOrganizer'),
+    authenticateToken,
+    restrictTo('eventOrganizer'),
     getAttendanceSummaryValidator,
     validationRequest,
     eventAttendanceController.getAttendanceSummaryController.bind(eventAttendanceController)
@@ -63,10 +63,8 @@ router.get(
 
 router.get(
   "/getEventAttendancePieChart/:eventName",
-  // authenticateToken,
-  // restrictTo('eventOrganizer'),
-//   getEventAttendancePieChartValidator,
-//   validationRequest,
+  authenticateToken,
+  restrictTo('eventOrganizer'),
   eventAttendanceController.getEventAttendancePieChartController.bind(eventAttendanceController)
 );
 

@@ -19,14 +19,6 @@ class EventTicketsController {
 
 
 
-    // {
-//   "eventName": "Activity Conference",
-//   "type": "VIP",
-//   "name": "VIP Gold Ticket",
-//   "perks": "Front row seat, Free drinks, Backstage access, Meet the speakers",
-//   "price": 123,
-//   "quantityAvailable": 150
-// }
     async createEventTicketsController(req,res,next){
         try {
             const eventTicket = req.body;
@@ -38,16 +30,6 @@ class EventTicketsController {
     }
 
 
-
-    // {
-//   "eventName": "Activity Conference",
-//   "type": "VIP",
-//   "name": "General Ticket",
-//   "perks": "Front row seat,",
-//   "price": 130,
-//   "quantityAvailable": 350,
-//   "id" : 1
-// }
       async updateEventTicketsController(req,res,next){
         try {
             const eventTicket = req.body;

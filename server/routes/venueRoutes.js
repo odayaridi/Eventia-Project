@@ -10,7 +10,6 @@ const router = express.Router();
 const venueController = new VenueController();
 
 
-// 👇 Create uploader for venue images
 const uploadVenueImages = createUploadMiddleware({
     uploadDir: "public/uploads/venueImages",
     fileType: "image"
@@ -22,7 +21,7 @@ const uploadVenueImages = createUploadMiddleware({
 router.post(
     "/createVenue",
 
-    uploadVenueImages.array("images", 5), // 👈 1 to 5 images
+    uploadVenueImages.array("images", 5),
 
     createVenueValidator,
     validationRequest,
@@ -58,15 +57,6 @@ router.get(
 
     venueController.getVenueInfoController.bind(venueController)
 );
-
-
-
-
-
-
-
-
-
 
 
 
@@ -123,18 +113,6 @@ router.get(
     validationRequest,
     venueController.hasVenueController.bind(venueController)
 );
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

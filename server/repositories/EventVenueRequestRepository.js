@@ -1,32 +1,3 @@
-// const pool = require("../config/database");
-
-// class EventVenueRequestRepository {
-//     constructor() {}
-
-//     /**
-//      * Create a new venue request for an event
-//      * @param {Object} request - { eventId, venueId }
-//      * @returns {Promise<Object>} result of the insert query
-//      */
-//     async createEventVenueRequestsRepo(eventId,venueId) {
-//         const sql = `
-//             INSERT INTO EventVenueRequests
-//             (event_id, venue_id)
-//             VALUES (?, ?)
-//         `;
-
-//         // status will default to 'Pending' automatically
-//         const [result] = await pool.query(sql, [
-//             eventId,
-//             venueId
-//         ]);
-
-//         return result;
-//     }
-// }
-
-// module.exports = EventVenueRequestRepository;
-
 const pool = require("../config/database");
 
 class EventVenueRequestRepository {

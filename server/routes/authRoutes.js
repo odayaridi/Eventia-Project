@@ -9,7 +9,7 @@ const createUploadMiddleware = require("../middleware/uploadMiddleware");
 const router = express.Router();
 const authController = new AuthController();
 
-// 👇 Create document uploader
+
 const uploadDocuments = createUploadMiddleware({
     uploadDir: 'public/uploads/documents',
     fileType: 'document'

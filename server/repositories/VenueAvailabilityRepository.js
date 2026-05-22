@@ -10,72 +10,20 @@ class VenueAvailabilityRepository {
 
 
 
-//   async getVenueAvailabilitiesRepo(venueId) {
-//     const sql = `
-//         SELECT 
-//             date,
-//             start_time AS startTime,
-//             end_time AS endTime
-//         FROM venueavailability
-//         WHERE venue_id = ?
-//           AND status_id = ?
-//         ORDER BY date ASC, start_time ASC
-//     `;
-
-//     const [rows] = await pool.query(sql, [venueId, 1]);
-
-//     // ✅ Group by date
-//     const grouped = {};
-
-//     rows.forEach(row => {
-//         if (!grouped[row.date]) {
-//             grouped[row.date] = {
-//                 date: row.date,
-//                 slots: []
-//             };
-//         }
-
-//         grouped[row.date].slots.push({
-//             startTime: row.startTime,
-//             endTime: row.endTime
-//         });
-//     });
-
-//     // ✅ Convert to array
-//     return Object.values(grouped);
-// }
-
-
-//       async getVenueBookedTimesRepo(venueId) {
-//     const sql = `
-//       SELECT 
-//         id AS id,
-//         venue_id AS venueId,
-//         date AS date,
-//         start_time AS startTime,
-//         end_time AS endTime
-//       FROM venueavailability
-//       WHERE venue_id = ?
-//         AND status_id = ?
-//     `;
-
-//     const [rows] = await pool.query(sql, [venueId,2]);
-//     return rows;
-//   }
-
-
 async getVenueAvailabilitiesRepo(venueId) {
+
     const sql = `
-        SELECT 
-            date,
-            start_time AS startTime,
-            end_time AS endTime,
-            price
-        FROM venueavailability
-        WHERE venue_id = ?
-          AND status_id = ?
-        ORDER BY date ASC, start_time ASC
-    `;
+  SELECT 
+    id,
+    DATE_FORMAT(date, '%Y-%m-%d') AS date,
+    start_time AS startTime,
+    end_time AS endTime,
+    price
+  FROM VenueAvailability
+  WHERE venue_id = ?
+    AND status_id = ?
+  ORDER BY date ASC, start_time ASC
+`;
 
     const [rows] = await pool.query(sql, [venueId, 1]);
 
@@ -94,11 +42,13 @@ async getVenueAvailabilitiesRepo(venueId) {
             };
         }
 
-        grouped[dateKey].slots.push({
-            startTime: row.startTime,
-            endTime: row.endTime,
-            price: Number(row.price)
-        });
+ grouped[dateKey].slots.push({
+  id: row.id,
+  startTime: row.startTime,
+  endTime: row.endTime,
+  price: Number(row.price),
+});
+
     });
 
     return Object.values(grouped);
@@ -130,21 +80,6 @@ async getVenueBookedTimesRepo(venueId) {
     }));
 }
   
-//   async createVenueAvailabilityRepo(venueAv) {
-//     const sql =
-//       "INSERT INTO VenueAvailability(venue_id, date, start_time, end_time) VALUES (?,?,?,?)";
-
-//     // Correct order: venueId, date, startTime, endTime
-//     const [result] = await pool.query(sql, [
-//       venueAv.venueId,
-//       venueAv.date,
-//       venueAv.startTime,
-//       venueAv.endTime,
-//     ]);
-
-//     return result;
-//   }
-
 
 async createVenueAvailabilityRepo(venueAv) {
     const sql = `
@@ -164,12 +99,6 @@ async createVenueAvailabilityRepo(venueAv) {
     return result;
 }
 
-//  async checkVenueAvailabilityConflictRepo(venueId, date, startTime) {
-//     const sql =
-//       "SELECT * FROM VenueAvailability WHERE venue_id = ? AND date = ? AND start_time = ?";
-//     const [rows] = await pool.query(sql, [venueId, date, startTime]);
-//     return rows.length > 0; // true if conflict exists
-//   }
 
 async checkVenueAvailabilityOverlapRepo(venueId, date, startTime, endTime) {
     const sql = `
@@ -210,9 +139,6 @@ async updateVenueAvailabilityStatus(statusId, venueAvailabilityId) {
     const [rows] = await pool.query(sql, [statusId, venueAvailabilityId]);
     return rows;
 }
-
-
-
 
  // Upcoming booked slots (date >= today, status_id = 2) for the chart
     async getUpcomingReservationsRepo(venueId) {
@@ -255,8 +181,95 @@ async updateVenueAvailabilityStatus(statusId, venueAvailabilityId) {
  
 
 
+    async getVenueAvailabilityByIdRepo(venueAvailabilityId) {
+  const sql = `
+    SELECT
+      id,
+      venue_id AS venueId,
+      date,
+      start_time AS startTime,
+      end_time AS endTime,
+      status_id AS statusId,
+      price
+    FROM VenueAvailability
+    WHERE id = ?
+    LIMIT 1
+  `;
+
+  const [rows] = await pool.query(sql, [venueAvailabilityId]);
+
+  if (!rows[0]) return null;
+
+  return {
+    ...rows[0],
+    price: Number(rows[0].price),
+  };
+}
+
+async checkVenueAvailabilityOverlapForUpdateRepo(
+  venueId,
+  venueAvailabilityId,
+  date,
+  startTime,
+  endTime
+) {
+  const sql = `
+    SELECT id
+    FROM VenueAvailability
+    WHERE venue_id = ?
+      AND id <> ?
+      AND date = ?
+      AND status_id = 1
+      AND (? < end_time)
+      AND (? > start_time)
+    LIMIT 1
+  `;
+
+  const [rows] = await pool.query(sql, [
+    venueId,
+    venueAvailabilityId,
+    date,
+    startTime,
+    endTime,
+  ]);
+
+  return rows.length > 0;
+}
+
+async updateVenueAvailabilityRepo(data) {
+  const sql = `
+    UPDATE VenueAvailability
+    SET
+      date = ?,
+      start_time = ?,
+      end_time = ?,
+      price = ?
+    WHERE id = ?
+  `;
+
+  const [result] = await pool.query(sql, [
+    data.date,
+    data.startTime,
+    data.endTime,
+    data.price,
+    data.venueAvailabilityId,
+  ]);
+
+  return result;
+}
+
+async deleteVenueAvailabilityRepo(venueAvailabilityId) {
+  const sql = `
+    DELETE FROM VenueAvailability
+    WHERE id = ?
+  `;
+
+  const [result] = await pool.query(sql, [venueAvailabilityId]);
+  return result;
+}
 
   
 }
 
 module.exports = VenueAvailabilityRepository;
+

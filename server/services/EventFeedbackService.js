@@ -3,8 +3,6 @@ const EventFeedbackRepository = require("../repositories/EventFeedbackRepository
 const Groq = require("groq-sdk");
 const HttpError = require("../utils/HttpError");
 
-
-
 class EventFeedbackService {
     constructor() {
         this.eventFeedbackRepo = new EventFeedbackRepository();
@@ -12,12 +10,9 @@ class EventFeedbackService {
 
 
 
-
-
     async sendFeedbackService(feedback){
         return await this.eventFeedbackRepo.sendFeedbackRepo(feedback)
     }
-
 
 
       async checkAttendeeRatedService(attendeeId, eventId) {
@@ -34,8 +29,6 @@ class EventFeedbackService {
   }
 
   
-
-
 
 async getAttendeeFeedbacksService(attendeeId) {
   if (!attendeeId) {
@@ -54,8 +47,6 @@ async getAttendeeFeedbacksService(attendeeId) {
 
   return formattedFeedbacks;
 }
-
-
 
 
  async getOrganizerEventsFeedbacksService(query) {
@@ -88,13 +79,6 @@ async getAttendeeFeedbacksService(attendeeId) {
       totalPages: result.totalPages,
     };
   }
-
-
-
-
-
-
-
 
 
 
@@ -200,10 +184,6 @@ Please generate a professional summary for this event's feedback.
     summary,
   };
 }
-
-
-
-
 
 
 

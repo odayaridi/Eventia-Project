@@ -45,7 +45,6 @@ class PaymentController {
         }
 
         try {
-            // req.body is a raw Buffer here (see route config below)
             await this.paymentService.handleWebhookService(req.body, signature);
             return res.status(200).json({ received: true });
         } catch (error) {

@@ -16,33 +16,6 @@ class EventService {
         this.venueAvailabilityRepo = new VenueAvailabilityRepository();
         this.eventTicketsRepo = new EventTicketsRepository();
     }
-// async createEventService(event) {
-//     const eventExists = await this.eventRepo.checkEventExistsRepo(event.name);
-//     if (eventExists) throw new HttpError('Event already exists', 409);
-
-//     const venueId = await this.venueRepo.getVenueIdByNameRepo(event.venueName);
-//     const eventTypeId = await this.eventTypeRepo.getIdByTypeRepo(event.eventType);
-//     const venueCapacity = await this.venueRepo.getVenueCapacityByIdRepo(venueId);
-
-//     if (event.capacity > venueCapacity) {
-//         throw new HttpError(
-//             'Invalid capacity, capacity should be less than or equal to venue capacity',
-//             400
-//         );
-//     }
-
-//     // Set approvedVenueId to null (request will be created separately)
-//     event.approvedVenueId = null;
-//     event.eventTypeId = eventTypeId;
-
-//     const newEvent = await this.eventRepo.createEventRepo(event);
-//     await this.eventVenueRequestRepo.createEventVenueRequestsRepo(newEvent.insertId, venueId);
-
-//     return newEvent;
-// }
-
-
-
 
 async createEventService(event) {
     const eventExists = await this.eventRepo.checkEventExistsRepo(event.name);
@@ -188,51 +161,35 @@ async updateEventService(existingEvent){
       return this.eventRepo.getEndedEventNamesRepo(organizerId);
   }
 
-
-//  async filterEventsService(filters) {
-
-//     let formattedFilters = filters;  // declare in outer scope
-
-//     if (filters.eventTypeName) {
-//         const eventTypeId = await this.eventTypeRepo.getIdByTypeRepo(filters.eventTypeName);
-
-//         if (!eventTypeId) {
-//             throw new HttpError();
-//         }
-
-//         const { eventTypeName, ...rest } = filters;
-//         formattedFilters = { ...rest, eventTypeId };
-//     }
-
-//     const response = await this.eventRepo.filterEventsRepo(formattedFilters);
-//     return response;
-// }
-
-async filterEventsService(filters) {
-
-    let formattedFilters = filters;
+    async filterEventsService(filters) {
+    let formattedFilters = { ...filters };
 
     if (filters.eventTypeName) {
-        const eventTypeId = await this.eventTypeRepo.getIdByTypeRepo(filters.eventTypeName);
+        const eventTypeId = await this.eventTypeRepo.getIdByTypeRepo(
+        filters.eventTypeName
+        );
 
         if (!eventTypeId) {
-            throw new HttpError("Invalid event type", 400);
+        throw new HttpError("Invalid event type", 400);
         }
 
-        const { eventTypeName, ...rest } = filters;
-        formattedFilters = { ...rest, eventTypeId };
+        delete formattedFilters.eventTypeName;
+        formattedFilters.eventTypeId = eventTypeId;
     }
 
     const response = await this.eventRepo.filterEventsRepo(formattedFilters);
 
-
     for (const event of response.events) {
-        const seatsLeft = await this.eventTicketsRepo.getTotalAvailableSeatsByEventRepo(event.eventId);
+        const seatsLeft =
+        await this.eventTicketsRepo.getTotalAvailableSeatsByEventRepo(
+            event.eventId
+        );
+
         event.seatsLeft = seatsLeft;
     }
 
     return response;
-}
+    }
 
 
 
@@ -240,7 +197,6 @@ async getEventsByOrganizerService(organizerId) {
 
     const events = await this.eventRepo.getEventsByOrganizerRepo(organizerId);
 
-    // Add full image URL
   
     const baseUrl = `${process.env.BASE_URL}/uploads/eventsImages/`;
 
@@ -271,6 +227,7 @@ async getEventsByOrganizerService(organizerId) {
 
         return event;
     }
+    
 
  async getDashboardTotalEventsService(organizerId) {
         return this.eventRepo.getDashboardTotalEventsRepo(organizerId);

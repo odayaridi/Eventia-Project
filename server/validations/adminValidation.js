@@ -143,37 +143,6 @@ exports.getAllVenueManagersValidator = [
         .withMessage("limit must be a positive integer")
 ];
 
-/* ---------------- ATTENDEE ---------------- */
-
-// exports.updateAttendeeValidator = [
-//     body("attendeeId")
-//         .notEmpty()
-//         .withMessage("attendeeId is required")
-//         .isInt({ gt: 0 })
-//         .withMessage("attendeeId must be a positive integer"),
-
-//     body("email")
-//         .notEmpty()
-//         .withMessage("email is required")
-//         .isEmail()
-//         .withMessage("Invalid email"),
-
-//     body("username")
-//         .notEmpty()
-//         .withMessage("username is required")
-//         .trim(),
-
-//     body("password")
-//         .notEmpty()
-//         .withMessage("password is required")
-//         .isLength({ min: 6 })
-//         .withMessage("Password must be at least 6 characters"),
-
-//     body("phoneNumber")
-//         .notEmpty()
-//         .withMessage("phoneNumber is required")
-//         .trim()
-// ];
 
 
 

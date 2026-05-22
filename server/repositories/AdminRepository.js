@@ -234,47 +234,6 @@ const dataSql = `
         return rows[0];
     }
 
-    /* ==================== GET ALL PAGINATED ==================== */
-
-    // async getAllAttendeesRepo(query) {
-    //     const page = Number(query.page) || 1;
-    //     const limit = Number(query.limit) || 10;
-    //     const offset = (page - 1) * limit;
-
-    //     const baseSql = `
-    //         FROM Attendees a
-    //         JOIN Users u ON u.id = a.user_id
-    //         WHERE u.is_deleted = 0
-    //     `;
-
-    //     const countSql = `SELECT COUNT(*) AS total ${baseSql}`;
-    //     const [countRows] = await pool.query(countSql);
-    //     const total = countRows[0]?.total || 0;
-
-    //     const dataSql = `
-    //         SELECT
-    //             a.id AS attendeeId,
-    //             u.email,
-    //             u.username,
-    //             u.phone_number AS phoneNumber
-    //         ${baseSql}
-    //         ORDER BY u.created_at DESC
-    //         LIMIT ? OFFSET ?
-    //     `;
-
-    //     const [rows] = await pool.query(dataSql, [limit, offset]);
-
-    //     return {
-    //         attendees: rows,
-    //         total,
-    //         page,
-    //         limit,
-    //         totalPages: Math.ceil(total / limit)
-    //     };
-    // }
-
-
-
     async getAllAttendeesRepo(query) {
   const page = Number(query.page) || 1;
   const limit = Number(query.limit) || 10;
@@ -355,46 +314,6 @@ const dataSql = `
   };
 }
 
-    // async getAllVenueManagersRepo(query) {
-    //     const page = Number(query.page) || 1;
-    //     const limit = Number(query.limit) || 10;
-    //     const offset = (page - 1) * limit;
-
-    //     const baseSql = `
-    //         FROM VenueManagers vm
-    //         JOIN Users u ON u.id = vm.user_id
-    //         WHERE u.is_deleted = 0
-    //     `;
-
-    //     const countSql = `SELECT COUNT(*) AS total ${baseSql}`;
-    //     const [countRows] = await pool.query(countSql);
-    //     const total = countRows[0]?.total || 0;
-
-    //     const dataSql = `
-    //         SELECT
-    //             vm.id AS managerId,
-    //             u.email,
-    //             u.username,
-    //             u.phone_number AS phoneNumber
-    //         ${baseSql}
-    //         ORDER BY u.created_at DESC
-    //         LIMIT ? OFFSET ?
-    //     `;
-
-    //     const [rows] = await pool.query(dataSql, [limit, offset]);
-
-    //     return {
-    //         venueManagers: rows,
-    //         total,
-    //         page,
-    //         limit,
-    //         totalPages: Math.ceil(total / limit)
-    //     };
-    // }
-
-
-
-
     async getAllVenueManagersRepo(query) {
   const page = Number(query.page) || 1;
   const limit = Number(query.limit) || 10;
@@ -433,37 +352,6 @@ const dataSql = `
     totalPages: Math.ceil(total / limit),
   };
 }
-
-
-    /* ==================== UPDATE ==================== */
-
-    // async updateAttendeeRepo({ attendeeId, email, username, password, phoneNumber }) {
-    //     const [userRows] = await pool.query(
-    //         `
-    //         SELECT u.id AS userId
-    //         FROM Attendees a
-    //         JOIN Users u ON u.id = a.user_id
-    //         WHERE a.id = ?
-    //         LIMIT 1
-    //         `,
-    //         [attendeeId]
-    //     );
-
-    //     const userId = userRows[0]?.userId;
-
-    //     await pool.query(
-    //         `
-    //         UPDATE Users
-    //         SET email = ?, username = ?, password = ?, phone_number = ?
-    //         WHERE id = ?
-    //         `,
-    //         [email, username, password, phoneNumber, userId]
-    //     );
-
-    //     return await this.getAttendeeByIdRepo(attendeeId);
-    // }
-
-
 
      async updateAttendeeRepo({
   attendeeId,
@@ -639,21 +527,6 @@ const dataSql = `
 }
 
 
-
-
-
-
-
-
-
-
-
-
-// ═══════════════════════════════════════════════════════════
-// AdminRepository.js — paste these 9 repo methods into the class
-// (5 service methods call multiple repo methods below)
-// ═══════════════════════════════════════════════════════════
- 
     // ── User counts ─────────────────────────────────────────────────────────
  
     async countAttendeesRepo() {
@@ -741,10 +614,6 @@ const dataSql = `
     }
  
     async countRejectedVenueManagersRepo() {
-        // approved = 0 AND has been seen (i.e. has a user record) — pending are also 0,
-        // but we treat approved=0 as "not approved" which includes both pending and rejected.
-        // Since you don't have a separate "rejected" flag, we use approved = 0
-        // to represent the "not approved" slice in the pie chart.
         const sql = `
             SELECT COUNT(*) AS cnt
             FROM VenueManagers vm

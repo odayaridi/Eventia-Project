@@ -5,6 +5,12 @@ const authenticateToken = require("../middleware/authenticateToken");
 const VenueAvailabilityController = require("../controllers/VenueAvailabilityController");
 const { createVenueAvailabilityValidator, getVenueAvailabilitiesValidator } = require("../validations/venueAvailabilityValidation");
 
+const {
+  updateVenueAvailabilityValidator,
+  deleteVenueAvailabilityValidator,
+} = require("../validations/venueAvailabilityValidation");
+
+
 const router = express.Router();
 const venueAvailablityController = new VenueAvailabilityController();
 router.post(
@@ -19,8 +25,8 @@ router.post(
 
 router.get(
     "/getVenueAvailablities",
-    // authenticateToken,
-    // restrictTo("venueManager"),
+    authenticateToken,
+    restrictTo("venueManager"),
     getVenueAvailabilitiesValidator,
     validationRequest,
     venueAvailablityController.getVenueAvailabilitiesController.bind(venueAvailablityController)
@@ -29,8 +35,8 @@ router.get(
 
 router.get(
     "/getVenueBookedTimes",
-    // authenticateToken,
-    // restrictTo("venueManager"),
+    authenticateToken,
+    restrictTo("venueManager"),
     getVenueAvailabilitiesValidator,
     validationRequest,
     venueAvailablityController.getVenueBookedTimesController.bind(venueAvailablityController)
@@ -39,25 +45,39 @@ router.get(
 
 
 
-
-
-
-
 router.get(
     "/dashboard/upcomingReservations",
-    // authenticateToken,
-    // restrictTo("venueManager"),
+    authenticateToken,
+    restrictTo("venueManager"),
     venueAvailablityController.getUpcomingReservationsController.bind(venueAvailablityController)
 );
  
 router.get(
     "/dashboard/bookingByStatus",
-    // authenticateToken,
-    // restrictTo("venueManager"),
+    authenticateToken,
+    restrictTo("venueManager"),
     venueAvailablityController.getBookingByStatusController.bind(venueAvailablityController)
 );
  
 
+
+router.put(
+  "/updateVenueAvailability/:venueAvailabilityId",
+  authenticateToken,
+  restrictTo("venueManager"),
+  updateVenueAvailabilityValidator,
+  validationRequest,
+  venueAvailablityController.updateVenueAvailabilityController.bind(venueAvailablityController)
+);
+
+router.delete(
+  "/deleteVenueAvailability/:venueAvailabilityId",
+  authenticateToken,
+  restrictTo("venueManager"),
+  deleteVenueAvailabilityValidator,
+  validationRequest,
+  venueAvailablityController.deleteVenueAvailabilityController.bind(venueAvailablityController)
+);
 
 
 module.exports = router;

@@ -1,173 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import axiosInstance from "./interceptor/axiosInstance";
-
-// export interface VenueInfo {
-//   id: number;
-//   name: string;
-//   location: string;
-//   locationLink: string;
-//   capacity: number;
-//   facilities: string;
-//   createdAt: string;
-// }
-
-// export interface CreateVenuePayload {
-//   name: string;
-//   location: string;
-//   locationLink: string;
-//   capacity: number;
-//   facilities: string;
-//   managerId: number;
-// }
-
-// export interface UpdateVenuePayload {
-//   id: number;
-//   name?: string;
-//   location?: string;
-//   locationLink?: string;
-//   capacity?: number;
-//   facilities?: string;
-//   managerId?: number;
-// }
-
-// export interface VenueAvailabilityItem {
-//   id: number;
-//   venueId: number;
-//   date: string;
-//   startTime: string;
-//   endTime: string;
-// }
-
-// export interface CreateVenueAvailabilityPayload {
-//   managerId: number;
-//   date: string;
-//   startTime: string;
-//   endTime: string;
-// }
-
-// interface BackendResponse<T = unknown> {
-//   success: string | boolean;
-//   message: string;
-//   data?: T;
-//   venueExists?: boolean;
-//   error?: string;
-// }
-
-// const getErrorMessage = (error: unknown): string => {
-//   const fallback = "Something went wrong. Please try again.";
-
-//   if (
-//     typeof error === "object" &&
-//     error !== null &&
-//     "response" in error &&
-//     typeof (error as { response?: unknown }).response === "object"
-//   ) {
-//     const response = (error as { response?: { data?: { error?: string; message?: string } } })
-//       .response;
-//     return response?.data?.error || response?.data?.message || fallback;
-//   }
-
-//   if (error instanceof Error) {
-//     return error.message;
-//   }
-
-//   return fallback;
-// };
-
-// // --- VENUE PROFILE METHODS ---
-
-// export const managerVenueExists = async (managerId: number): Promise<boolean> => {
-//   try {
-//     const response = await axiosInstance.get<BackendResponse>("/venue/hasVenue", {
-//       params: { managerId },
-//       _requiresAuth: true, // Flag for interceptor
-//     } as any);
-
-//     return Boolean(response.data.venueExists);
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
-
-// export const createVenueForManager = async (
-//   payload: CreateVenuePayload
-// ): Promise<CreateVenuePayload & { id: number }> => {
-//   try {
-//     const response = await axiosInstance.post<
-//       BackendResponse<CreateVenuePayload & { id: number }>
-//     >("/venue/createVenue", payload, {
-//       _requiresAuth: true, // Flag for interceptor
-//     } as any);
-
-//     if (!response.data.data) {
-//       throw new Error("Venue was not created successfully.");
-//     }
-
-//     return response.data.data;
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
-
-// export const retrieveVenueInfo = async (managerId: number): Promise<VenueInfo> => {
-//   try {
-//     const response = await axiosInstance.get<BackendResponse<VenueInfo>>(
-//       "/venue/getVenueInfo",
-//       {
-//         params: { managerId },
-//         _requiresAuth: true, // Flag for interceptor
-//       } as any
-//     );
-
-//     if (!response.data.data) {
-//       throw new Error("Venue information was not found.");
-//     }
-
-//     return response.data.data;
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
-
-// export const updateVenueInfo = async (payload: UpdateVenuePayload): Promise<void> => {
-//   try {
-//     await axiosInstance.put<BackendResponse>("/venue/updateVenue", payload, {
-//       _requiresAuth: true, // Flag for interceptor
-//     } as any);
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
-
-
-
 import axiosInstance from "./interceptor/axiosInstance";
 
 export interface VenueInfo {
@@ -366,30 +196,6 @@ export const updateVenueInfo = async (
   }
 };
 
-// --- VENUE AVAILABILITY METHODS ---
-
-// export const createVenueAvailabiltyForManager = async (
-//   payload: CreateVenueAvailabilityPayload
-// ): Promise<VenueAvailabilityItem> => {
-//   try {
-//     const response = await axiosInstance.post<BackendResponse<VenueAvailabilityItem>>(
-//       "/venueAvailability/createVenueAvailability",
-//       payload,
-//       {
-//         _requiresAuth: true, // Flag for interceptor
-//       } as any
-//     );
-
-//     if (!response.data.data) {
-//       throw new Error("Venue availability was not created successfully.");
-//     }
-
-//     return response.data.data;
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
-
 export const createVenueAvailabiltyForManager = async (
   payload: CreateVenueAvailabilityPayload
 ): Promise<VenueAvailabilityItem> => {
@@ -420,16 +226,27 @@ export const createVenueAvailabiltyForManager = async (
 //   endTime: string;
 // }
 
-export interface VenueAvailabilitySlot {
-  startTime: string;
-  endTime: string;
-  price: number;
-}
+// export interface VenueAvailabilitySlot {
+//   startTime: string;
+//   endTime: string;
+//   price: number;
+// }
 
 // export interface VenueAvailabilityDay {
 //   date: string;
 //   slots: VenueAvailabilitySlot[];
 // }
+
+
+
+export interface VenueAvailabilitySlot {
+  id: number;
+  startTime: string;
+  endTime: string;
+  price: number;
+}
+
+
 
 export interface VenueAvailabilityDay {
   date: string;
@@ -455,69 +272,6 @@ export const getALLVenueAvailabilities = async (
     throw new Error(getErrorMessage(error));
   }
 };
-
-// export const getALLVenueAvailabilities = async (
-//   managerId: number
-// ): Promise<VenueAvailabilityItem[]> => {
-//   try {
-//     const response = await axiosInstance.get<BackendResponse<VenueAvailabilityItem[]>>(
-//       "/venueAvailability/getVenueAvailablities",
-//       {
-//         params: { managerId },
-//         _requiresAuth: true, // Flag for interceptor
-//       } as any
-//     );
-
-//     return response.data.data || [];
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export interface EventRequestCounts {
-//   pendingRequestsCount: number;
-//   approvedRequestsCount: number;
-//   rejectedRequestsCount: number;
-// }
-
-// export interface EventRequestItem {
-//   eventId: number;
-//   organizerUsername: string;
-//   eventName: string;
-//   eventType: string;
-//   eventDate: string;
-//   startTime: string;
-//   endTime: string;
-//   eventDescription: string;
-//   eventCapacity: number;
-//   venueAvailabilityId: number;
-//   venueName: string;
-//   venueLocation: string;
-//   requestStatus: string;
-// }
-
-// export interface EventRequestsPaginatedResponse {
-//   requests: EventRequestItem[];
-//   total: number;
-//   page: number;
-//   limit: number;
-//   totalPages: number;
-// }
-
-
 
 
 
@@ -575,39 +329,6 @@ export const countEventReqsStatus = async (
     throw new Error(getErrorMessage(error));
   }
 };
-
-// export const fetchEventReqsToVenue = async (payload: {
-//   managerId: number;
-//   page?: number;
-//   limit?: number;
-// }): Promise<EventRequestsPaginatedResponse> => {
-//   try {
-//     // Axios GET call: config is the 2nd argument
-//     const response = await axiosInstance.get<BackendResponse<EventRequestsPaginatedResponse>>(
-//       "/venue/fetchEventRequests",
-//       {
-//         params: payload, // <--- Change 'data: payload' to 'params: payload'
-//         _requiresAuth: true,
-//       } as any
-//     );
-
-//     if (!response.data.data) {
-//       return {
-//         requests: [],
-//         total: 0,
-//         page: payload.page || 1,
-//         limit: payload.limit || 10,
-//         totalPages: 1,
-//       };
-//     }
-
-//     return response.data.data;
-//   } catch (error) {
-//     throw new Error(getErrorMessage(error));
-//   }
-// };
-
-
 
 
 
@@ -765,11 +486,11 @@ export interface VenueAvailability {
 
 
 // NEW
-export interface VenueAvailabilitySlot {
-  start_time: string;
-  end_time: string;
-  price: number;
-}
+// export interface VenueAvailabilitySlot {
+//   start_time: string;
+//   end_time: string;
+//   price: number;
+// }
 
 export interface VenueAvailability {
   date: string;
@@ -1222,6 +943,108 @@ export const markConversationReadForVenue = async (payload: {
         readerUserId: payload.readerUserId,
       },
       {
+        _requiresAuth: true,
+      } as any
+    );
+  } catch (error) {
+    throw new Error(getErrorMessage(error));
+  }
+};
+
+
+
+export type WebRTCCallType = "audio";
+
+export interface WebRTCAck {
+  success: boolean;
+  message: string;
+  receiverUserId?: number;
+}
+
+export interface WebRTCIncomingCallPayload {
+  conversationId: number;
+  callerUserId: number;
+  receiverUserId: number;
+  callerUsername: string;
+  callType: WebRTCCallType;
+  offer: RTCSessionDescriptionInit;
+}
+
+export interface WebRTCAnswerPayload {
+  conversationId: number;
+  callerUserId: number;
+  receiverUserId: number;
+  answer: RTCSessionDescriptionInit;
+}
+
+export interface WebRTCIceCandidatePayload {
+  conversationId: number;
+  senderUserId: number;
+  receiverUserId: number;
+  candidate: RTCIceCandidateInit;
+}
+
+
+
+
+
+
+
+
+
+
+export interface UpdateVenueAvailabilityPayload {
+  venueAvailabilityId: number;
+  managerId: number;
+  date: string;
+  startTime: string;
+  endTime: string;
+  price: number;
+}
+
+export interface DeleteVenueAvailabilityPayload {
+  venueAvailabilityId: number;
+  managerId: number;
+}
+
+export const updateVenueAvailability = async (
+  payload: UpdateVenueAvailabilityPayload
+): Promise<VenueAvailabilityItem> => {
+  try {
+    const response = await axiosInstance.put<BackendResponse<VenueAvailabilityItem>>(
+      `/venueAvailability/updateVenueAvailability/${payload.venueAvailabilityId}`,
+      {
+        managerId: payload.managerId,
+        date: payload.date,
+        startTime: payload.startTime,
+        endTime: payload.endTime,
+        price: payload.price,
+      },
+      {
+        _requiresAuth: true,
+      } as any
+    );
+
+    if (!response.data.data) {
+      throw new Error("Venue availability was not updated successfully.");
+    }
+
+    return response.data.data;
+  } catch (error) {
+    throw new Error(getErrorMessage(error));
+  }
+};
+
+export const deleteVenueAvailability = async (
+  payload: DeleteVenueAvailabilityPayload
+): Promise<void> => {
+  try {
+    await axiosInstance.delete(
+      `/venueAvailability/deleteVenueAvailability/${payload.venueAvailabilityId}`,
+      {
+        data: {
+          managerId: payload.managerId,
+        },
         _requiresAuth: true,
       } as any
     );

@@ -7,22 +7,6 @@ class VenueAvailabilityController {
 
 
 
-
-    // {
-//   "venueId": 2,
-//   "date": "2026-08-22",
-//   "startTime": "15:00:00",
-//   "endTime": "20:00:00"
-// }
-    // async createVenueAvailabilityController(req,res,next) {
-    //     try {
-    //         const data = await this.venueAvailabilityService.createVenueAvailabilityService(req.body);
-    //           res.status(201).json({ success: "true", message: "Venue Availability created successfully", data });
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // }
-
     async createVenueAvailabilityController(req, res, next) {
     try {
         const data = await this.venueAvailabilityService.createVenueAvailabilityService(req.body);
@@ -36,50 +20,6 @@ class VenueAvailabilityController {
         next(error);
     }
 }
-
-
-    // async getVenueAvailabilitiesController(req,res,next) {
-    //     try {
-    //         const {managerId} = req.query;
-    //         const data = await this.venueAvailabilityService.getVenueAvailabilitiesService(managerId);
-    //         let message;
-    //         if(data.length == 0) {
-    //             message = 'No venue availabalities assigned for this venue' ;
-    //         }
-
-    //         else {
-    //             message = 'Venue availabalities exists for this venue'
-    //         }
-
-    //         res.status(200).json({ success: "true", message, data })
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // }
-
-
-
-    //   async getVenueBookedTimesController(req,res,next) {
-    //     try {
-    //         const {managerId} = req.query;
-    //         const data = await this.venueAvailabilityService.getVenueBookedTimesService(managerId);
-    //         let message;
-    //         if(data.length == 0) {
-    //             message = 'No venue booked assigned for this venue' ;
-    //         }
-
-    //         else {
-    //             message = 'Venue booked times exists for this venue'
-    //         }
-
-    //         res.status(200).json({ success: "true", message, data })
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // }
-
-
-
 
 
 async getVenueAvailabilitiesController(req,res,next) {
@@ -151,7 +91,56 @@ async getVenueBookedTimesController(req,res,next) {
     }
  
 
+
+
+
+
+
+
+
+ async updateVenueAvailabilityController(req, res, next) {
+  try {
+    const { venueAvailabilityId } = req.params;
+
+    const data =
+      await this.venueAvailabilityService.updateVenueAvailabilityService({
+        venueAvailabilityId,
+        ...req.body,
+      });
+
+    res.status(200).json({
+      success: true,
+      message: "Venue availability updated successfully",
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async deleteVenueAvailabilityController(req, res, next) {
+  try {
+    const { venueAvailabilityId } = req.params;
+    const { managerId } = req.body;
+
+    const data =
+      await this.venueAvailabilityService.deleteVenueAvailabilityService({
+        venueAvailabilityId,
+        managerId,
+      });
+
+    res.status(200).json({
+      success: true,
+      message: "Venue availability deleted successfully",
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 }
 
 
 module.exports = VenueAvailabilityController;
+

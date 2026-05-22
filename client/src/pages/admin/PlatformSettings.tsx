@@ -372,10 +372,7 @@ const PlatformSettings: React.FC = () => {
             </div>
           </div>
 
-          <div className="platform-settings-current-box">
-            <span className="platform-settings-current-label">Current Selection</span>
-            <strong>{selectedTicketType?.name || "No ticket type selected"}</strong>
-          </div>
+     
         </section>
 
         <AlertSnackbar

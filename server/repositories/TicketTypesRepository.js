@@ -11,12 +11,11 @@ class TicketTypesRepository{
     }
 
 
-
     async getTicketTypesRepo() {
-  const sql = `SELECT name FROM tickettypes`;
-  const [rows] = await pool.query(sql);
-  return rows;
-}
+      const sql = `SELECT name FROM tickettypes`;
+      const [rows] = await pool.query(sql);
+      return rows;
+    }
 
 }
 

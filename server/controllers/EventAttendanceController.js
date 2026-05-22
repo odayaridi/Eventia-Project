@@ -5,22 +5,6 @@ class EventAttendanceController {
         this.eventAttendanceService = new EventAttendanceService();
     }
 
-    // async insertEventAttendanceController(req, res, next) {
-    //     try {
-    //         const { bookingTicketId } = req.body;
-    //         const data = await this.eventAttendanceService.insertEventAttendanceService(bookingTicketId);
-
-    //         res.status(201).json({
-    //             success: true,
-    //             message: 'Attendee checked in successfully',
-    //             data
-    //         });
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // }
-
-
 
     async insertEventAttendanceController(req, res, next) {
   try {

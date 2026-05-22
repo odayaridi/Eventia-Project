@@ -134,24 +134,6 @@ class MessageService {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 async getOrganizerUnreadSummaryService(organizerId) {
   if (!organizerId) {
     throw new HttpError("Organizer ID is required", 400);

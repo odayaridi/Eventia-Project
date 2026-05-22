@@ -5,25 +5,6 @@ class UserRepository{
         
     }
 
-      // Create a new user
-// async createUser(newUser) {
-//   const [result] = await pool.query(
-//     'INSERT INTO Users (email, username, password, phone_number, role_id) VALUES (?, ?, ?, ?, ?)',
-//     [newUser.email, newUser.username, newUser.password, newUser.phoneNumber, newUser.roleId]
-//   );
-
-//   // Return the inserted user
-//   return {
-//     id: result.insertId,
-//     email: newUser.email,
-//     username: newUser.username,
-//     phoneNumber: newUser.phoneNumber,
-//     roleId: newUser.roleId
-//   };
-// }
-
-
-
 async createUser(newUser) {
   const [result] = await pool.query(
     `
@@ -94,8 +75,6 @@ async createUser(newUser) {
      );
      return result[0];
  }
-
-
 
 
 }

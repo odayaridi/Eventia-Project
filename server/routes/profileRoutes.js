@@ -7,14 +7,16 @@ const {
   editAttendeeProfileValidator,
 } = require("../validations/profileValidation");
 const ProfileController = require("../controllers/ProfileController");
+const authenticateToken = require("../middleware/authenticateToken");
+const restrictTo = require("../middleware/restrictTo");
 
 const router = express.Router();
 const profileController = new ProfileController();
 
 router.get(
   "/getAttendeeProfile",
-  // authenticateToken,
-  // restrictTo("attendee"),
+  authenticateToken,
+  restrictTo("attendee"),
   getAttendeeProfileValidator,
   validationRequest,
   profileController.getAttendeeProfileController.bind(profileController)
@@ -22,8 +24,8 @@ router.get(
 
 router.get(
   "/getEventOrganizerProfile",
-  // authenticateToken,
-  // restrictTo("eventOrganizer"),
+  authenticateToken,
+  restrictTo("eventOrganizer"),
   getEventOrganizerProfileValidator,
   validationRequest,
   profileController.getEventOrganizerProfileController.bind(profileController)
@@ -31,8 +33,8 @@ router.get(
 
 router.get(
   "/getVenueManagerProfile",
-  // authenticateToken,
-  // restrictTo("venueManager"),
+  authenticateToken,
+  restrictTo("venueManager"),
   getVenueManagerProfileValidator,
   validationRequest,
   profileController.getVenueManagerProfileController.bind(profileController)
@@ -40,8 +42,8 @@ router.get(
 
 router.put(
   "/editAttendeeProfile",
-  // authenticateToken,
-  // restrictTo("attendee"),
+  authenticateToken,
+  restrictTo("attendee"),
   editAttendeeProfileValidator,
   validationRequest,
   profileController.editAttendeeProfileController.bind(profileController)

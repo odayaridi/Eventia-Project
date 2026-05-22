@@ -29,21 +29,6 @@ const getErrorMessage = (error: unknown): string => {
   return fallback;
 };
 
-// export interface PendingEventOrganizerItem {
-//   email: string;
-//   username: string;
-//   phoneNumber: string | null;
-//   organization: string | null;
-//   commercialRegistrationDocument: string | null;
-// }
-
-// export interface PendingVenueManagerItem {
-//   email: string;
-//   username: string;
-//   phoneNumber: string | null;
-//   venueAuthorizationDocument: string | null;
-// }
-
 
 export interface PendingEventOrganizerItem {
   firstName: string;
@@ -205,41 +190,6 @@ export const rejectEventOrganizer = async (organizerName: string): Promise<void>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export interface AdminAttendeeItem {
-//   attendeeId: number;
-//   email: string;
-//   username: string;
-//   phoneNumber: string | null;
-// }
-
-// export interface AdminAttendeesResponse {
-//   attendees: AdminAttendeeItem[];
-//   total: number;
-//   page: number;
-//   limit: number;
-//   totalPages: number;
-// }
-
-// export interface UpdateAttendeePayload {
-//   attendeeId: number;
-//   email: string;
-//   username: string;
-//   password: string;
-//   phoneNumber: string;
-// }
 
 
 export interface AdminAttendeeItem {
@@ -509,22 +459,6 @@ export const deleteVenueManagerAdmin = async (managerId: number): Promise<void> 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export interface ContactRequestItem {
   id: number;
   subject: string;
@@ -533,6 +467,14 @@ export interface ContactRequestItem {
   username: string;
   email: string;
   phoneNumber: string;
+}
+
+export interface ResolveContactRequestPayload {
+  id: number;
+  username: string;
+  email: string;
+  subject: string;
+  message: string;
 }
 
 export const getAttendeeRequests = async (): Promise<ContactRequestItem[]> => {
@@ -550,11 +492,13 @@ export const getAttendeeRequests = async (): Promise<ContactRequestItem[]> => {
   }
 };
 
-export const resolveAttendeeReq = async (id: number): Promise<void> => {
+export const resolveAttendeeReq = async (
+  payload: ResolveContactRequestPayload
+): Promise<void> => {
   try {
     await axiosInstance.put(
       "/supportRequestAttendee/resolveAttendeeReq",
-      { id },
+      payload,
       {
         _requiresAuth: true,
       } as any
@@ -579,11 +523,13 @@ export const getManagerRequests = async (): Promise<ContactRequestItem[]> => {
   }
 };
 
-export const resolveManagerReq = async (id: number): Promise<void> => {
+export const resolveManagerReq = async (
+  payload: ResolveContactRequestPayload
+): Promise<void> => {
   try {
     await axiosInstance.put(
       "/supportRequestManager/resolveManagerReq",
-      { id },
+      payload,
       {
         _requiresAuth: true,
       } as any
@@ -608,11 +554,13 @@ export const getOrganizerRequests = async (): Promise<ContactRequestItem[]> => {
   }
 };
 
-export const resolveOrganizerReq = async (id: number): Promise<void> => {
+export const resolveOrganizerReq = async (
+  payload: ResolveContactRequestPayload
+): Promise<void> => {
   try {
     await axiosInstance.put(
       "/supportRequestOrganizer/resolveOrganizerReq",
-      { id },
+      payload,
       {
         _requiresAuth: true,
       } as any
@@ -621,22 +569,6 @@ export const resolveOrganizerReq = async (id: number): Promise<void> => {
     throw new Error(getErrorMessage(error));
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -779,21 +711,6 @@ export const deleteTicketType = async (id: number): Promise<void> => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-// ─── ADD these types + 5 methods to your existing adminApi.ts ────────────────
-
-// ── Types ─────────────────────────────────────────────────────────────────────
 
 export interface AdminCountAllUsers {
   totalUsers:           number;

@@ -9,24 +9,6 @@ class VenueService {
         this.venueImagesRepo = new VenueImagesRepository();
     }
 
-    // async createVenueService(newVenue) {
-    //     const result = await this.venueRepo.createVenueRepo(newVenue);
-    //     if (result.affectedRows !== 1) throw new HttpError("Error creating venue");
-
-    //     return {
-    //         id: result.insertId,
-    //         ...newVenue
-    //     };
-    // }
-
-    // async updateVenueService(dto) {
-    //     const result = await this.venueRepo.updateVenueRepo(dto);
-    //     if (result.affectedRows !== 1) throw new HttpError("Venue not found or nothing to update");
-    //     return dto;
-    // }
-
-
-
        async createVenueService(newVenue, files) {
 
         if (!files || files.length === 0) {
@@ -41,7 +23,7 @@ class VenueService {
 
         const venueId = result.insertId;
 
-        // 👇 Save images
+
         const imagePaths = files.map(file => file.filename);
 
         await this.venueImagesRepo.insertVenueImages(venueId, imagePaths);
@@ -64,7 +46,7 @@ class VenueService {
             throw new HttpError("Venue not found or nothing to update");
         }
 
-        // 👇 If new images uploaded → replace old ones
+    
         if (files && files.length > 0) {
 
             const imagePaths = files.map(file => file.filename);
@@ -119,28 +101,15 @@ class VenueService {
     }
 
 
-//     async fetchEventRequestsService(query) {
-//     const venueId = await this.venueRepo.getVenueIdByManagerId(query.managerId);
-//     const { managerId, ...rest } = query;
+    async fetchEventRequestsService(query) {
+        const venueId = await this.venueRepo.getVenueIdByManagerId(query.managerId);
+        const { managerId, ...rest } = query;
 
-//     return await this.venueRepo.fetchEventRequestsRepo({
-//         ...rest,
-//         venueId
-//     });
-// }
-
-
-
-
-async fetchEventRequestsService(query) {
-    const venueId = await this.venueRepo.getVenueIdByManagerId(query.managerId);
-    const { managerId, ...rest } = query;
-
-    return await this.venueRepo.fetchEventRequestsRepo({
-        ...rest,
-        venueId
-    });
-}
+        return await this.venueRepo.fetchEventRequestsRepo({
+            ...rest,
+            venueId
+        });
+    }
 
     async hasVenueService(managerId) {
         const venueExists = await this.venueRepo.hasVenueRepository(managerId);
@@ -151,65 +120,43 @@ async fetchEventRequestsService(query) {
     }
 
 
-// async getVenueInfoService(managerId) {
-//     const venue = await this.venueRepo.getVenueInfoRepo(managerId);
+    async getVenueDashboardStatsService(managerId) {
 
-//     if (!venue) {
-//         throw new HttpError("Venue does not exist", 404);
-//     }
+        const venue = await this.venueRepo.getVenueByManager(managerId);
 
-//     const formattedVenue = {
-//         ...venue,
-//         createdAt: format(venue.createdAt,"dd/MM/yyyy HH:mm:ss")
-//     };
+        if (!venue) {
+            return {
+                approvedBookings: 0,
+                estimatedRevenue: 0,
+                utilizationRate: 0,
+                totalRequests: 0,
+            };
+        }
 
-//     return formattedVenue;
-// }
+        const venueId = venue.id;
 
+        // Run queries in parallel
+        const [
+            booked,
+            total,
+            revenue,
+            requests
+        ] = await Promise.all([
+            this.venueRepo.countBookedSlots(venueId),
+            this.venueRepo.countTotalSlots(venueId),
+            this.venueRepo.sumBookedRevenue(venueId),
+            this.venueRepo.countVenueRequests(venueId),
+        ]);
 
-
-// VenueService.js
-
-async getVenueDashboardStatsService(managerId) {
-
-    const venue = await this.venueRepo.getVenueByManager(managerId);
-
-    if (!venue) {
         return {
-            approvedBookings: 0,
-            estimatedRevenue: 0,
-            utilizationRate: 0,
-            totalRequests: 0,
+            approvedBookings: booked,
+            estimatedRevenue: revenue,
+            utilizationRate: total > 0
+                ? parseFloat(((booked / total) * 100).toFixed(1))
+                : 0,
+            totalRequests: requests,
         };
     }
-
-    const venueId = venue.id;
-
-    // Run queries in parallel
-    const [
-        booked,
-        total,
-        revenue,
-        requests
-    ] = await Promise.all([
-        this.venueRepo.countBookedSlots(venueId),
-        this.venueRepo.countTotalSlots(venueId),
-        this.venueRepo.sumBookedRevenue(venueId),
-        this.venueRepo.countVenueRequests(venueId),
-    ]);
-
-    return {
-        approvedBookings: booked,
-        estimatedRevenue: revenue,
-        utilizationRate: total > 0
-            ? parseFloat(((booked / total) * 100).toFixed(1))
-            : 0,
-        totalRequests: requests,
-    };
-}
-
-
-
 }
 
 module.exports = VenueService;
